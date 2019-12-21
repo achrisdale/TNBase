@@ -1,20 +1,13 @@
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
 using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
 using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
 
 namespace TNBase
 {
-	public partial class FormEdit
+    public partial class FormEdit
 	{
         IServiceLayer serviceLayer = new ServiceLayer(ModuleGeneric.GetDatabasePath());
 
@@ -178,7 +171,7 @@ namespace TNBase
 
             if (comboTitle.SelectedItem == null)
             {
-                Interaction.MsgBox("Invalid title entered, please use an item in the drop down list.");
+                MessageBox.Show("Invalid title entered, please use an item in the drop down list.", ModuleGeneric.getAppShortName());
                 return;
             }
 
@@ -220,7 +213,7 @@ namespace TNBase
 
                 if (serviceLayer.UpdateListener(myListener))
                 {
-                    Interaction.MsgBox("The listener has successfully been updated.");
+                    MessageBox.Show("The listener has successfully been updated.", ModuleGeneric.getAppShortName());
 
                     if (addrChanged || nameChanged)
                     {

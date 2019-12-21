@@ -1,14 +1,5 @@
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using NLog;
 using TNBase.DataStorage;
@@ -87,7 +78,7 @@ namespace TNBase
             if (result > 0)
             {
                 log.Debug("Listener has been added. ID: " + result + ", Name: " + newListener.GetNiceName());
-                Interaction.MsgBox("The listener has successfully been added.");
+                MessageBox.Show("The listener has successfully been added.", ModuleGeneric.getAppShortName());
 
                 Listener newListenerWithWalletNo = serviceLayer.GetListenerById(result);
 
@@ -103,7 +94,7 @@ namespace TNBase
                 // Will they use a memory stick player?
                 if (newListener.MemStickPlayer)
                 {
-                    Interaction.MsgBox("Please print the following form as listener requires a memory stick player.");
+                    MessageBox.Show("Please print the following form as listener requires a memory stick player.", ModuleGeneric.getAppShortName());
                     var form = new FormPrintCollectionForm();
                     form.Show();
                     form.setupForm(newListenerWithWalletNo, false);
@@ -114,7 +105,7 @@ namespace TNBase
             else
             {
                 log.Error("Failed to add new listener!");
-                Interaction.MsgBox("Failed to add new listener!");
+                MessageBox.Show("Failed to add new listener!", ModuleGeneric.getAppShortName());
                 this.Close();
             }
         }

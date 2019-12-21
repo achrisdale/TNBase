@@ -1,14 +1,6 @@
 using Microsoft.VisualBasic;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
 
@@ -71,7 +63,7 @@ namespace TNBase
             {
                 txtScannerInput.Text = "";
                 ModuleSounds.PlayTwoOut();
-                MessageBox.Show("You have just tried to scan the same wallet out twice. Second entry rejected.");
+                MessageBox.Show("You have just tried to scan the same wallet out twice. Second entry rejected.", ModuleGeneric.getAppShortName());
             }
             else
             {
@@ -167,7 +159,7 @@ namespace TNBase
 
                     if (!serviceLayer.UpdateListener(theListener))
                     {
-                        Interaction.MsgBox("Error: Failed to update scan information on listener.");
+                        MessageBox.Show("Error: Failed to update scan information on listener.", ModuleGeneric.getAppShortName());
                         this.Close();
                     }
 

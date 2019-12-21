@@ -1,14 +1,6 @@
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
 using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 
 namespace TNBase
@@ -23,7 +15,7 @@ namespace TNBase
 			myListener = theListener;
 			myIndex = startIndex;
 			//MsgBox("Ensure you insert labels into the printer tray before printing.", MessageBoxButtons.OkOnly)
-			Interaction.MsgBox("Please choose the correct printer for label printing by right clicking on the printer icon on the next screen - top left picture of printer.");
+			MessageBox.Show("Please choose the correct printer for label printing by right clicking on the printer icon on the next screen - top left picture of printer.", ModuleGeneric.getAppShortName());
 			printLabels();
 			//MsgBox("Make sure you replace the labels in the printer tray with plain paper.", MessageBoxButtons.OkOnly)
 			this.Close();

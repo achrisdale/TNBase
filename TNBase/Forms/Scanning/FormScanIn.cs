@@ -1,6 +1,5 @@
 using Microsoft.VisualBasic;
 using System;
-using System.Speech.Synthesis;
 using System.Windows.Forms;
 using TNBase.DataStorage;
 using TNBase.Objects;
@@ -25,7 +24,6 @@ namespace TNBase
 
         private bool exitMe = false;
 
-        private SpeechSynthesizer synthesizer = new SpeechSynthesizer();
         private FormMain formMain;
 
         private void txtScannerInput_KeyDown(object sender, KeyEventArgs e)
@@ -173,7 +171,7 @@ namespace TNBase
                 else if (theListener.Status == ListenerStates.DELETED)
                 {
                     ModuleSounds.PlayNotInUse();
-                    Interaction.MsgBox("This listener has been deleted. Please remove the label and place wallet into the stock of unused wallets.");
+                    MessageBox.Show("This listener has been deleted. Please remove the label and place wallet into the stock of unused wallets.", ModuleGeneric.getAppShortName());
                 }
                 else
                 {
@@ -240,7 +238,7 @@ namespace TNBase
 
                     if (!serviceLayer.UpdateListener(theListener))
                     {
-                        Interaction.MsgBox("Error: Failed to update scan information on listener.");
+                        MessageBox.Show("Error: Failed to update scan information on listener.", ModuleGeneric.getAppShortName());
                         log.Error("Error: Failed to update scan information on listener.");
                         this.Close();
                     }

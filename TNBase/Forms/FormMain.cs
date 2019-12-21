@@ -1,14 +1,8 @@
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Linq;
-using System.Xml.Linq;
 using TNBase.DataStorage;
 using NLog;
 using TNBase.Forms.Printing;
@@ -191,11 +185,11 @@ namespace TNBase
             {
                 if (DBUtils.CopyDatabase(ModuleGeneric.GetDatabasePath(), backupDialog.FileName))
                 {
-                    Interaction.MsgBox("Database backup successful, please restart app!");
+                    MessageBox.Show("Database backup successful, please restart app!", ModuleGeneric.getAppShortName());
                 }
                 else
                 {
-                    Interaction.MsgBox("Error: Database was not copied correctly!");
+                    MessageBox.Show("Error: Database was not copied correctly!", ModuleGeneric.getAppShortName());
                 }
             }
         }
@@ -220,11 +214,11 @@ namespace TNBase
             {
                 if (DBUtils.RestoreDatabase(restoreDialog.FileName, ModuleGeneric.GetDatabasePath()))
                 {
-                    Interaction.MsgBox("Database restore successful.");
+                    MessageBox.Show("Database restore successful.", ModuleGeneric.getAppShortName());
                 }
                 else
                 {
-                    Interaction.MsgBox("Error: Database was not restored correctly!");
+                    MessageBox.Show("Error: Database was not restored correctly!", ModuleGeneric.getAppShortName());
                 }
             }
         }

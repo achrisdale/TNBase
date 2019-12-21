@@ -1,4 +1,3 @@
-using Microsoft.VisualBasic;
 using System;
 using System.Windows.Forms;
 
@@ -84,7 +83,7 @@ namespace TNBase
             }
             catch (Exception ex)
             {
-                Interaction.MsgBox("Print Error: " + ex.Message);
+                MessageBox.Show("Print Error: " + ex.Message, ModuleGeneric.getAppShortName());
             }
         }
     }

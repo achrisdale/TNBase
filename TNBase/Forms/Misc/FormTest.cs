@@ -1,18 +1,13 @@
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
 using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
 using System.IO;
 using System.Threading;
+using TNBase.Forms;
+
 namespace TNBase
 {
 	public partial class FormTest
@@ -77,18 +72,18 @@ namespace TNBase
 
             newListener.inOutRecords = temp;
 
-			Interaction.MsgBox(serviceLayer.AddListener(newListener));
+			MessageBox.Show(serviceLayer.AddListener(newListener).ToString(), ModuleGeneric.getAppShortName());
 		}
 
 		private void btnGetFreeIndex_Click(object sender, EventArgs e)
 		{
-			Interaction.MsgBox(serviceLayer.CalculateNextFreeIndex());
+			MessageBox.Show(serviceLayer.CalculateNextFreeIndex().ToString(), ModuleGeneric.getAppShortName());
 		}
 
 		private void Button1_Click(object sender, EventArgs e)
 		{
 			YearStats tempStats = serviceLayer.GetYearStats(2013);
-			Interaction.MsgBox(tempStats.EndListeners);
+			MessageBox.Show(tempStats.EndListeners.ToString(), ModuleGeneric.getAppShortName());
 		}
 
 		private void btnClose_Click(object sender, EventArgs e)
@@ -98,7 +93,7 @@ namespace TNBase
 
 		private void Button2_Click(object sender, EventArgs e)
 		{
-			string myWallet = Interaction.InputBox("Please enter a wallet number!");
+			string myWallet = new FormInput().ShowDialog("Please enter a wallet number!");
 			var myWalletInt = int.Parse(myWallet);
 			var form = new FormPrintCollectionForm();
 			form.Show();
@@ -117,7 +112,7 @@ namespace TNBase
 
 		private void Button3_Click(object sender, EventArgs e)
 		{
-			Interaction.MsgBox(serviceLayer.GetCurrentWeekNumber());
+			MessageBox.Show(serviceLayer.GetCurrentWeekNumber().ToString(), ModuleGeneric.getAppShortName());
 		}
 
 		private void Button4_Click(object sender, EventArgs e)
@@ -195,7 +190,7 @@ namespace TNBase
                             lblLinesRead.Invoke((MethodInvoker)(() => lblLinesRead.Text = "" + count));
                         }
                         txtConvertLog.Invoke((MethodInvoker)(() => txtConvertLog.Text = final));
-                        Interaction.MsgBox("DONE!");
+                        MessageBox.Show("DONE!", ModuleGeneric.getAppShortName());
                     }
 
                 }).Start();
@@ -226,12 +221,12 @@ namespace TNBase
                     // Empty text
                     txtConvertLog.Text = "";
                     btnRunCommands.Enabled = true;
-                    Interaction.MsgBox("DONE!");
+                    MessageBox.Show("DONE!", ModuleGeneric.getAppShortName());
                 }
             }
             catch (Exception ex)
             {
-                Interaction.MsgBox("Failed, please review logs: " + ex.Message);
+                MessageBox.Show("Failed, please review logs: " + ex.Message, ModuleGeneric.getAppShortName());
             }
         }
 	}

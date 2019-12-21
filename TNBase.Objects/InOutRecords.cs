@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TNBase.Objects
+﻿namespace TNBase.Objects
 {
     // All of the in/out records
     public class InOutRecords

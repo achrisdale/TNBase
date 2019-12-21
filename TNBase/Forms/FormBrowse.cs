@@ -1,19 +1,15 @@
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
 using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
 using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
+using TNBase.Forms;
+
 namespace TNBase
 {
-	public partial class FormBrowse
+    public partial class FormBrowse
 	{
 		NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         IServiceLayer serviceLayer = new ServiceLayer(ModuleGeneric.GetDatabasePath());
@@ -158,11 +154,11 @@ namespace TNBase
                     if (!serviceLayer.UpdateListener(theListener))
                     {
                         log.Error("Failed to update and resume listener! WalletId: " + walletNumb);
-                        Interaction.MsgBox("Error: Failed to update listener");
+                        MessageBox.Show("Error: Failed to update listener", ModuleGeneric.getAppShortName());
                     }
                     else
                     {
-                        Interaction.MsgBox("Succesfully updated listener.");
+                        MessageBox.Show("Succesfully updated listener.", ModuleGeneric.getAppShortName());
                         log.Info("Resumed and updated listener with WalletId: " + walletNumb);
                         refreshList();
                     }
@@ -170,7 +166,7 @@ namespace TNBase
                 catch (ListenerStateChangeException ex)
                 {
                     log.Error(ex, "Attempt to resume non paused listener! WalletId: " + walletNumb);
-                    Interaction.MsgBox("This listener is not Paused.");
+                    MessageBox.Show("This listener is not Paused.", ModuleGeneric.getAppShortName());
                 }
             }
 		}
@@ -226,14 +222,14 @@ namespace TNBase
                 {
                     if (serviceLayer.RestoreListener(serviceLayer.GetListenerById(walletNumb)))
                     {
-                        Interaction.MsgBox("Successfully restored listener.");
+                        MessageBox.Show("Successfully restored listener.", ModuleGeneric.getAppShortName());
                         log.Info("Listener resumed: " + walletNumb);
                         refreshList();
                     }
                     else
                     {
                         log.Error("Failed to restore listener. Id: " + walletNumb);
-                        Interaction.MsgBox("ERROR: Failed to restore listener");
+                        MessageBox.Show("ERROR: Failed to restore listener", ModuleGeneric.getAppShortName());
                     }
                 }
                 else
@@ -249,14 +245,14 @@ namespace TNBase
                     }
                     else if (result == DialogResult.Yes)
                     {
-                        string myReason = Interaction.InputBox("Please enter a reason for deletion", "S.B.T.N.A.", "");
+                        string myReason = new FormInput().ShowDialog("Please enter a reason for deletion", "S.B.T.N.A.", "");
                         bool resultofdelete = false;
 
                         // Check if the delete was a success.
                         resultofdelete = serviceLayer.SoftDeleteListener(serviceLayer.GetListenerById(walletNumb), myReason);
                         if (resultofdelete)
                         {
-                            Interaction.MsgBox("Listener deleted successfully. ");
+                            MessageBox.Show("Listener deleted successfully. ", ModuleGeneric.getAppShortName());
                             log.Info("Listener deleted: " + walletNumb);
                             MessageBox.Show("You should remove all wallets including the magazine wallet" + Environment.NewLine + "from stock for Wallet number " + walletNumb + ".", ModuleGeneric.getAppShortName(), MessageBoxButtons.OK);
 
@@ -270,7 +266,7 @@ namespace TNBase
                                     tempListener.MemStickPlayer = false;
                                     if (!serviceLayer.UpdateListener(tempListener))
                                     {
-                                        Interaction.MsgBox("Error deleting listener.");
+                                        MessageBox.Show("Error deleting listener.", ModuleGeneric.getAppShortName());
                                     }
                                 }
                                 else
@@ -284,7 +280,7 @@ namespace TNBase
                         }
                         else
                         {
-                            Interaction.MsgBox("Error deleting listener.");
+                            MessageBox.Show("Error deleting listener.", ModuleGeneric.getAppShortName());
                             log.Error("Error deleting listener: " + walletNumb);
                         }
                         refreshList();

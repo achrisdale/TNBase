@@ -1,14 +1,6 @@
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
 using NLog;
@@ -25,7 +17,7 @@ namespace TNBase
 			// Check all fields have data.
 			if ((string.IsNullOrEmpty(txtForename.Text) | string.IsNullOrEmpty(txtSurname.Text) | string.IsNullOrEmpty(comboTitle.Text))) {
 				log.Warn("User attempted to submit empty form.");
-				Interaction.MsgBox("You must complete the form first.");
+				MessageBox.Show("You must complete the form first.", ModuleGeneric.getAppShortName());
 			} else {
 				// Check Name exists
                 List<Listener> theListeners = new List<Listener>();
@@ -48,12 +40,12 @@ namespace TNBase
 							showFullForm();
 						} else if (result == DialogResult.Yes) {
 							log.Trace("Not adding new user as a duplicate exists!");
-							Interaction.MsgBox("Addition cancelled - duplicate listener." + Environment.NewLine + Environment.NewLine + "Press [enter] to continue.");
+							MessageBox.Show("Addition cancelled - duplicate listener." + Environment.NewLine + Environment.NewLine + "Press [enter] to continue.", ModuleGeneric.getAppShortName());
 							this.Close();
 						}
 					} else {
 						log.Trace("Multiple duplicates, displaying choice form.");
-						Interaction.MsgBox("Multiple Listeners with this Forename and Surname have been found. Please review the Listeners and cancel if a duplicate exists.");
+						MessageBox.Show("Multiple Listeners with this Forename and Surname have been found. Please review the Listeners and cancel if a duplicate exists.", ModuleGeneric.getAppShortName());
 
                         showDuplicateForm(theListeners);
 					}

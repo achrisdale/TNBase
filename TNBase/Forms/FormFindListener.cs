@@ -1,8 +1,8 @@
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using TNBase.DataStorage;
+using TNBase.Forms;
 using TNBase.Objects;
 
 namespace TNBase
@@ -40,14 +40,14 @@ namespace TNBase
             }
             else if (result == DialogResult.Yes)
             {
-                string myReason = Interaction.InputBox("Please enter a reason for deletion", "S.B.T.N.A.", "");
+                string myReason = new FormInput().ShowDialog("Please enter a reason for deletion", "S.B.T.N.A.", "");
                 bool resultofdelete = false;
 
                 // Check if the delete was a success.
                 resultofdelete = serviceLayer.SoftDeleteListener(serviceLayer.GetListenerById(walletNumber), myReason);
                 if (resultofdelete)
                 {
-                    Interaction.MsgBox("Listener deleted successfully.");
+                    MessageBox.Show("Listener deleted successfully.", ModuleGeneric.getAppShortName());
                     MessageBox.Show("You should remove all wallets including the magazine wallet" + Environment.NewLine + "from stock for Wallet number " + txtWallet.Text + ".", ModuleGeneric.getAppShortName(), MessageBoxButtons.OK);
 
                     // Check if the player / memory stick has been returned.
@@ -60,7 +60,7 @@ namespace TNBase
                             tempListener.MemStickPlayer = false;
                             if (!serviceLayer.UpdateListener(tempListener))
                             {
-                                Interaction.MsgBox("Error deleting listener.");
+                                MessageBox.Show("Error deleting listener.", ModuleGeneric.getAppShortName());
                             }
                         }
                         else
@@ -74,7 +74,7 @@ namespace TNBase
                 }
                 else
                 {
-                    Interaction.MsgBox("Error deleting listener.");
+                    MessageBox.Show("Error deleting listener.", ModuleGeneric.getAppShortName());
                 }
             }
         }
@@ -140,7 +140,7 @@ namespace TNBase
                 }
                 else
                 {
-                    Interaction.MsgBox("Could not find a listener with the following Wallet number: " + txtWallet.Text);
+                    MessageBox.Show("Could not find a listener with the following Wallet number: " + txtWallet.Text, ModuleGeneric.getAppShortName());
                 }
             }
 
@@ -245,7 +245,7 @@ namespace TNBase
                 }
                 else
                 {
-                    Interaction.MsgBox("Could not find any listeners with the Forename and Surname provided.");
+                    MessageBox.Show("Could not find any listeners with the Forename and Surname provided.", ModuleGeneric.getAppShortName());
                 }
             }
         }

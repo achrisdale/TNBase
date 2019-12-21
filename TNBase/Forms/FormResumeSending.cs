@@ -1,14 +1,6 @@
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
 namespace TNBase
@@ -76,11 +68,11 @@ namespace TNBase
                 myListener.Resume();
 
 				if ((serviceLayer.UpdateListener(myListener))) {
-					Interaction.MsgBox("Listener updated successfully!");
+					MessageBox.Show("Listener updated successfully!", ModuleGeneric.getAppShortName());
                     log.Info("Resumed listener with wallet: " + myListener.Wallet);
 					this.Close();
 				} else {
-                    Interaction.MsgBox("Error: Failed to update listener!");
+                    MessageBox.Show("Error: Failed to update listener!", ModuleGeneric.getAppShortName());
                     log.Error("Failed to resume listener with wallet: " + myListener.Wallet);
 					this.Close();
 				}

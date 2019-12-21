@@ -1,17 +1,10 @@
 using Microsoft.VisualBasic;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using NLog;
 using TNBase.DataStorage;
+using TNBase.Forms;
 
 namespace TNBase
 {
@@ -44,7 +37,7 @@ namespace TNBase
 				}
 			} catch (Exception ex) {
 				log.Error(ex, "Failed to setup form.");
-				Interaction.MsgBox("Error: Failed to setup form!");
+				MessageBox.Show("Error: Failed to setup form!", ModuleGeneric.getAppShortName());
 				this.Close();
 			}
 		}
@@ -66,7 +59,7 @@ namespace TNBase
 			// Check we have some data.
 			if (string.IsNullOrEmpty(txtForename.Text) | string.IsNullOrEmpty(txtSurname.Text) | string.IsNullOrEmpty(txtTelephone.Text) | lstPostcodes.Items.Count == 0) {
 				log.Error("Empty value/incomplete form. Forename: " + col.Forename + ", Surname: " + col.Surname + ", Number: " + col.Number);
-				Interaction.MsgBox("Incomplete form.");
+				MessageBox.Show("Incomplete form.", ModuleGeneric.getAppShortName());
 				return;
 			}
 
@@ -87,18 +80,18 @@ namespace TNBase
 
 			if (editMode) {
 				if (!serviceLayer.UpdateCollector(col)) {
-					Interaction.MsgBox("Error: could not update collector in database!");
+					MessageBox.Show("Error: could not update collector in database!", ModuleGeneric.getAppShortName());
 					log.Error("Could not update collector in database!");
 				} else {
-					Interaction.MsgBox("Successfully updated collector.");
+					MessageBox.Show("Successfully updated collector.", ModuleGeneric.getAppShortName());
 					log.Trace("Successfully updated collector.");
 				}
 			} else {
 				if (!serviceLayer.AddCollector(col)) {
-					Interaction.MsgBox("Error: could not add collector to database!");
+					MessageBox.Show("Error: could not add collector to database!", ModuleGeneric.getAppShortName());
 					log.Error("Could not add collector to database!");
 				} else {
-					Interaction.MsgBox("Successfully added collector.");
+					MessageBox.Show("Successfully added collector.", ModuleGeneric.getAppShortName());
 					log.Trace("Successfully added collector.");
 				}
 			}
@@ -122,7 +115,7 @@ namespace TNBase
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			string result = Interaction.InputBox("Enter a postcode:" + Environment.NewLine + 
+			string result = new FormInput().ShowDialog("Enter a postcode:" + Environment.NewLine + 
                                                  "You can enter [A-H] after the postcode to specify the collector will only collect for listeners surnames starting A-H" + Environment.NewLine +
                                                  "Example postcode: CF14 [A-Z]");
 
@@ -135,7 +128,7 @@ namespace TNBase
             catch (Exception ex) 
             {
                 log.Error(ex, "Could not validate postcode" + ex.Message);
-                Interaction.MsgBox("Could not validate postcode: " + ex.Message);
+                MessageBox.Show("Could not validate postcode: " + ex.Message, ModuleGeneric.getAppShortName());
             }
 		}
 

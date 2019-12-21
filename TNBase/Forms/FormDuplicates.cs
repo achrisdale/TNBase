@@ -1,16 +1,10 @@
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
 using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
+using TNBase.Forms;
+
 namespace TNBase
 {
 	public partial class FormDuplicates
@@ -157,18 +151,18 @@ namespace TNBase
 					// Show prompt.
                     DialogResult result = MessageBox.Show("Are you sure you wish to delete the following listener?" + Environment.NewLine + Environment.NewLine + dataString + Environment.NewLine + "Press [Y] to confirm or [N] to cancel.", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
 					if (result == DialogResult.Yes) {
-						string myReason = Interaction.InputBox("Please enter a reason for deletion", "S.B.T.N.A.", "");
+						string myReason = new FormInput().ShowDialog("Please enter a reason for deletion", "S.B.T.N.A.", "");
 						bool resultofdelete = false;
 
 						// Check if the delete was a success.
 						resultofdelete = serviceLayer.SoftDeleteListener(serviceLayer.GetListenerById(walletNumb), myReason);
 						if (resultofdelete) {
-							Interaction.MsgBox("Listener deleted successfully.");
+							MessageBox.Show("Listener deleted successfully.", ModuleGeneric.getAppShortName());
 							lstDuplicates.Items[theIndex].Remove();
 
                             MessageBox.Show("You should remove all wallets including the magazine wallet" + Environment.NewLine + "from stock for Wallet number " + walletNumb + ".", ModuleGeneric.getAppShortName(), MessageBoxButtons.OK);
 						} else {
-							Interaction.MsgBox("Error deleting listener.");
+							MessageBox.Show("Error deleting listener.", ModuleGeneric.getAppShortName());
 						}
 						this.Close();
 					}
