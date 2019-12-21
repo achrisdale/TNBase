@@ -100,8 +100,9 @@ namespace TNBase
 		{
 			string myWallet = Interaction.InputBox("Please enter a wallet number!");
 			var myWalletInt = int.Parse(myWallet);
-			My.MyProject.Forms.formPrintCollectionForm.Show();
-			My.MyProject.Forms.formPrintCollectionForm.setupForm(serviceLayer.GetListenerById(myWalletInt), true);
+			var form = new FormPrintCollectionForm();
+			form.Show();
+			form.setupForm(serviceLayer.GetListenerById(myWalletInt), true);
 		}
 
 		private void formTest_Load(object sender, EventArgs e)
@@ -127,7 +128,7 @@ namespace TNBase
 
 		private void Button4_Click_1(object sender, EventArgs e)
 		{
-			My.MyProject.Forms.formPrintBirthdays.Show();
+			new FormPrintBirthdays().Show();
 		}
 
 		public FormTest()

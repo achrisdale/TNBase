@@ -36,7 +36,7 @@ namespace TNBase
         public static void PlaySound(string sound)
         {
             // Catch any errors gracefully.
-            if (!My.MyProject.Computer.FileSystem.FileExists(sound))
+            if (!System.IO.File.Exists(sound))
             {
                 log.Error("Could not find sound file: '" + sound + "'");
             }

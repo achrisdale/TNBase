@@ -26,15 +26,16 @@ namespace TNBase
         private bool exitMe = false;
 
         private SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+        private FormMain formMain;
 
-		private void txtScannerInput_KeyDown(object sender, KeyEventArgs e)
-		{
+        private void txtScannerInput_KeyDown(object sender, KeyEventArgs e)
+        {
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
                 doScanAction();
-			}
-		}
+            }
+        }
 
         private void doScanAction()
         {
@@ -59,54 +60,70 @@ namespace TNBase
 
         public void clearScanText()
         {
-            txtScannerInput.Text = String.Empty; 
+            txtScannerInput.Text = String.Empty;
             txtScannerInput.Focus();
         }
 
-		public void addScanItem(int walletId)
-		{
+        public void addScanItem(int walletId)
+        {
             if ((walletId == lastScanned))
             {
-                ModuleSounds.PlayExplode();
-				My.MyProject.Forms.formDuplicateFound.Show();
-				My.MyProject.Forms.formDuplicateFound.setupForm(walletId);
-			} 
+                NotifyDuplicateWallet(walletId);
+            }
             else
             {
-				addListItem(walletId);
-			}
-			lastScanned = walletId;
-		}
+                addListItem(walletId);
+            }
+            lastScanned = walletId;
+        }
 
-		public void addListItem(int walletId)
-		{
-			for (int i = 0; i <= (lstScanned.Items.Count - 1); i++) {
-				ListViewItem item = lstScanned.Items[i];
-				// If the item exists, just update the quantity.
-				if (item.SubItems[0].Text == walletId.ToString()) {
-					var currentQuantity = int.Parse(item.SubItems[1].Text);
-					currentQuantity = currentQuantity + 1;
-					if (currentQuantity == 2) {
-						ModuleSounds.PlayTwoIn();
-					} else if (currentQuantity == 3) {
-						ModuleSounds.PlayThreeIn();
-					} else if (currentQuantity == 3) {
-						// 3 is the max..
-						currentQuantity = 3;
-					} else {
-						ModuleSounds.PlaySecondBeep();
-					}
-					item.SubItems[1].Text = currentQuantity.ToString();
-					// Clear text and play duplicate sound.
-					txtScannerInput.Text = string.Empty;
-					scannedIn = scannedIn + 1;
+        private void NotifyDuplicateWallet(int walletId)
+        {
+            ModuleSounds.PlayExplode();
+            var form = new FormDuplicateFound();
 
-					// Focus list item properly.
-					lstScanned.Focus();
-					lstScanned.Items[i].Selected = true;
-					lstScanned.Items[i].Focused = true;
-					lstScanned.Items[i].EnsureVisible();
-					txtScannerInput.Focus();
+            form.Show();
+            form.setupForm(walletId, this);
+        }
+
+        public void addListItem(int walletId)
+        {
+            for (int i = 0; i <= (lstScanned.Items.Count - 1); i++)
+            {
+                ListViewItem item = lstScanned.Items[i];
+                // If the item exists, just update the quantity.
+                if (item.SubItems[0].Text == walletId.ToString())
+                {
+                    var currentQuantity = int.Parse(item.SubItems[1].Text);
+                    currentQuantity = currentQuantity + 1;
+                    if (currentQuantity == 2)
+                    {
+                        ModuleSounds.PlayTwoIn();
+                    }
+                    else if (currentQuantity == 3)
+                    {
+                        ModuleSounds.PlayThreeIn();
+                    }
+                    else if (currentQuantity == 3)
+                    {
+                        // 3 is the max..
+                        currentQuantity = 3;
+                    }
+                    else
+                    {
+                        ModuleSounds.PlaySecondBeep();
+                    }
+                    item.SubItems[1].Text = currentQuantity.ToString();
+                    // Clear text and play duplicate sound.
+                    txtScannerInput.Text = string.Empty;
+                    scannedIn = scannedIn + 1;
+
+                    // Focus list item properly.
+                    lstScanned.Focus();
+                    lstScanned.Items[i].Selected = true;
+                    lstScanned.Items[i].Focused = true;
+                    lstScanned.Items[i].EnsureVisible();
+                    txtScannerInput.Focus();
 
                     // Check they exist again!
                     if (serviceLayer.GetListenerById(walletId) == null)
@@ -115,76 +132,87 @@ namespace TNBase
                     }
 
                     return;
-				}
-			}
+                }
+            }
 
-			// If there is no duplicate, just add the item.
-			string[] arr = new string[3];
-			ListViewItem itm = null;
+            // If there is no duplicate, just add the item.
+            string[] arr = new string[3];
+            ListViewItem itm = null;
 
-			//Add first item
-			arr[0] = walletId.ToString();
-			arr[1] = "1";
+            //Add first item
+            arr[0] = walletId.ToString();
+            arr[1] = "1";
 
-			itm = new ListViewItem(arr);
-			lstScanned.Items.Add(itm);
+            itm = new ListViewItem(arr);
+            lstScanned.Items.Add(itm);
 
-			txtScannerInput.Text = "";
-			scannedIn = scannedIn + 1;
+            txtScannerInput.Text = "";
+            scannedIn = scannedIn + 1;
 
-			// Focus list item properly.
-			lstScanned.Focus();
-			lstScanned.Items[lstScanned.Items.Count - 1].Selected = true;
-			lstScanned.Items[lstScanned.Items.Count - 1].Focused = true;
-			lstScanned.Items[lstScanned.Items.Count - 1].EnsureVisible();
-			txtScannerInput.Focus();
+            // Focus list item properly.
+            lstScanned.Focus();
+            lstScanned.Items[lstScanned.Items.Count - 1].Selected = true;
+            lstScanned.Items[lstScanned.Items.Count - 1].Focused = true;
+            lstScanned.Items[lstScanned.Items.Count - 1].EnsureVisible();
+            txtScannerInput.Focus();
 
-			// Process and play a second beep.
-			ModuleGeneric.Sleep(100);
-			Listener theListener = default(Listener);
-			theListener = serviceLayer.GetListenerById(walletId);
-			if (theListener == null) {
-				ModuleSounds.PlayNotInUse();
-			} else {
-				if (theListener.Status == ListenerStates.PAUSED) {
-					ModuleSounds.PlayStopped();
-				} else if (theListener.Status == ListenerStates.DELETED) {
-					ModuleSounds.PlayNotInUse();
-					Interaction.MsgBox("This listener has been deleted. Please remove the label and place wallet into the stock of unused wallets.");
-				} else {
-					ModuleSounds.PlaySecondBeep();
+            // Process and play a second beep.
+            ModuleGeneric.Sleep(100);
+            Listener theListener = default(Listener);
+            theListener = serviceLayer.GetListenerById(walletId);
+            if (theListener == null)
+            {
+                ModuleSounds.PlayNotInUse();
+            }
+            else
+            {
+                if (theListener.Status == ListenerStates.PAUSED)
+                {
+                    ModuleSounds.PlayStopped();
+                }
+                else if (theListener.Status == ListenerStates.DELETED)
+                {
+                    ModuleSounds.PlayNotInUse();
+                    Interaction.MsgBox("This listener has been deleted. Please remove the label and place wallet into the stock of unused wallets.");
+                }
+                else
+                {
+                    ModuleSounds.PlaySecondBeep();
 
                     // Asynchronous
                     //synthesizer.Volume = 100;
                     //synthesizer.Rate = -2;
                     //synthesizer.SpeakAsync(new Prompt("" + walletId));
-				}
-			}
-		}
+                }
+            }
+        }
 
-		private void btnFinished_Click(object sender, EventArgs e)
-		{
-			// Show scanned form.
-			My.MyProject.Forms.formScannedInTotal.Show();
-			My.MyProject.Forms.formScannedInTotal.setup(scannedIn);
-		}
+        private void btnFinished_Click(object sender, EventArgs e)
+        {
+            // Show scanned form.
+            var form = new FormScannedInTotal();
+            form.Show();
+            form.setup(scannedIn, this, formMain);
+        }
 
-		// Close the form and process the wallets.
-		public void doClose()
-		{
-			ModuleScanning.setScannedIn(scannedIn);
+        // Close the form and process the wallets.
+        public void doClose()
+        {
+            ModuleScanning.setScannedIn(scannedIn);
 
-			// Actually process the scanned items!
-			for (int i = 0; i <= (lstScanned.Items.Count - 1); i++) {
-				ListViewItem item = lstScanned.Items[i];
+            // Actually process the scanned items!
+            for (int i = 0; i <= (lstScanned.Items.Count - 1); i++)
+            {
+                ListViewItem item = lstScanned.Items[i];
 
-				// If the item exists, just update the quantity.
-				Listener theListener = serviceLayer.GetListenerById(int.Parse(item.SubItems[0].Text));
-				if ((theListener != null)) {
-					theListener.inOutRecords.In8 = int.Parse(item.SubItems[1].Text);
+                // If the item exists, just update the quantity.
+                Listener theListener = serviceLayer.GetListenerById(int.Parse(item.SubItems[0].Text));
+                if ((theListener != null))
+                {
+                    theListener.inOutRecords.In8 = int.Parse(item.SubItems[1].Text);
 
-					// Also adjust stock.
-					theListener.Stock = theListener.Stock + int.Parse(item.SubItems[1].Text);
+                    // Also adjust stock.
+                    theListener.Stock = theListener.Stock + int.Parse(item.SubItems[1].Text);
 
                     // Are there more than 3 stock items?
                     if (theListener.Stock > Listener.DEFAULT_STOCK)
@@ -196,23 +224,25 @@ namespace TNBase
                         log.Warn("Listner " + theListener.GetNiceName() + " would have " + overStock + " stock after the scanning in. Limiting to " + Listener.DEFAULT_STOCK + " and displaying warning.");
                     }
 
-					// If the listener is active, we will be also sending it out
-					if (theListener.Status.Equals(ListenerStates.ACTIVE)) {
-						theListener.Stock = theListener.Stock - 1;
+                    // If the listener is active, we will be also sending it out
+                    if (theListener.Status.Equals(ListenerStates.ACTIVE))
+                    {
+                        theListener.Stock = theListener.Stock - 1;
 
                         // Increment scanned out count
                         ModuleScanning.setScannedOut(ModuleScanning.getScannedOut() + 1);
 
-						// Also update the last out time (as we will be updating this listener in a minute with out8 = 1).
-						theListener.LastOut = DateTime.Now;
-					}
+                        // Also update the last out time (as we will be updating this listener in a minute with out8 = 1).
+                        theListener.LastOut = DateTime.Now;
+                    }
 
-					theListener.LastIn = DateTime.Now;
+                    theListener.LastIn = DateTime.Now;
 
-					if (!serviceLayer.UpdateListener(theListener)) {
-						Interaction.MsgBox("Error: Failed to update scan information on listener.");
+                    if (!serviceLayer.UpdateListener(theListener))
+                    {
+                        Interaction.MsgBox("Error: Failed to update scan information on listener.");
                         log.Error("Error: Failed to update scan information on listener.");
-						this.Close();
+                        this.Close();
                     }
                     else
                     {
@@ -220,27 +250,29 @@ namespace TNBase
                     }
 
                     serviceLayer.RecordScan(theListener.Wallet, ScanTypes.IN);
-				}
-			}
+                }
+            }
 
-			// Show message and close.
+            // Show message and close.
             MessageBox.Show("The " + scannedIn + " wallets you have scanned have been successfully processed." + Environment.NewLine + Environment.NewLine + "You can now load them with memory sticks and place them in GPO mailbags.", ModuleGeneric.getAppShortName(), MessageBoxButtons.OK);
-			exitMe = true;
+            exitMe = true;
 
             // Update the new week stats
             ModuleGeneric.UpdateStatsWeek(serviceLayer, true);
 
-			this.Close();
-		}
+            this.Close();
+        }
 
-		private void formScanIn_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (!exitMe) {
-				if (MessageBox.Show("Are you sure you want to quit? You will lose any scanned wallets unless you press Finished!", "Are you Sure?", MessageBoxButtons.YesNoCancel) != DialogResult.Yes) {
-					e.Cancel = true;
-				}
-			}
-		}
+        private void formScanIn_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!exitMe)
+            {
+                if (MessageBox.Show("Are you sure you want to quit? You will lose any scanned wallets unless you press Finished!", "Are you Sure?", MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
 
         private void txtScannerInput_TextChanged(object sender, EventArgs e)
         {
@@ -250,5 +282,10 @@ namespace TNBase
                 doScanAction();
             }
         }
-	}
+
+        public void setup(FormMain formMain)
+        {
+            this.formMain = formMain;
+        }
+    }
 }

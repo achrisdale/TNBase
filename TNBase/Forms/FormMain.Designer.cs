@@ -859,7 +859,6 @@ namespace TNBase
 		public FormMain()
 		{
 			FormClosing += formMain_FormClosing;
-			Load += formMain_Load;
 			InitializeComponent();
             Label1.Text = Settings.Default.AssociationName;
 		}

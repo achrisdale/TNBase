@@ -29,7 +29,8 @@ namespace TNBase
 
 		private void Button1_Click(object sender, EventArgs e)
 		{
-			My.MyProject.Forms.formPrintLabels.Show();
+			var form = new FormPrintLabels();
+			form.Show();
 			int myIndex = 0;
 			if (CheckBox5.Checked == true) {
 				myIndex = 4;
@@ -41,7 +42,7 @@ namespace TNBase
 				myIndex = 12;
 			}
 
-			My.MyProject.Forms.formPrintLabels.setupForm(myListener, myIndex);
+			form.setupForm(myListener, myIndex);
 			this.Close();
 		}
 

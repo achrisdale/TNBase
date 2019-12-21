@@ -228,8 +228,9 @@ namespace TNBase
                         DialogResult result = MessageBox.Show("Would you like to print new address labels for the updated address?", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
                         if (result == DialogResult.Yes)
                         {
-                            My.MyProject.Forms.formChoosePrintPoint.Show();
-                            My.MyProject.Forms.formChoosePrintPoint.SetupForm(serviceLayer.GetListenerById(listenerWalletNo));
+                            var form = new FormChoosePrintPoint();
+                            form.Show();
+                            form.SetupForm(serviceLayer.GetListenerById(listenerWalletNo));
                         }
                     }
                 }

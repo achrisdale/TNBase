@@ -95,16 +95,18 @@ namespace TNBase
                 DialogResult msgResult = MessageBox.Show("Would you like to print labels for the new listener?", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
                 if (msgResult == DialogResult.Yes)
                 {
-                    My.MyProject.Forms.formChoosePrintPoint.Show();
-                    My.MyProject.Forms.formChoosePrintPoint.SetupForm(newListenerWithWalletNo);
+                    var form = new FormChoosePrintPoint();
+                    form.Show();
+                    form.SetupForm(newListenerWithWalletNo);
                 }
 
                 // Will they use a memory stick player?
                 if (newListener.MemStickPlayer)
                 {
                     Interaction.MsgBox("Please print the following form as listener requires a memory stick player.");
-                    My.MyProject.Forms.formPrintCollectionForm.Show();
-                    My.MyProject.Forms.formPrintCollectionForm.setupForm(newListenerWithWalletNo, false);
+                    var form = new FormPrintCollectionForm();
+                    form.Show();
+                    form.setupForm(newListenerWithWalletNo, false);
                 }
 
                 this.Close();

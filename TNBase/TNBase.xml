@@ -78,11 +78,12 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="M:TNBase.FormDuplicateFound.setupForm(System.Int32)">
+        <member name="M:TNBase.FormDuplicateFound.setupForm(System.Int32,TNBase.FormScanIn)">
             <summary>
             Setup the form
             </summary>
             <param name="walletId"></param>
+            <param name="parent"></param>
         </member>
         <member name="M:TNBase.FormDuplicateFound.btnDontAdd_Click(System.Object,System.EventArgs)">
             <summary>
@@ -258,6 +259,11 @@
             <summary>
               Overrides the current thread's CurrentUICulture property for all
               resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="M:TNBase.Program.Main">
+            <summary>
+             The main entry point for the application.
             </summary>
         </member>
         <member name="T:TNBase.Properties.Resources">

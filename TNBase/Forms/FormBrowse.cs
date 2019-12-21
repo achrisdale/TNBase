@@ -187,8 +187,9 @@ namespace TNBase
                 walletNumb = int.Parse(lstBrowse.Items[theIndex].SubItems[0].Text);
 
                 Listener theListener = serviceLayer.GetListenerById(walletNumb);
-                My.MyProject.Forms.formEdit.Show();
-                My.MyProject.Forms.formEdit.setupForm(theListener);
+                var form = new FormEdit();
+                form.Show();
+                form.setupForm(theListener);
             }
 		}
 
@@ -204,8 +205,9 @@ namespace TNBase
                 walletNumb = int.Parse(lstBrowse.Items[theIndex].SubItems[0].Text);
 
                 Listener theListener = serviceLayer.GetListenerById(walletNumb);
-                My.MyProject.Forms.formStopSending.Show();
-                My.MyProject.Forms.formStopSending.setupForm(theListener);
+                var form = new FormStopSending();
+                form.Show();
+                form.setupForm(theListener);
             }
 		}
 
@@ -274,8 +276,9 @@ namespace TNBase
                                 else
                                 {
                                     // Else print deleted listener form.
-                                    My.MyProject.Forms.formPrintCollectionForm.Show();
-                                    My.MyProject.Forms.formPrintCollectionForm.setupForm(tempListener, true);
+                                    var form = new FormPrintCollectionForm();
+                                    form.Show();
+                                    form.setupForm(tempListener, true);
                                 }
                             }
                         }

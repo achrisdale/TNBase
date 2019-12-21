@@ -11,37 +11,42 @@ using System.Linq;
 using System.Xml.Linq;
 namespace TNBase
 {
-	public partial class FormScannedOutTotal
-	{
-		public void setup(int totalScanned)
-		{
-			lblTotal.Text = totalScanned.ToString();
-		}
+    public partial class FormScannedOutTotal
+    {
+        private FormScanOut formScanOut;
+        private FormMain formMain;
 
-		private void btnScanMore_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
+        public void setup(int totalScanned, FormScanOut formScanOut, FormMain formMain)
+        {
+            lblTotal.Text = totalScanned.ToString();
+            this.formScanOut = formScanOut;
+            this.formMain = formMain;
+        }
 
-		private void btnFinished_Click(object sender, EventArgs e)
-		{
-			this.Close();
-			My.MyProject.Forms.formScanOut.doClose();
+        private void btnScanMore_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
-			// Show birthdays form.
-			My.MyProject.Forms.formPrintBirthdays.Show();
-			// Show not sent out form.
-			My.MyProject.Forms.formPrintNotSentWallets.Show();
-		}
+        private void btnFinished_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            formScanOut.doClose();
 
-		private void formScannedOutTotal_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			My.MyProject.Forms.formMain.ScanOutDone();
-		}
-		public FormScannedOutTotal()
-		{
-			FormClosed += formScannedOutTotal_FormClosed;
-			InitializeComponent();
-		}
-	}
+            // Show birthdays form.
+            new FormPrintBirthdays().Show();
+            // Show not sent out form.
+            new FormPrintNotSentWallets().Show();
+        }
+
+        private void formScannedOutTotal_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formMain.ScanOutDone();
+        }
+        public FormScannedOutTotal()
+        {
+            FormClosed += formScannedOutTotal_FormClosed;
+            InitializeComponent();
+        }
+    }
 }

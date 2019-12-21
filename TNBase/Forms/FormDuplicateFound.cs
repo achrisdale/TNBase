@@ -3,18 +3,21 @@ using System;
 namespace TNBase
 {
     public partial class FormDuplicateFound
-	{
+    {
         private int autoCloseTime = 8;
         private Boolean addEnabled = false;
+        private FormScanIn parent;
 
         /// <summary>
         /// Setup the form
         /// </summary>
         /// <param name="walletId"></param>
-		public void setupForm(int walletId)
-		{
-			lblWallet.Text = walletId.ToString();
+        /// <param name="parent"></param>
+        public void setupForm(int walletId, FormScanIn parent)
+        {
+            lblWallet.Text = walletId.ToString();
             timerEnableAdd.Enabled = true;
+            this.parent = parent;
         }
 
         /// <summary>
@@ -23,10 +26,10 @@ namespace TNBase
         /// <param name="sender"></param>
         /// <param name="e"></param>
 		private void btnDontAdd_Click(object sender, EventArgs e)
-		{
-            My.MyProject.Forms.formScanIn.clearScanText();
-			this.Hide();
-		}
+        {
+            parent.clearScanText();
+            this.Hide();
+        }
 
         /// <summary>
         /// Add button is clicked.
@@ -34,23 +37,23 @@ namespace TNBase
         /// <param name="sender"></param>
         /// <param name="e"></param>
 		private void btnAdd_Click(object sender, EventArgs e)
-		{
+        {
             // Add is disabled initially to avoid scanner auto-enter
             if (addEnabled)
             {
-                My.MyProject.Forms.formScanIn.addListItem(int.Parse(lblWallet.Text));
+                parent.addListItem(int.Parse(lblWallet.Text));
                 this.Hide();
                 addEnabled = false;
             }
-		}
+        }
 
         /// <summary>
         /// Form load.
         /// </summary>
 		public FormDuplicateFound()
-		{
-			InitializeComponent();
-		}
+        {
+            InitializeComponent();
+        }
 
         private void formDuplicateFound_Load(object sender, EventArgs e)
         {

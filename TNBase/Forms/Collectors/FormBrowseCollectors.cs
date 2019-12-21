@@ -92,8 +92,9 @@ namespace TNBase
 				id = int.Parse(lstBrowse.Items[theIndex].SubItems[0].Text);
 
 				Collector theCollector = serviceLayer.GetCollector(id);
-				My.MyProject.Forms.formAddCollectors.Show();
-				My.MyProject.Forms.formAddCollectors.setupEditMode(theCollector);
+				var form = new FormAddCollectors();
+				form.Show();
+				form.setupEditMode(theCollector);
 
 				refreshList();
 			} catch (Exception ex) {

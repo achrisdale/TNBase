@@ -130,12 +130,13 @@ namespace TNBase
 		{
 			// Add Form
 			if (theFormType == DuplicateFormType.AddForm) {
-				My.MyProject.Forms.formAddFull.Show();
+				var form = new FormAddFull();
+				form.Show();
 
 				// Use subitems 1, 2, and 3 as they are Title, Forename and Surname.
-				My.MyProject.Forms.formAddFull.comboTitle.SelectedItem = lstDuplicates.Items[0].SubItems[1].Text;
-				My.MyProject.Forms.formAddFull.txtSurname.Text = lstDuplicates.Items[0].SubItems[2].Text;
-				My.MyProject.Forms.formAddFull.txtForename.Text = lstDuplicates.Items[0].SubItems[3].Text;
+				form.comboTitle.SelectedItem = lstDuplicates.Items[0].SubItems[1].Text;
+				form.txtSurname.Text = lstDuplicates.Items[0].SubItems[2].Text;
+				form.txtForename.Text = lstDuplicates.Items[0].SubItems[3].Text;
 				this.Close();
 			}
 
@@ -185,8 +186,9 @@ namespace TNBase
 					int walletNumb = 0;
 					walletNumb = int.Parse(lstDuplicates.Items[theIndex].SubItems[0].Text);
 
-					My.MyProject.Forms.formEdit.Show();
-					My.MyProject.Forms.formEdit.setupForm(serviceLayer.GetListenerById(walletNumb));
+					var form = new FormEdit();
+					form.Show();
+					form.setupForm(serviceLayer.GetListenerById(walletNumb));
 					this.Close();
 				}
 			}
@@ -202,8 +204,9 @@ namespace TNBase
 					int walletNumb = 0;
 					walletNumb = int.Parse(lstDuplicates.Items[theIndex].SubItems[0].Text);
 
-					My.MyProject.Forms.formStopSending.Show();
-					My.MyProject.Forms.formStopSending.setupForm(serviceLayer.GetListenerById(walletNumb));
+					var form = new FormStopSending();
+					form.Show();
+					form.setupForm(serviceLayer.GetListenerById(walletNumb));
 					this.Close();
 				}
 			}
@@ -219,8 +222,9 @@ namespace TNBase
 					int walletNumb = 0;
                     walletNumb = int.Parse(lstDuplicates.Items[theIndex].SubItems[0].Text);
 
-					My.MyProject.Forms.formChoosePrintPoint.Show();
-					My.MyProject.Forms.formChoosePrintPoint.SetupForm(serviceLayer.GetListenerById(walletNumb));
+					var form = new FormChoosePrintPoint();
+					form.Show();
+					form.SetupForm(serviceLayer.GetListenerById(walletNumb));
 					this.Close();
 				}
 			}
@@ -240,8 +244,9 @@ namespace TNBase
                     DialogResult result = MessageBox.Show("Are you printing this form for a deleted listener? (Select No if its a new one)", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
                     bool deleted = (result == DialogResult.Yes);
 
-                    My.MyProject.Forms.formPrintCollectionForm.Show();
-                    My.MyProject.Forms.formPrintCollectionForm.setupForm(serviceLayer.GetListenerById(walletNumb), deleted);
+					var form = new FormPrintCollectionForm();
+					form.Show();
+                    form.setupForm(serviceLayer.GetListenerById(walletNumb), deleted);
                     this.Close();
                 }
             }

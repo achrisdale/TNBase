@@ -68,7 +68,7 @@ namespace TNBase
 			log.Trace("Click count: " + clickCount);
 			if (clickCount > 3) {
 				log.Debug("Showing test form...");
-				My.MyProject.Forms.formTest.Show();
+				new FormTest().Show();
 				clickCount = 0;
 			}
 		}

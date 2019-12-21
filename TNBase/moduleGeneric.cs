@@ -44,7 +44,7 @@ namespace TNBase
 		// Get the app name.
 		public static string getAppName()
 		{
-			return My.MyProject.Application.Info.AssemblyName + ".exe";
+			return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".exe";
 		}
 
 		// Get start time.
