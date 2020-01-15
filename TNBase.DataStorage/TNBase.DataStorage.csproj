@@ -72,6 +72,10 @@
   <ItemGroup>
     <Compile Include="DBUtils.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Migrations\1_Initial.cs" />
+    <Compile Include="Migrations\DatabaseUpdater.cs" />
+    <Compile Include="Migrations\ISqlMigration.cs" />
+    <Compile Include="Migrations\SqlMigration.cs" />
     <Compile Include="Repository\IRepositoryLayer.cs" />
     <Compile Include="Service\IServiceLayer.cs" />
     <Compile Include="OrderVar.cs" />
