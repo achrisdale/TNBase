@@ -11,7 +11,14 @@ namespace TNBase.DataStorage.Test.Migrations
         public void Version_ReturnsVersionNumberFromClassName()
         {
             var migration = new _123_TestSqlMigration(new SQLiteConnection());
-           // Assert.AreEqual(123, migration.Version);
+            Assert.AreEqual(123, migration.Version);
+        }
+
+        [TestMethod]
+        public void Version_ReturnsMigrationNameFromClassName()
+        {
+            var migration = new _123_TestSqlMigration(new SQLiteConnection());
+            Assert.AreEqual("TestSqlMigration", migration.Name);
         }
 
         private class _123_TestSqlMigration : SqlMigration

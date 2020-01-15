@@ -4,7 +4,7 @@ using System.Data.SQLite;
 
 namespace TNBase.DataStorage.Migrations
 {
-    public abstract class SqlMigration
+    public abstract class SqlMigration : ISqlMigration
     {
         private Logger log = LogManager.GetCurrentClassLogger();
         private readonly SQLiteConnection connection;
@@ -12,7 +12,12 @@ namespace TNBase.DataStorage.Migrations
         public SqlMigration(SQLiteConnection connection)
         {
             this.connection = connection;
+            SetVersionAndName();
         }
+
+        public int Version { get; private set; }
+
+        public string Name { get; private set; }
 
         protected void Sql(string query)
         {
@@ -25,5 +30,18 @@ namespace TNBase.DataStorage.Migrations
         }
 
         public abstract void Up();
+
+        private void SetVersionAndName()
+        {
+            var name = GetType().Name;
+
+            if (name.StartsWith("_"))
+                name = name.Substring(1);
+
+            var separatorIndex = name.IndexOf('_');
+
+            Version = Convert.ToInt32(name.Substring(0, separatorIndex));
+            Name = name.Substring(separatorIndex + 1);
+        }
     }
 }
