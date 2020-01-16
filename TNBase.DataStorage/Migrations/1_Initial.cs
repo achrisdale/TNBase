@@ -10,6 +10,14 @@ namespace TNBase.DataStorage.Migrations
 
         public override void Up()
         {
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = $"ALTER TABLE Listeners ADD MagazineWallet TEXT";
+                command.ExecuteNonQuery();
+
+                command.CommandText = $"ALTER TABLE Listeners ADD MagazineStock TEXT";
+                command.ExecuteNonQuery();
+            }
         }
     }
 }

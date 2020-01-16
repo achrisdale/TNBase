@@ -114,6 +114,23 @@ namespace TNBase.DataStorage.Test.Migrations
         }
 
         [TestMethod]
+        public void Update_ShouldDoNothing_WhenDatabaseUpToDate()
+        {
+            using (var builder = new DatabaseUpdaterBuilder())
+            {
+                var updater = builder
+                    .WithDatabaseMigrationsTable()
+                    .WithMigrations(12, "TestSqlMigrationTwelve")
+                    .WithMigrationTestTable()
+                    .Build();
+                updater.Update();
+
+                var migrations = builder.GetDatabaseMigrations();
+                Assert.AreEqual(1, migrations.Count());
+            }
+        }
+
+        [TestMethod]
         public void Update_ShouldExecuteUpMethod_WhenApplyingMigration()
         {
             using (var builder = new DatabaseUpdaterBuilder())
@@ -126,6 +143,5 @@ namespace TNBase.DataStorage.Test.Migrations
                 Assert.AreEqual("Migration 10 Applied", testData.Test2);
             }
         }
-
     }
 }

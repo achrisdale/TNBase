@@ -36,12 +36,6 @@ namespace TNBase.DataStorage.Test.Migrations
             }
         }
 
-        public void Dispose()
-        {
-            if (connection != null)
-                connection.Close();
-        }
-
         public DatabaseUpdaterBuilder WithDatabaseMigrationsTable()
         {
             CreateTable(DatabaseMigrationsTable);
@@ -116,6 +110,12 @@ namespace TNBase.DataStorage.Test.Migrations
                 command.ExecuteNonQuery();
             }
             return this;
+        }
+
+        public void Dispose()
+        {
+            if (connection != null)
+                connection.Close();
         }
     }
 }

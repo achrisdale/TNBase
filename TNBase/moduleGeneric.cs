@@ -1,7 +1,9 @@
 using System;
+using System.Data.SQLite;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using TNBase.DataStorage;
+using TNBase.DataStorage.Migrations;
 using TNBase.Objects;
 
 namespace TNBase
@@ -142,5 +144,15 @@ namespace TNBase
                 DBServiceLayer.UpdateListenerInOuts();
             } 
         }
-	}
+
+        public static void UpdateDatabase()
+        {
+            using (var connection = new SQLiteConnection(DBUtils.GenConnectionString(ModuleGeneric.GetDatabasePath())))
+            {
+                connection.Open();
+                new DatabaseUpdater<SqlMigration>(connection).Update();
+                connection.Close();
+            }
+        }
+    }
 }

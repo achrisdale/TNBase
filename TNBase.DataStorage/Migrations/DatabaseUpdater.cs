@@ -23,14 +23,15 @@ namespace TNBase.DataStorage.Migrations
             CreateMigrationsTableIfNotExist();
             var lastMigration = GetLastMigration();
 
-            foreach (var migration in GetMigrations(lastMigration))
+            using (var transaction = connection.BeginTransaction())
             {
-                using (var transaction = connection.BeginTransaction())
+                foreach (var migration in GetMigrations(lastMigration))
                 {
                     migration.Up();
                     AddMigration(migration);
-                    transaction.Commit();
                 }
+
+                transaction.Commit();
             }
 
         }

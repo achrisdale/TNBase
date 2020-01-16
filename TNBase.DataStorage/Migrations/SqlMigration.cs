@@ -7,7 +7,7 @@ namespace TNBase.DataStorage.Migrations
     public abstract class SqlMigration : ISqlMigration
     {
         private Logger log = LogManager.GetCurrentClassLogger();
-        private readonly SQLiteConnection connection;
+        protected readonly SQLiteConnection connection;
 
         public SqlMigration(SQLiteConnection connection)
         {
