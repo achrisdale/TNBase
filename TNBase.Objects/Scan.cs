@@ -27,6 +27,8 @@ namespace TNBase.Objects
         /// </summary>
         public DateTime recorded;
 
+        public WalletTypes walletType { get; set; }
+
         public Scan()
         {
             this.recorded = DateTime.Now;

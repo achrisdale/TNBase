@@ -12,10 +12,10 @@ namespace TNBase.DataStorage.Migrations
         {
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = $"ALTER TABLE Listeners ADD MagazineWallet TEXT";
+                command.CommandText = $"ALTER TABLE Listeners ADD MagazineStock BIGINT";
                 command.ExecuteNonQuery();
 
-                command.CommandText = $"ALTER TABLE Listeners ADD MagazineStock TEXT";
+                command.CommandText = $"ALTER TABLE Scans ADD WalletType TEXT NOT NULL DEFAULT 'News'";
                 command.ExecuteNonQuery();
             }
         }

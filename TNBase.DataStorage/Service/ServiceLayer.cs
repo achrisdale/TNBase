@@ -1170,7 +1170,8 @@ namespace TNBase.DataStorage
             RunCommand("CREATE TABLE IF NOT EXISTS 'Scans' (" +
 	                        "'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," +
 	                        "'Wallet' INTEGER NOT NULL," +
-	                        "'Type' TEXT NOT NULL," +
+                            "'Type' TEXT NOT NULL," +
+                            "'WalletType' TEXT NOT NULL," +
                             "'Recorded' DATE DEFAULT CURRENT_DATE" + 
                         ");");
         }

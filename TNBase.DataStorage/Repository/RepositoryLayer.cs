@@ -11,7 +11,7 @@ namespace TNBase.DataStorage
     {
         // Logging instance
         static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
-        
+
         /// <summary>
         /// Get the weekly stats from a database object
         /// </summary>
@@ -87,13 +87,16 @@ namespace TNBase.DataStorage
             Scan tempScan = new Scan();
             tempScan.Wallet = (int)((long)myReader["Wallet"]);
             tempScan.recorded = (DateTime)myReader["Recorded"];
-            ScanTypes output;
-            Enum.TryParse(myReader["type"].ToString(), true, out output);
-            tempScan.scanType = output;
-            
+
+            Enum.TryParse(myReader["Type"].ToString(), true, out ScanTypes scanType);
+            tempScan.scanType = scanType;
+
+            Enum.TryParse(myReader["WalletType"].ToString(), true, out WalletTypes walletType);
+            tempScan.walletType = walletType;
+
             return tempScan;
         }
-        
+
         /// <summary>
         /// Create a listener for a database object
         /// </summary>
@@ -334,10 +337,10 @@ namespace TNBase.DataStorage
                 inoutValues = ", " + listener.inOutRecords.In1 + ", " + listener.inOutRecords.In2 + ", " + listener.inOutRecords.In3 + ", " + listener.inOutRecords.In4 + ", " + listener.inOutRecords.In5 + ", " + listener.inOutRecords.In6 + ", " + listener.inOutRecords.In7 + ", " + listener.inOutRecords.In8;
                 inoutValues = inoutValues + ", " + listener.inOutRecords.Out1 + ", " + listener.inOutRecords.Out2 + ", " + listener.inOutRecords.Out3 + ", " + listener.inOutRecords.Out4 + ", " + listener.inOutRecords.Out5 + ", " + listener.inOutRecords.Out6 + ", " + listener.inOutRecords.Out7 + ", " + listener.inOutRecords.Out8;
             }
-            
+
             string sql = "INSERT INTO Listeners (Wallet, Title, Forename, Surname, Addr1, Addr2, Town, County, Postcode, Birthday, MemStickPlayer, Magazine, Telephone, Info, Status, StatusInfo, DeletedDate" + inoutFields + ", Joined, LastIn, LastOut, Stock) VALUES  (" + WalletStrValue + "'" + listener.Title + "', '" + listener.Forename + "', '" + listener.Surname + "', '" + listener.Addr1 + "', '" + listener.Addr2 + "', '" + listener.Town + "', '" + listener.County + "', '" + listener.Postcode + "', " + birthdayStr + ", " + memStickInt + ", " + magazineInt + ", '" + listener.Telephone + "', '" + listener.Info + "', '" + listener.Status + "', '" + listener.StatusInfo + "', " + deletedStr + inoutValues + ", " + joinedStr + ", " + lastInStr + ", " + lastOutStr + ", " + listener.Stock + ");";
             DoNoResultQuery(objConn, sql);
-           
+
             return result;
         }
 
@@ -776,9 +779,9 @@ namespace TNBase.DataStorage
         /// <param name="scan"></param>
         public void InsertScan(SQLiteConnection conn, Scan scan)
         {
-            string sql = "INSERT INTO Scans (Wallet, Type) VALUES ('" + scan.Wallet + "', '" + scan.scanType.ToString() + "');";
+            string sql = $"INSERT INTO Scans (Wallet, Type, WalletType) VALUES ('{scan.Wallet}', '{scan.scanType.ToString()}', '{scan.walletType.ToString()}');";
             DoNoResultQuery(conn, sql);
-           
+
         }
 
         /// <summary>
