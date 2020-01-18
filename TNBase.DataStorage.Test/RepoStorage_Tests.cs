@@ -305,16 +305,16 @@ namespace TNBase.DataStorage.Test
 
             Scan temp = new Scan();
             temp.Wallet = 10;
-            temp.scanType = ScanTypes.OUT;
-            temp.walletType = WalletTypes.Magazine;
+            temp.ScanType = ScanTypes.OUT;
+            temp.WalletType = WalletTypes.Magazine;
 
             repoLayer.InsertScan(connection, temp);
 
             Assert.AreEqual(1, repoLayer.GetScanRecords(connection).Count);
 
             Assert.AreEqual(10, repoLayer.GetScanRecords(connection)[0].Wallet);
-            Assert.AreEqual(ScanTypes.OUT, repoLayer.GetScanRecords(connection)[0].scanType);
-            Assert.AreEqual(WalletTypes.Magazine, repoLayer.GetScanRecords(connection)[0].walletType);
+            Assert.AreEqual(ScanTypes.OUT, repoLayer.GetScanRecords(connection)[0].ScanType);
+            Assert.AreEqual(WalletTypes.Magazine, repoLayer.GetScanRecords(connection)[0].WalletType);
 
             repoLayer.DeleteScans(connection, 10);
 

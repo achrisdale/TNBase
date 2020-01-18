@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using TNBase.DataStorage;
 using NLog;
 using TNBase.Forms.Printing;
+using TNBase.Forms.Scanning;
 
 namespace TNBase
 {
@@ -530,7 +531,7 @@ namespace TNBase
 
         private void btnMagScanIn_Click(object sender, EventArgs e)
         {
-
+            new FormMagazineScanIn().ShowDialog();
         }
 
         private void btnMagScanOut_Click(object sender, EventArgs e)

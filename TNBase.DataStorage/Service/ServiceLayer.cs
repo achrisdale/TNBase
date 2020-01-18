@@ -1156,7 +1156,7 @@ namespace TNBase.DataStorage
         {
             Scan tempScan = new Scan();
             tempScan.Wallet = wallet;
-            tempScan.scanType = scanType;
+            tempScan.ScanType = scanType;
 
             repoLayer.InsertScan(connection, tempScan);
             return true;

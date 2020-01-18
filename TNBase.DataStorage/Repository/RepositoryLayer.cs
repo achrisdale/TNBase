@@ -86,13 +86,13 @@ namespace TNBase.DataStorage
         {
             Scan tempScan = new Scan();
             tempScan.Wallet = (int)((long)myReader["Wallet"]);
-            tempScan.recorded = (DateTime)myReader["Recorded"];
+            tempScan.Recorded = (DateTime)myReader["Recorded"];
 
             Enum.TryParse(myReader["Type"].ToString(), true, out ScanTypes scanType);
-            tempScan.scanType = scanType;
+            tempScan.ScanType = scanType;
 
             Enum.TryParse(myReader["WalletType"].ToString(), true, out WalletTypes walletType);
-            tempScan.walletType = walletType;
+            tempScan.WalletType = walletType;
 
             return tempScan;
         }
@@ -779,7 +779,7 @@ namespace TNBase.DataStorage
         /// <param name="scan"></param>
         public void InsertScan(SQLiteConnection conn, Scan scan)
         {
-            string sql = $"INSERT INTO Scans (Wallet, Type, WalletType) VALUES ('{scan.Wallet}', '{scan.scanType.ToString()}', '{scan.walletType.ToString()}');";
+            string sql = $"INSERT INTO Scans (Wallet, Type, WalletType) VALUES ('{scan.Wallet}', '{scan.ScanType.ToString()}', '{scan.WalletType.ToString()}');";
             DoNoResultQuery(conn, sql);
 
         }

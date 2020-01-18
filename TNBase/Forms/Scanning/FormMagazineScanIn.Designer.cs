@@ -90,6 +90,7 @@
             this.txtScannerInput.Size = new System.Drawing.Size(314, 40);
             this.txtScannerInput.TabIndex = 101;
             this.txtScannerInput.TextChanged += new System.EventHandler(this.txtScannerInput_TextChanged);
+            this.txtScannerInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtScannerInput_KeyDown);
             // 
             // Label2
             // 
