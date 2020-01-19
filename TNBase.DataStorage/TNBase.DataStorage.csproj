@@ -77,6 +77,7 @@
     <Compile Include="Migrations\ISqlMigration.cs" />
     <Compile Include="Migrations\SqlMigration.cs" />
     <Compile Include="Repository\IRepositoryLayer.cs" />
+    <Compile Include="Repository\TNBaseRepository.cs" />
     <Compile Include="Service\IServiceLayer.cs" />
     <Compile Include="OrderVar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

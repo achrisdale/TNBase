@@ -731,12 +731,11 @@ namespace TNBase
             // btnMagScanOut
             // 
             this.btnMagScanOut.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.btnMagScanOut.Enabled = false;
             this.btnMagScanOut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnMagScanOut.Location = new System.Drawing.Point(6, 80);
             this.btnMagScanOut.Name = "btnMagScanOut";
             this.btnMagScanOut.Size = new System.Drawing.Size(198, 39);
-            this.btnMagScanOut.TabIndex = 11;
+            this.btnMagScanOut.TabIndex = 13;
             this.btnMagScanOut.Text = "Scan &Out";
             this.btnMagScanOut.UseVisualStyleBackColor = false;
             this.btnMagScanOut.Click += new System.EventHandler(this.btnMagScanOut_Click);
@@ -748,7 +747,7 @@ namespace TNBase
             this.btnMagScanIn.Location = new System.Drawing.Point(6, 31);
             this.btnMagScanIn.Name = "btnMagScanIn";
             this.btnMagScanIn.Size = new System.Drawing.Size(198, 39);
-            this.btnMagScanIn.TabIndex = 10;
+            this.btnMagScanIn.TabIndex = 12;
             this.btnMagScanIn.Text = "Scan &In";
             this.btnMagScanIn.UseVisualStyleBackColor = false;
             this.btnMagScanIn.Click += new System.EventHandler(this.btnMagScanIn_Click);

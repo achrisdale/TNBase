@@ -478,5 +478,11 @@ namespace TNBase.DataStorage.Test
 
             Assert.IsNull(result.DeletedDate);
         }
+
+        [TestMethod]
+        public void AddScans_ShouldAddAllScans()
+        {
+
+        }
     }
 }

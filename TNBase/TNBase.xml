@@ -197,18 +197,18 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="F:TNBase.Forms.Scanning.FormMagazineScanIn.components">
+        <member name="F:TNBase.Forms.Scanning.FormScan.components">
             <summary>
             Required designer variable.
             </summary>
         </member>
-        <member name="M:TNBase.Forms.Scanning.FormMagazineScanIn.Dispose(System.Boolean)">
+        <member name="M:TNBase.Forms.Scanning.FormScan.Dispose(System.Boolean)">
             <summary>
             Clean up any resources being used.
             </summary>
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
-        <member name="M:TNBase.Forms.Scanning.FormMagazineScanIn.InitializeComponent">
+        <member name="M:TNBase.Forms.Scanning.FormScan.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.

@@ -1,31 +1,24 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using TNBase.DataStorage;
 using TNBase.Objects;
 
 namespace TNBase.Forms.Scanning
 {
-    public partial class FormMagazineScanIn : Form
+    public partial class FormScan : Form
     {
         private List<Scan> scans = new List<Scan>();
-        private int LastScan;
+        private ScanTypes scanType;
+        private WalletTypes walletType;
 
-        public FormMagazineScanIn()
+        public IEnumerable<Scan> Scans => scans;
+        public bool ShouldScanOut { get; private set; }
+
+        public FormScan()
         {
             InitializeComponent();
-        }
-
-        private void FormMagazineScanIn_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void txtScannerInput_TextChanged(object sender, EventArgs e)
@@ -38,7 +31,7 @@ namespace TNBase.Forms.Scanning
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            string result = Interaction.InputBox("Scan bascode to remove from the list", "Remove Scan");
+            string result = Interaction.InputBox("Scan barcode to remove from the list", "Remove Scan");
             if (!string.IsNullOrWhiteSpace(result))
             {
                 int.TryParse(result, out int wallet);
@@ -49,16 +42,20 @@ namespace TNBase.Forms.Scanning
                     UpdateScanList(wallet);
                 }
             }
+            txtScannerInput.Focus();
         }
 
         private void btnScanOut_Click(object sender, EventArgs e)
         {
-
+            DialogResult = DialogResult.OK;
+            ShouldScanOut = true;
+            Close();
         }
 
         private void btnFinish_Click(object sender, EventArgs e)
         {
-
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void txtScannerInput_KeyDown(object sender, KeyEventArgs e)
@@ -80,8 +77,8 @@ namespace TNBase.Forms.Scanning
                 scans.Add(new Scan
                 {
                     Wallet = wallet,
-                    ScanType = ScanTypes.IN,
-                    WalletType = WalletTypes.Magazine
+                    ScanType = scanType,
+                    WalletType = walletType
                 });
 
                 var count = scans.Count(x => x.Wallet == wallet);
@@ -110,6 +107,33 @@ namespace TNBase.Forms.Scanning
                     Selected = lastScaned == x.First().Wallet
                 })
                 .ToArray());
+        }
+
+        private void FormMagazineScanIn_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult != DialogResult.OK && scans.Any())
+            {
+                var result = MessageBox.Show("Closing this form will discard all the scans. Do you want to continue?", "Close", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        public void Setup(string title, ScanTypes scanType, WalletTypes walletType)
+        {
+            this.scanType = scanType;
+            this.walletType = walletType;
+
+            Text = title;
+            ListLabel.Text = $"Scanned {walletType.ToString().ToLower()} wallets:";
+            ScanInputLabel.Text = $"Please scan {scanType.ToString().ToLower()} a wallet:";
+
+            if (scanType == ScanTypes.OUT)
+            {
+                btnScanOut.Visible = false;
+            }
         }
     }
 }

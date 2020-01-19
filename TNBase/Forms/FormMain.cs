@@ -8,6 +8,10 @@ using TNBase.DataStorage;
 using NLog;
 using TNBase.Forms.Printing;
 using TNBase.Forms.Scanning;
+using TNBase.Objects;
+using TNBase.DataStorage.Repository;
+using System.Linq;
+using TNBase.Extensions;
 
 namespace TNBase
 {
@@ -531,12 +535,73 @@ namespace TNBase
 
         private void btnMagScanIn_Click(object sender, EventArgs e)
         {
-            new FormMagazineScanIn().ShowDialog();
+            ScanIn(WalletTypes.Magazine);
         }
 
         private void btnMagScanOut_Click(object sender, EventArgs e)
         {
+            ScanOut(WalletTypes.Magazine);
+        }
 
+        private void ScanIn(WalletTypes walletType)
+        {
+            var scanForm = new FormScan();
+            scanForm.Setup("Magazine Scan In", ScanTypes.IN, walletType);
+
+            if (scanForm.ShowDialog() == DialogResult.OK)
+            {
+                SaveScans(scanForm.Scans);
+
+                if (scanForm.ShouldScanOut)
+                {
+                    SaveScans(GetScanOutForEachWallet(scanForm.Scans));
+                    ScanOut(walletType);
+                }
+            }
+        }
+
+        private IEnumerable<Scan> GetScanOutForEachWallet(IEnumerable<Scan> scans)
+        {
+            return scans.GroupBy(x => x.Wallet)
+                .Select(x => new Scan
+                {
+                    Wallet = x.First().Wallet,
+                    ScanType = ScanTypes.OUT,
+                    WalletType = x.First().WalletType
+                });
+        }
+
+        private void SaveScans(IEnumerable<Scan> scans)
+        {
+            if (scans.Any())
+            {
+                using (var service = new TNBaseRepository(ModuleGeneric.GetDatabasePath()))
+                {
+                    service.AddScans(scans);
+                }
+            }
+        }
+
+        private void ScanOut(WalletTypes walletType)
+        {
+            using (var repository = new TNBaseRepository(ModuleGeneric.GetDatabasePath()))
+            {
+                var now = DateTime.UtcNow;
+                var scannedWallets = repository.GetScans(now.WeekStart(), now.NextWeekStart(), ScanTypes.OUT, walletType)
+                    .Select(x => x.Wallet);
+
+                var listeners = serviceLayer.GetListenersByStatus(ListenerStates.ACTIVE);
+                var suggestions = listeners.Where(x => x.Magazine && !scannedWallets.Contains(x.Wallet)).Select(x => x.Wallet);
+                MessageBox.Show(string.Join(", ", suggestions));
+            }
+
+            var scanForm = new FormScan();
+            scanForm.Setup("Magazine Scan Out", ScanTypes.OUT, walletType);
+
+            if (scanForm.ShowDialog() == DialogResult.OK)
+            {
+                SaveScans(scanForm.Scans);
+            }
         }
     }
 }
