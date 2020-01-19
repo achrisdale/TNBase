@@ -554,8 +554,7 @@ namespace TNBase
 
                 if (scanForm.ShouldScanOut)
                 {
-                    SaveScans(GetScanOutForEachWallet(scanForm.Scans));
-                    ScanOut(walletType);
+                    ScanOut(walletType, scanForm.Scans.Select(x => x.Wallet));
                 }
             }
         }
@@ -582,21 +581,13 @@ namespace TNBase
             }
         }
 
-        private void ScanOut(WalletTypes walletType)
+        private void ScanOut(WalletTypes walletType, IEnumerable<int> scans = null)
         {
-            using (var repository = new TNBaseRepository(ModuleGeneric.GetDatabasePath()))
-            {
-                var now = DateTime.UtcNow;
-                var scannedWallets = repository.GetScans(now.WeekStart(), now.NextWeekStart(), ScanTypes.OUT, walletType)
-                    .Select(x => x.Wallet);
+            var listeners = serviceLayer.GetListenersByStatus(ListenerStates.ACTIVE);
+            var toScan = listeners.Where(x => x.Magazine && (scans == null || !scans.Contains(x.Wallet))).Select(x => x.Wallet);
 
-                var listeners = serviceLayer.GetListenersByStatus(ListenerStates.ACTIVE);
-                var suggestions = listeners.Where(x => x.Magazine && !scannedWallets.Contains(x.Wallet)).Select(x => x.Wallet);
-                MessageBox.Show(string.Join(", ", suggestions));
-            }
-
-            var scanForm = new FormScan();
-            scanForm.Setup("Magazine Scan Out", ScanTypes.OUT, walletType);
+            var scanForm = new ScanOutForm();
+            scanForm.Setup("Magazine Scan Out", walletType, toScan, scans);
 
             if (scanForm.ShowDialog() == DialogResult.OK)
             {

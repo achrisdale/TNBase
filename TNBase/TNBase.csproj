@@ -349,6 +349,12 @@
     <Compile Include="Forms\FormResumeSending.Designer.cs">
       <DependentUpon>FormResumeSending.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Scanning\ScanOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Scanning\ScanOutForm.Designer.cs">
+      <DependentUpon>ScanOutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Scanning\FormScan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -554,6 +560,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormResumeSending.resx">
       <DependentUpon>FormResumeSending.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Scanning\ScanOutForm.resx">
+      <DependentUpon>ScanOutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Scanning\FormScan.resx">
       <DependentUpon>FormScan.cs</DependentUpon>
