@@ -28,6 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("1111");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            "2222"}, -1, System.Drawing.Color.Empty, System.Drawing.Color.LightBlue, null);
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("3333");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            "4444"}, -1, System.Drawing.Color.Empty, System.Drawing.Color.LightBlue, null);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanOutForm));
             this.lstScanned = new System.Windows.Forms.ListView();
             this.ScannedWallets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -38,6 +44,8 @@
             this.lblStatus = new System.Windows.Forms.Label();
             this.lstToScan = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lstScanned
@@ -46,21 +54,21 @@
             this.ScannedWallets});
             this.lstScanned.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstScanned.FullRowSelect = true;
-            this.lstScanned.GridLines = true;
-            this.lstScanned.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lstScanned.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lstScanned.HideSelection = false;
-            this.lstScanned.Location = new System.Drawing.Point(272, 126);
+            this.lstScanned.Location = new System.Drawing.Point(272, 155);
             this.lstScanned.MultiSelect = false;
             this.lstScanned.Name = "lstScanned";
-            this.lstScanned.Size = new System.Drawing.Size(215, 383);
+            this.lstScanned.Size = new System.Drawing.Size(215, 354);
             this.lstScanned.TabIndex = 3;
             this.lstScanned.UseCompatibleStateImageBehavior = false;
             this.lstScanned.View = System.Windows.Forms.View.Details;
+            this.lstScanned.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lstScanned_KeyPress);
             // 
             // ScannedWallets
             // 
             this.ScannedWallets.Text = "Scanned Out Wallets";
-            this.ScannedWallets.Width = 209;
+            this.ScannedWallets.Width = 180;
             // 
             // btnFinish
             // 
@@ -88,7 +96,7 @@
             // 
             this.ScanInputLabel.AutoSize = true;
             this.ScanInputLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ScanInputLabel.Location = new System.Drawing.Point(12, 9);
+            this.ScanInputLabel.Location = new System.Drawing.Point(7, 9);
             this.ScanInputLabel.Name = "ScanInputLabel";
             this.ScanInputLabel.Size = new System.Drawing.Size(238, 29);
             this.ScanInputLabel.TabIndex = 103;
@@ -100,7 +108,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveBorder;
-            this.label1.Location = new System.Drawing.Point(233, 254);
+            this.label1.Location = new System.Drawing.Point(233, 299);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 40);
             this.label1.TabIndex = 105;
@@ -111,7 +119,7 @@
             this.lblStatus.AutoSize = true;
             this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblStatus.Location = new System.Drawing.Point(12, 83);
+            this.lblStatus.Location = new System.Drawing.Point(12, 84);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(60, 24);
             this.lblStatus.TabIndex = 106;
@@ -123,27 +131,60 @@
             this.columnHeader1});
             this.lstToScan.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstToScan.FullRowSelect = true;
-            this.lstToScan.GridLines = true;
-            this.lstToScan.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lstToScan.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lstToScan.HideSelection = false;
-            this.lstToScan.Location = new System.Drawing.Point(12, 126);
+            listViewItem2.StateImageIndex = 0;
+            listViewItem4.ToolTipText = "fghj";
+            this.lstToScan.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4});
+            this.lstToScan.LabelWrap = false;
+            this.lstToScan.Location = new System.Drawing.Point(12, 155);
             this.lstToScan.MultiSelect = false;
             this.lstToScan.Name = "lstToScan";
-            this.lstToScan.Size = new System.Drawing.Size(215, 383);
-            this.lstToScan.TabIndex = 107;
+            this.lstToScan.ShowGroups = false;
+            this.lstToScan.Size = new System.Drawing.Size(215, 354);
+            this.lstToScan.TabIndex = 2;
             this.lstToScan.UseCompatibleStateImageBehavior = false;
             this.lstToScan.View = System.Windows.Forms.View.Details;
+            this.lstToScan.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lstToScan_KeyPress);
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "Wallets To Scan";
-            this.columnHeader1.Width = 209;
+            this.columnHeader1.Width = 180;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(7, 127);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(165, 25);
+            this.label2.TabIndex = 108;
+            this.label2.Text = "Wallets to scan:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(267, 127);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(175, 25);
+            this.label3.TabIndex = 109;
+            this.label3.Text = "Scanned wallets:";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ScanOutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 591);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.lstToScan);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label1);
@@ -173,5 +214,7 @@
         private System.Windows.Forms.Label lblStatus;
         internal System.Windows.Forms.ListView lstToScan;
         internal System.Windows.Forms.ColumnHeader columnHeader1;
+        internal System.Windows.Forms.Label label2;
+        internal System.Windows.Forms.Label label3;
     }
 }

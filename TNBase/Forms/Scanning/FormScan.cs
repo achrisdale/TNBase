@@ -135,5 +135,15 @@ namespace TNBase.Forms.Scanning
                 btnScanOut.Visible = false;
             }
         }
+
+        private void lstScanned_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar))
+            {
+                txtScannerInput.Focus();
+                txtScannerInput.Text = txtScannerInput.Text + e.KeyChar;
+                txtScannerInput.SelectionStart = txtScannerInput.Text.Length;
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using TNBase.Objects;
@@ -91,16 +92,29 @@ namespace TNBase.Forms.Scanning
             lstToScan.Items.Clear();
             lstToScan.Items.AddRange(walletsToScan
                 .OrderBy(x => x)
-                .Select(x => new ListViewItem(x.ToString()))
+                .Select((x, index) => new ListViewItem(x.ToString())
+                {
+                    BackColor = GetAlternateColour(index)
+                })
                 .ToArray());
+
+            lstToScan.Columns[0].Width = -2;
 
             lstScanned.Items.Clear();
             lstScanned.Items.AddRange(scans
-                .Select(x => new ListViewItem(x.Wallet.ToString())
+                .Select((x, index) => new ListViewItem(x.Wallet.ToString())
                 {
-                    Selected = lastScaned == x.Wallet
+                    Selected = lastScaned == x.Wallet,
+                    BackColor = GetAlternateColour(index)
                 })
                 .ToArray());
+
+            lstScanned.Columns[0].Width = -2;
+        }
+
+        private static Color GetAlternateColour(int index)
+        {
+            return index % 2 == 0 ? Color.White : Color.GhostWhite;
         }
 
         private void FormMagazineScanIn_FormClosing(object sender, FormClosingEventArgs e)
@@ -137,6 +151,26 @@ namespace TNBase.Forms.Scanning
         private void ScanOutForm_Load(object sender, EventArgs e)
         {
             UpdateScanList(0);
+        }
+
+        private void lstToScan_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SetFocusOnScannerInput(e.KeyChar);
+        }
+
+        private void lstScanned_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SetFocusOnScannerInput(e.KeyChar);
+        }
+
+        private void SetFocusOnScannerInput(char keyChar)
+        {
+            if (!char.IsControl(keyChar))
+            {
+                txtScannerInput.Focus();
+                txtScannerInput.Text = txtScannerInput.Text + keyChar;
+                txtScannerInput.SelectionStart = txtScannerInput.Text.Length;
+            }
         }
     }
 }

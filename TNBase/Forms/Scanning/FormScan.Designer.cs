@@ -57,6 +57,7 @@
             this.lstScanned.TabIndex = 5;
             this.lstScanned.UseCompatibleStateImageBehavior = false;
             this.lstScanned.View = System.Windows.Forms.View.Details;
+            this.lstScanned.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lstScanned_KeyPress);
             // 
             // Wallet
             // 

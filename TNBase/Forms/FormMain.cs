@@ -12,6 +12,7 @@ using TNBase.Objects;
 using TNBase.DataStorage.Repository;
 using System.Linq;
 using TNBase.Extensions;
+using TNBase.Services;
 
 namespace TNBase
 {
@@ -554,29 +555,7 @@ namespace TNBase
 
                 if (scanForm.ShouldScanOut)
                 {
-                    ScanOut(walletType, scanForm.Scans.Select(x => x.Wallet));
-                }
-            }
-        }
-
-        private IEnumerable<Scan> GetScanOutForEachWallet(IEnumerable<Scan> scans)
-        {
-            return scans.GroupBy(x => x.Wallet)
-                .Select(x => new Scan
-                {
-                    Wallet = x.First().Wallet,
-                    ScanType = ScanTypes.OUT,
-                    WalletType = x.First().WalletType
-                });
-        }
-
-        private void SaveScans(IEnumerable<Scan> scans)
-        {
-            if (scans.Any())
-            {
-                using (var service = new TNBaseRepository(ModuleGeneric.GetDatabasePath()))
-                {
-                    service.AddScans(scans);
+                    ScanOut(walletType, scanForm.Scans.Select(x => x.Wallet).Distinct());
                 }
             }
         }
@@ -592,6 +571,17 @@ namespace TNBase
             if (scanForm.ShowDialog() == DialogResult.OK)
             {
                 SaveScans(scanForm.Scans);
+            }
+        }
+
+        private void SaveScans(IEnumerable<Scan> scans)
+        {
+            if (scans.Any())
+            {
+                using (var scanService = new ScanService(ModuleGeneric.GetDatabasePath()))
+                {
+                    scanService.AddScans(scans);
+                }
             }
         }
     }
