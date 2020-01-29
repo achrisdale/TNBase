@@ -6,7 +6,6 @@ using TNBase.DataStorage.Migrations;
 
 namespace TNBase.DataStorage.Test.Migrations
 {
-    [DeploymentItem(@"x86\SQLite.Interop.dll", "x86")]
     [TestClass]
     public class DatabaseUpdaterTests
     {

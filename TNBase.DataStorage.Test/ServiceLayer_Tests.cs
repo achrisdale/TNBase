@@ -11,8 +11,6 @@ using FluentAssertions;
 namespace TNBase.DataStorage.Test
 {
     [TestClass]
-    [DeploymentItem(@"x86\SQLite.Interop.dll", "x86")] // this is the key
-    [DeploymentItem("Listeners.s3db")]
     public class ServiceLayer_Tests
     {
         ServiceLayer serviceLayer;

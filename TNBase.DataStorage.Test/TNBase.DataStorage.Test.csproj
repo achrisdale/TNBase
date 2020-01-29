@@ -94,6 +94,7 @@
     <Compile Include="RepoStorage_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLayer_Tests.cs" />
+    <Compile Include="Service\ScanServiceTests.cs" />
     <Compile Include="TestHelpers\CreateExtensions.cs" />
     <Compile Include="TestHelpers\DatabaseHelper.cs" />
   </ItemGroup>

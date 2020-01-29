@@ -147,6 +147,7 @@ namespace TNBase.DataStorage
                 tempListener.StatusInfo = (string)myReader["StatusInfo"];
             }
 
+            tempListener.inOutRecords = new InOutRecords();
             tempListener.inOutRecords.In1 = (int)(long)myReader["In1"];
             tempListener.inOutRecords.In2 = (int)(long)myReader["In2"];
             tempListener.inOutRecords.In3 = (int)(long)myReader["In3"];

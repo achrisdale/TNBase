@@ -8,8 +8,6 @@ using TNBase.DataStorage.Migrations;
 
 namespace TNBase.DataStorage.Test
 {
-    [DeploymentItem(@"x86\SQLite.Interop.dll", "x86")] // this is the key
-    [DeploymentItem("Listeners.s3db")]
     [TestClass]
     public class RepoStorage_Tests
     {
