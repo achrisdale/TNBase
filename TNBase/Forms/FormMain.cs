@@ -9,9 +9,7 @@ using NLog;
 using TNBase.Forms.Printing;
 using TNBase.Forms.Scanning;
 using TNBase.Objects;
-using TNBase.DataStorage.Repository;
 using System.Linq;
-using TNBase.Extensions;
 
 namespace TNBase
 {
@@ -77,9 +75,6 @@ namespace TNBase
             {
                 btnScanIn.Enabled = false;
             }
-
-            // Ensure the scan table exists
-            serviceLayer.EnsureScanTableExists();
         }
 
         private void updateWeekNumber()
@@ -545,8 +540,13 @@ namespace TNBase
 
         private void ScanIn(WalletTypes walletType)
         {
+            var magazineWallets = serviceLayer.GetListenersByStatus(ListenerStates.ACTIVE)
+                .Where(x => x.Magazine)
+                .Select(x => x.Wallet)
+                .ToList();
+
             var scanForm = new FormScan();
-            scanForm.Setup("Magazine Scan In", ScanTypes.IN, walletType);
+            scanForm.Setup("Magazine Scan In", ScanTypes.IN, walletType, magazineWallets);
 
             if (scanForm.ShowDialog() == DialogResult.OK)
             {
@@ -554,7 +554,12 @@ namespace TNBase
 
                 if (scanForm.ShouldScanOut)
                 {
-                    ScanOut(walletType, scanForm.Scans.Select(x => x.Wallet).Distinct());
+                    var walletsToScanOut = scanForm.Scans
+                        .Where(x => magazineWallets.Contains(x.Wallet))
+                        .Select(x => x.Wallet)
+                        .Distinct();
+
+                    ScanOut(walletType, walletsToScanOut);
                 }
             }
         }

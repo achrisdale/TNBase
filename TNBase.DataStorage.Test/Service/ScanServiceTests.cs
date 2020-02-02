@@ -20,12 +20,20 @@ namespace TNBase.DataStorage.Test.Services
                 DatabaseHelper.CreateDatabase(connection);
 
                 var scans = new List<Scan> {
-                    new Scan(),
-                    new Scan()
+                    new Scan { Wallet = 1 },
+                    new Scan { Wallet = 1 }
                 };
 
                 using (var context = new TNBaseContext(connection))
                 {
+                    context.Listeners.Add(new Listener
+                    {
+                        Forename = "Test",
+                        Surname = "Tester",
+                        inOutRecords = new InOutRecords()
+                    });
+                    context.SaveChanges();
+
                     var service = new ScanService(context);
 
                     service.AddScans(scans);
@@ -50,7 +58,7 @@ namespace TNBase.DataStorage.Test.Services
                         WalletType = WalletTypes.News
                     },
                     new Scan {
-                        Wallet = 22,
+                        Wallet = 2,
                         ScanType = ScanTypes.OUT,
                         WalletType = WalletTypes.Magazine
                     }
@@ -58,6 +66,21 @@ namespace TNBase.DataStorage.Test.Services
 
                 using (var context = new TNBaseContext(connection))
                 {
+                    context.Listeners.Add(new Listener
+                    {
+                        Forename = "Test1",
+                        Surname = "Tester",
+                        inOutRecords = new InOutRecords()
+                    });
+
+                    context.Listeners.Add(new Listener
+                    {
+                        Forename = "Test2",
+                        Surname = "Tester",
+                        inOutRecords = new InOutRecords()
+                    });
+                    context.SaveChanges();
+
                     var service = new ScanService(context);
 
                     service.AddScans(scans);
@@ -67,7 +90,7 @@ namespace TNBase.DataStorage.Test.Services
                     Assert.AreEqual(1, storedScans.ElementAt(0).Wallet);
                     Assert.AreEqual(ScanTypes.IN, storedScans.ElementAt(0).ScanType);
                     Assert.AreEqual(WalletTypes.News, storedScans.ElementAt(0).WalletType);
-                    Assert.AreEqual(22, storedScans.ElementAt(1).Wallet);
+                    Assert.AreEqual(2, storedScans.ElementAt(1).Wallet);
                     Assert.AreEqual(ScanTypes.OUT, storedScans.ElementAt(1).ScanType);
                     Assert.AreEqual(WalletTypes.Magazine, storedScans.ElementAt(1).WalletType);
                 }
@@ -83,11 +106,21 @@ namespace TNBase.DataStorage.Test.Services
                 DatabaseHelper.CreateDatabase(connection);
 
                 var scans = new List<Scan> {
-                    new Scan ()
+                    new Scan { Wallet = 1 }
                 };
 
                 using (var context = new TNBaseContext(connection))
                 {
+                    context.Listeners.Add(new Listener
+                    {
+                        Forename = "Test",
+                        Surname = "Tester",
+                        Stock = 1,
+                        MagazineStock = 2,
+                        inOutRecords = new InOutRecords()
+                    });
+                    context.SaveChanges();
+
                     var service = new ScanService(context);
 
                     var before = DateTime.UtcNow;
@@ -124,7 +157,8 @@ namespace TNBase.DataStorage.Test.Services
                         Forename = "Test",
                         Surname = "Tester",
                         Stock = 1,
-                        MagazineStock = 2
+                        MagazineStock = 2,
+                        inOutRecords = new InOutRecords()
                     });
                     context.SaveChanges();
 
@@ -162,7 +196,8 @@ namespace TNBase.DataStorage.Test.Services
                         Forename = "Test",
                         Surname = "Tester",
                         Stock = 1,
-                        MagazineStock = 2
+                        MagazineStock = 2,
+                        inOutRecords = new InOutRecords()
                     });
                     context.SaveChanges();
 
@@ -200,7 +235,8 @@ namespace TNBase.DataStorage.Test.Services
                         Forename = "Test",
                         Surname = "Tester",
                         Stock = 1,
-                        MagazineStock = 2
+                        MagazineStock = 2,
+                        inOutRecords = new InOutRecords()
                     });
                     context.SaveChanges();
 
@@ -238,7 +274,8 @@ namespace TNBase.DataStorage.Test.Services
                         Forename = "Test",
                         Surname = "Tester",
                         Stock = 1,
-                        MagazineStock = 2
+                        MagazineStock = 2,
+                        inOutRecords = new InOutRecords()
                     });
                     context.SaveChanges();
 

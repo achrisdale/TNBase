@@ -251,9 +251,6 @@ namespace TNBase.DataStorage.Test
         [TestMethod]
         public void Repo_TestScans()
         {
-            IServiceLayer serviceLayer = new ServiceLayer(":memory:", repoLayer);
-            serviceLayer.EnsureScanTableExists();
-
             Assert.AreEqual(0, repoLayer.GetScanRecords(connection).Count);
 
             Scan temp = new Scan();

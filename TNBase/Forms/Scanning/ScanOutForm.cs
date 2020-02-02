@@ -68,19 +68,19 @@ namespace TNBase.Forms.Scanning
                 {
                     if (scans.Any(x => x.Wallet == wallet))
                     {
-                        ModuleSounds.PlaySecondBeep();
+                        ModuleSounds.DoubleBeep();
                         lblStatus.Text = $"Duplicate! Wallet {wallet} already scanned.";
                     }
                     else
                     {
-                        ModuleSounds.PlayExplode();
+                        ModuleSounds.BeepInvalid();
                         lblStatus.Text = $"Not Found! Wallet {wallet} should not be scanned.";
                     }
                 }
             }
             else
             {
-                ModuleSounds.PlayInvalidBarcode();
+                ModuleSounds.BeepInvalid();
                 lblStatus.Text = $"Invalid barcode {txtScannerInput.Text}.";
             }
 
@@ -136,6 +136,7 @@ namespace TNBase.Forms.Scanning
 
             Text = title;
             ScanInputLabel.Text = $"Please scan in a {walletType.ToString().ToLower()} wallet:";
+            lblStatus.Text = "";
 
             if (scanned != null && scanned.Any())
             {

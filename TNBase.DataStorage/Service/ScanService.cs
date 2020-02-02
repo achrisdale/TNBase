@@ -22,18 +22,18 @@ namespace TNBase.DataStorage
             foreach (var scan in scans)
             {
                 var listener = context.Listeners.FirstOrDefault(x => x.Wallet == scan.Wallet);
-                UpdateListenerStock(listener, scan.ScanType, scan.WalletType);
                 if (listener != null)
                 {
-
-                    context.Scans.Add(new Scan
-                    {
-                        Wallet = scan.Wallet,
-                        ScanType = scan.ScanType,
-                        WalletType = scan.WalletType,
-                        Recorded = DateTime.UtcNow
-                    });
+                    UpdateListenerStock(listener, scan.ScanType, scan.WalletType);
                 }
+
+                context.Scans.Add(new Scan
+                {
+                    Wallet = scan.Wallet,
+                    ScanType = scan.ScanType,
+                    WalletType = scan.WalletType,
+                    Recorded = DateTime.UtcNow
+                });
             }
 
             context.SaveChanges();

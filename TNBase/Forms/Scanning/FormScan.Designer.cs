@@ -38,6 +38,7 @@
             this.ListLabel = new System.Windows.Forms.Label();
             this.btnScanOut = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lstScanned
@@ -135,11 +136,22 @@
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
+            // lblStatus
+            // 
+            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblStatus.Location = new System.Drawing.Point(426, 236);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(318, 56);
+            this.lblStatus.TabIndex = 107;
+            this.lblStatus.Text = "Status";
+            // 
             // FormScan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnScanOut);
             this.Controls.Add(this.lstScanned);
@@ -168,5 +180,6 @@
         internal System.Windows.Forms.Label ListLabel;
         private System.Windows.Forms.Button btnScanOut;
         private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Label lblStatus;
     }
 }

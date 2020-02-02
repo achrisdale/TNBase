@@ -9,9 +9,10 @@ namespace TNBase.Forms.Scanning
 {
     public partial class FormScan : Form
     {
-        private List<Scan> scans = new List<Scan>();
+        private readonly List<Scan> scans = new List<Scan>();
         private ScanTypes scanType;
         private WalletTypes walletType;
+        private IEnumerable<int> validWallets;
 
         public IEnumerable<Scan> Scans => scans;
         public bool ShouldScanOut { get; private set; }
@@ -81,17 +82,32 @@ namespace TNBase.Forms.Scanning
                     WalletType = walletType
                 });
 
-                var count = scans.Count(x => x.Wallet == wallet);
-                if (count > 1)
-                    ModuleSounds.PlayBeep();
+                if (validWallets.Contains(wallet))
+                {
+                    var count = scans.Count(x => x.Wallet == wallet);
+                    if (count > 1)
+                    {
+                        ModuleSounds.DoubleBeep();
+                        lblStatus.Text = $"Repeat scan for wallet {wallet}.";
+                    }
+                    else
+                    {
+                        ModuleSounds.PlayBeep();
+                        lblStatus.Text = $"Last scanned {wallet}.";
+                    }
+                }
                 else
-                    ModuleSounds.PlaySecondBeep();
+                {
+                    ModuleSounds.PlayNotInUse();
+                    lblStatus.Text = $"Wallet {wallet} not in use.";
+                }
 
                 UpdateScanList(wallet);
             }
             else
             {
-                ModuleSounds.PlayInvalidBarcode();
+                ModuleSounds.BeepInvalid();
+                lblStatus.Text = $"Invalid barcode {txtScannerInput.Text}.";
             }
 
             txtScannerInput.Text = "";
@@ -121,14 +137,16 @@ namespace TNBase.Forms.Scanning
             }
         }
 
-        public void Setup(string title, ScanTypes scanType, WalletTypes walletType)
+        public void Setup(string title, ScanTypes scanType, WalletTypes walletType, IEnumerable<int> validWallets)
         {
             this.scanType = scanType;
             this.walletType = walletType;
+            this.validWallets = validWallets;
 
             Text = title;
             ListLabel.Text = $"Scanned {walletType.ToString().ToLower()} wallets:";
             ScanInputLabel.Text = $"Please scan {scanType.ToString().ToLower()} a wallet:";
+            lblStatus.Text = "";
 
             if (scanType == ScanTypes.OUT)
             {

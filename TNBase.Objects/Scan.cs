@@ -43,6 +43,8 @@ namespace TNBase.Objects
             }
         }
         public DateTime Recorded { get; set; }
+
+        [Column("WalletType")]
         public string WalletTypeValue { get; set; }
     }
 }

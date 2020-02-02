@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using TNBase.DataStorage.Migrations;
 
 namespace TNBase.DataStorage
 {
@@ -1161,20 +1162,6 @@ namespace TNBase.DataStorage
 
             repoLayer.InsertScan(connection, tempScan);
             return true;
-        }
-
-        /// <summary>
-        /// Ensure the scan table exists
-        /// </summary>
-        public void EnsureScanTableExists()
-        {
-            RunCommand("CREATE TABLE IF NOT EXISTS 'Scans' (" +
-                            "'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," +
-                            "'Wallet' INTEGER NOT NULL," +
-                            "'Type' TEXT NOT NULL," +
-                            "'WalletType' TEXT NOT NULL," +
-                            "'Recorded' DATE DEFAULT CURRENT_DATE" +
-                        ");");
         }
 
         public void Dispose()
