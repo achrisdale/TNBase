@@ -421,6 +421,7 @@
     <Compile Include="Forms\Misc\FormTest.Designer.cs">
       <DependentUpon>FormTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\StockItem.cs" />
     <Compile Include="ModuleGeneric.cs" />
     <Compile Include="ModuleScanning.cs" />
     <Compile Include="ModuleSounds.cs" />

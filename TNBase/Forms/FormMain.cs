@@ -10,6 +10,7 @@ using TNBase.Forms.Printing;
 using TNBase.Forms.Scanning;
 using TNBase.Objects;
 using System.Linq;
+using TNBase.Model;
 
 namespace TNBase
 {
@@ -525,7 +526,34 @@ namespace TNBase
 
         private void walletsStockToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new FormPrintWalletStock().Show();
+            var form = new FormPrintWalletStock();
+            var stock = serviceLayer.GetListeners()
+                .Select(x => new StockItem
+                {
+                    Wallet = x.Wallet,
+                    Stock = x.Status == ListenerStates.DELETED ? "X" : x.Stock.ToString()
+                })
+                .OrderBy(x => x.Wallet)
+                .ToList();
+
+            form.Setup("News Wallet Stock", stock);
+            form.Show();
+        }
+
+        private void magazineWalletStockToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormPrintWalletStock();
+            var stock = serviceLayer.GetListeners()
+                .Select(x => new StockItem
+                {
+                    Wallet = x.Wallet,
+                    Stock = x.Status == ListenerStates.DELETED || !x.Magazine ? "X" : x.MagazineStock.ToString()
+                })
+                .OrderBy(x => x.Wallet)
+                .ToList();
+
+            form.Setup("Magazine Wallet Stock", stock);
+            form.Show();
         }
 
         private void btnMagScanIn_Click(object sender, EventArgs e)

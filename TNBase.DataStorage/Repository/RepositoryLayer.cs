@@ -168,6 +168,7 @@ namespace TNBase.DataStorage
                 tempListener.DeletedDate = (DateTime)myReader["DeletedDate"];
             }
             tempListener.Stock = (int)(long)myReader["Stock"];
+            tempListener.MagazineStock = (int)(long)myReader["MagazineStock"];
             if (!(myReader["LastIn"] is DBNull))
             {
                 tempListener.LastIn = (DateTime)myReader["LastIn"];
@@ -288,7 +289,7 @@ namespace TNBase.DataStorage
             string outString = ", Out1 = " + listener.inOutRecords.Out1 + ", Out2 = " + listener.inOutRecords.Out2 + ", Out3 = " + listener.inOutRecords.Out3 + ", Out4 = " + listener.inOutRecords.Out4 + ", Out5 = " + listener.inOutRecords.Out5 + ", Out6 = " + listener.inOutRecords.Out6 + ", Out7 = " + listener.inOutRecords.Out7 + ", Out8 = " + listener.inOutRecords.Out8;
 
             // Now run the query with the strings we have created.
-            DoNoResultQuery(objConn, "UPDATE Listeners SET Title = '" + listener.Title + "', Forename = '" + listener.Forename + "', Surname = '" + listener.Surname + "', Addr1 = '" + listener.Addr1 + "', Addr2 = '" + listener.Addr2 + "', Town = '" + listener.Town + "', County = '" + listener.County + "', Postcode = '" + listener.Postcode + "', Birthday = " + birthdayStr + ", MemStickPlayer = " + memStickInt + ", Magazine = " + magazineInt + ", Telephone = '" + listener.Telephone + "', Info = '" + listener.Info + "', Status ='" + listener.Status + "', StatusInfo = '" + listener.StatusInfo + "'" + inString + outString + ", DeletedDate = " + deletedStr + ", Stock = " + listener.Stock + ", LastIn = " + lastInStr + ", LastOut = " + lastOutStr + " WHERE Wallet = " + listener.Wallet);
+            DoNoResultQuery(objConn, "UPDATE Listeners SET Title = '" + listener.Title + "', Forename = '" + listener.Forename + "', Surname = '" + listener.Surname + "', Addr1 = '" + listener.Addr1 + "', Addr2 = '" + listener.Addr2 + "', Town = '" + listener.Town + "', County = '" + listener.County + "', Postcode = '" + listener.Postcode + "', Birthday = " + birthdayStr + ", MemStickPlayer = " + memStickInt + ", Magazine = " + magazineInt + ", Telephone = '" + listener.Telephone + "', Info = '" + listener.Info + "', Status ='" + listener.Status + "', StatusInfo = '" + listener.StatusInfo + "'" + inString + outString + ", DeletedDate = " + deletedStr + ", Stock = " + listener.Stock + ", MagazineStock = " + listener.MagazineStock + ", LastIn = " + lastInStr + ", LastOut = " + lastOutStr + " WHERE Wallet = " + listener.Wallet);
         }
 
         /// <summary>

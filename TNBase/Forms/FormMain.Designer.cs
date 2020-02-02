@@ -73,6 +73,7 @@ namespace TNBase
             this.printCollectorForListenerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.magazineWalletsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.walletsStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.magazineWalletStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatisticsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -295,7 +296,8 @@ namespace TNBase
             this.StoppedListenerListToolStripMenuItem,
             this.printCollectorForListenerToolStripMenuItem,
             this.magazineWalletsToolStripMenuItem,
-            this.walletsStockToolStripMenuItem});
+            this.walletsStockToolStripMenuItem,
+            this.magazineWalletStockToolStripMenuItem});
             this.PrintingToolStripMenuItem.Name = "PrintingToolStripMenuItem";
             this.PrintingToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
             this.PrintingToolStripMenuItem.Text = "Prin&ting";
@@ -395,8 +397,15 @@ namespace TNBase
             // 
             this.walletsStockToolStripMenuItem.Name = "walletsStockToolStripMenuItem";
             this.walletsStockToolStripMenuItem.Size = new System.Drawing.Size(296, 24);
-            this.walletsStockToolStripMenuItem.Text = "Wallets Stock";
+            this.walletsStockToolStripMenuItem.Text = "News Wallet Stock";
             this.walletsStockToolStripMenuItem.Click += new System.EventHandler(this.walletsStockToolStripMenuItem_Click);
+            // 
+            // magazineWalletStockToolStripMenuItem
+            // 
+            this.magazineWalletStockToolStripMenuItem.Name = "magazineWalletStockToolStripMenuItem";
+            this.magazineWalletStockToolStripMenuItem.Size = new System.Drawing.Size(296, 24);
+            this.magazineWalletStockToolStripMenuItem.Text = "Magazine Wallet Stock";
+            this.magazineWalletStockToolStripMenuItem.Click += new System.EventHandler(this.magazineWalletStockToolStripMenuItem_Click);
             // 
             // StatisticsHistoryToolStripMenuItem
             // 
@@ -410,14 +419,14 @@ namespace TNBase
             // StatisticsToolStripMenuItem
             // 
             this.StatisticsToolStripMenuItem.Name = "StatisticsToolStripMenuItem";
-            this.StatisticsToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
+            this.StatisticsToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.StatisticsToolStripMenuItem.Text = "Statistics";
             this.StatisticsToolStripMenuItem.Click += new System.EventHandler(this.StatisticsToolStripMenuItem_Click);
             // 
             // HistoryToolStripMenuItem
             // 
             this.HistoryToolStripMenuItem.Name = "HistoryToolStripMenuItem";
-            this.HistoryToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
+            this.HistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.HistoryToolStripMenuItem.Text = "History";
             this.HistoryToolStripMenuItem.Click += new System.EventHandler(this.HistoryToolStripMenuItem_Click);
             // 
@@ -631,7 +640,7 @@ namespace TNBase
             // 
             // btnScanOut
             // 
-            this.btnScanOut.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnScanOut.BackColor = System.Drawing.Color.Yellow;
             this.btnScanOut.Enabled = false;
             this.btnScanOut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnScanOut.Location = new System.Drawing.Point(6, 80);
@@ -644,7 +653,7 @@ namespace TNBase
             // 
             // btnScanIn
             // 
-            this.btnScanIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnScanIn.BackColor = System.Drawing.Color.Yellow;
             this.btnScanIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnScanIn.Location = new System.Drawing.Point(6, 31);
             this.btnScanIn.Name = "btnScanIn";
@@ -742,7 +751,7 @@ namespace TNBase
             // 
             // btnMagScanIn
             // 
-            this.btnMagScanIn.BackColor = System.Drawing.Color.Yellow;
+            this.btnMagScanIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnMagScanIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnMagScanIn.Location = new System.Drawing.Point(6, 31);
             this.btnMagScanIn.Name = "btnMagScanIn";
@@ -871,5 +880,6 @@ namespace TNBase
         internal GroupBox groupBox3;
         private Button btnMagScanOut;
         private Button btnMagScanIn;
+        private ToolStripMenuItem magazineWalletStockToolStripMenuItem;
     }
 }
