@@ -545,7 +545,7 @@ namespace TNBase
                 .Select(x => x.Wallet)
                 .ToList();
 
-            var scanForm = new FormScan();
+            var scanForm = new MagazinesScanInForm();
             scanForm.Setup("Magazine Scan In", ScanTypes.IN, walletType, magazineWallets);
 
             if (scanForm.ShowDialog() == DialogResult.OK)
@@ -569,7 +569,7 @@ namespace TNBase
             var listeners = serviceLayer.GetListenersByStatus(ListenerStates.ACTIVE);
             var toScan = listeners.Where(x => x.Magazine && (scans == null || !scans.Contains(x.Wallet))).Select(x => x.Wallet);
 
-            var scanForm = new ScanOutForm();
+            var scanForm = new MagazinesScanOutForm();
             scanForm.Setup("Magazine Scan Out", walletType, toScan, scans);
 
             if (scanForm.ShowDialog() == DialogResult.OK)

@@ -349,17 +349,17 @@
     <Compile Include="Forms\FormResumeSending.Designer.cs">
       <DependentUpon>FormResumeSending.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Scanning\ScanOutForm.cs">
+    <Compile Include="Forms\Scanning\MagazinesScanOutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Scanning\ScanOutForm.Designer.cs">
-      <DependentUpon>ScanOutForm.cs</DependentUpon>
+    <Compile Include="Forms\Scanning\MagazinesScanOutForm.Designer.cs">
+      <DependentUpon>MagazinesScanOutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Scanning\FormScan.cs">
+    <Compile Include="Forms\Scanning\MagazinesScanInForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Scanning\FormScan.Designer.cs">
-      <DependentUpon>FormScan.cs</DependentUpon>
+    <Compile Include="Forms\Scanning\MagazinesScanInForm.Designer.cs">
+      <DependentUpon>MagazinesScanInForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Scanning\FormScanIn.cs">
       <SubType>Form</SubType>
@@ -561,11 +561,11 @@
     <EmbeddedResource Include="Forms\FormResumeSending.resx">
       <DependentUpon>FormResumeSending.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Scanning\ScanOutForm.resx">
-      <DependentUpon>ScanOutForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Scanning\MagazinesScanOutForm.resx">
+      <DependentUpon>MagazinesScanOutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Scanning\FormScan.resx">
-      <DependentUpon>FormScan.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Scanning\MagazinesScanInForm.resx">
+      <DependentUpon>MagazinesScanInForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Scanning\FormScanIn.resx">
       <DependentUpon>FormScanIn.cs</DependentUpon>

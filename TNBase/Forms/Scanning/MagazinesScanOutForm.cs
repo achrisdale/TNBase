@@ -8,7 +8,7 @@ using TNBase.Objects;
 
 namespace TNBase.Forms.Scanning
 {
-    public partial class ScanOutForm : Form
+    public partial class MagazinesScanOutForm : Form
     {
         private List<Scan> scans = new List<Scan>();
         private List<int> walletsToScan;
@@ -16,7 +16,7 @@ namespace TNBase.Forms.Scanning
 
         public IEnumerable<Scan> Scans => scans;
 
-        public ScanOutForm()
+        public MagazinesScanOutForm()
         {
             InitializeComponent();
         }

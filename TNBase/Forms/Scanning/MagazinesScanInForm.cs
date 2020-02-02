@@ -7,7 +7,7 @@ using TNBase.Objects;
 
 namespace TNBase.Forms.Scanning
 {
-    public partial class FormScan : Form
+    public partial class MagazinesScanInForm : Form
     {
         private readonly List<Scan> scans = new List<Scan>();
         private ScanTypes scanType;
@@ -17,7 +17,7 @@ namespace TNBase.Forms.Scanning
         public IEnumerable<Scan> Scans => scans;
         public bool ShouldScanOut { get; private set; }
 
-        public FormScan()
+        public MagazinesScanInForm()
         {
             InitializeComponent();
         }

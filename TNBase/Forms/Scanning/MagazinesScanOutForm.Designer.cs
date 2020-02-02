@@ -1,6 +1,6 @@
 ﻿namespace TNBase.Forms.Scanning
 {
-    partial class ScanOutForm
+    partial class MagazinesScanOutForm
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +34,7 @@
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("3333");
             System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "4444"}, -1, System.Drawing.Color.Empty, System.Drawing.Color.LightBlue, null);
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanOutForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MagazinesScanOutForm));
             this.lstScanned = new System.Windows.Forms.ListView();
             this.ScannedWallets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnFinish = new System.Windows.Forms.Button();
