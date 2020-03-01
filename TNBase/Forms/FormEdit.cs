@@ -57,7 +57,7 @@ namespace TNBase
                     chkNoBirthday.Checked = true;
                     birthdayDate.Value = DateTime.Parse("01/01/" + DateTime.Now.Year);
                 }
-                dtpJoined.Value = theListener.Joined.EnsureMinDate();
+                dtpJoined.Value = theListener.Joined.HasValue ? theListener.Joined.Value.EnsureMinDate() : DateTime.MinValue.EnsureMinDate();
                 dtpJoined.Enabled = false;
 
                 if (lblStatus.Text.Equals(ListenerStates.ACTIVE.ToString()))
@@ -85,7 +85,7 @@ namespace TNBase
                     lblStatus.ForeColor = Color.Gray;
                     lblExtra.Text = "Duration:";
                     lblExtraContent.ForeColor = Color.Gray;
-                    lblExtraContent.Text = Listener.GetStoppedDate(theListener).ToNiceStr() + " to " + Listener.GetResumeDateString(theListener);
+                    lblExtraContent.Text = theListener.GetStoppedDate().ToNiceStr() + " to " + theListener.GetResumeDateString();
                     btnRestore.Visible = false;
                 }
 
@@ -226,19 +226,17 @@ namespace TNBase
                     myListener.Birthday = birthdayDate.Value;
                 }
 
-                if (serviceLayer.UpdateListener(myListener))
-                {
-                    Interaction.MsgBox("The listener has successfully been updated.");
+                serviceLayer.UpdateListener(myListener);
+                Interaction.MsgBox("The listener has successfully been updated.");
 
-                    if (addrChanged || nameChanged)
+                if (addrChanged || nameChanged)
+                {
+                    // Show prompt.
+                    DialogResult result = MessageBox.Show("Would you like to print new address labels for the updated address?", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
                     {
-                        // Show prompt.
-                        DialogResult result = MessageBox.Show("Would you like to print new address labels for the updated address?", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
-                        {
-                            My.MyProject.Forms.formChoosePrintPoint.Show();
-                            My.MyProject.Forms.formChoosePrintPoint.SetupForm(serviceLayer.GetListenerById(listenerWalletNo));
-                        }
+                        My.MyProject.Forms.formChoosePrintPoint.Show();
+                        My.MyProject.Forms.formChoosePrintPoint.SetupForm(serviceLayer.GetListenerById(listenerWalletNo));
                     }
                 }
             }
@@ -354,7 +352,7 @@ namespace TNBase
         {
             InitializeComponent();
 
-            comboTitle.Items.AddRange(ListenerTitles.getAllTitles().ToArray());
+            comboTitle.Items.AddRange(ListenerTitles.GetAllTitles().ToArray());
 
             // Restrict input to month and day
             birthdayDate.MinDate = new DateTime(DateTime.UtcNow.Year, 01, 01);

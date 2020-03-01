@@ -143,91 +143,6 @@ namespace TNBase.DataStorage
         }
 
         /// <summary>
-        /// Clean up titles so we dont get errors on forms
-        /// </summary>
-        public void CleanUpTitles()
-        {
-            List<Listener> listeners = GetListeners();
-
-            // Loop through
-            foreach (Listener listener in listeners)
-            {
-                // Remove any .'s
-                if (listener.Title.Contains("."))
-                {
-                    log.Debug("Listener with wallet " + listener.Wallet + " had a '.' in their title, removing it!");
-                    listener.Title = listener.Title.Replace(".", "");
-                    UpdateListener(listener);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Clean up all dates so we dont get errors on forms
-        /// </summary>
-        /// <returns></returns>
-        public void CleanUpDates()
-        {
-            List<Listener> listeners = GetListeners();
-
-            // Loop through
-            foreach (Listener listener in listeners)
-            {
-                bool updated = false;
-
-                // Clean birthdays
-                if (listener.Birthday.HasValue)
-                {
-                    if (listener.Birthday.Value >= DateTime.MaxValue || listener.Birthday.Value <= DBUtils.AppMinDate())
-                    {
-                        log.Debug("Listener with id: " + listener.Wallet + " has invalid Birthday, removing it.");
-                        listener.Birthday = null;
-                        updated = true;
-                    }
-                }
-
-                // Clean deleted dates.
-                if (listener.DeletedDate.HasValue)
-                {
-                    if (listener.DeletedDate.Value >= DateTime.MaxValue || listener.DeletedDate.Value <= DBUtils.AppMinDate())
-                    {
-                        log.Debug("Listener with id: " + listener.Wallet + " has invalid DeletedDate, removing it.");
-                        listener.DeletedDate = null;
-                        updated = true;
-                    }
-                }
-
-                // Clean last in dates.
-                if (listener.LastIn.HasValue)
-                {
-                    if (listener.LastIn.Value >= DateTime.MaxValue || listener.LastIn.Value <= DBUtils.AppMinDate())
-                    {
-                        log.Debug("Listener with id: " + listener.Wallet + " has invalid LastIn, removing it.");
-                        listener.LastIn = null;
-                        updated = true;
-                    }
-                }
-
-                // Clean last in dates.
-                if (listener.LastOut.HasValue)
-                {
-                    if (listener.LastOut.Value >= DateTime.MaxValue || listener.LastOut.Value <= DBUtils.AppMinDate())
-                    {
-                        log.Debug("Listener with id: " + listener.Wallet + " has invalid LastOut, removing it.");
-                        listener.LastOut = null;
-                        updated = true;
-                    }
-                }
-
-                // Update the listener if changes were made.
-                if (updated)
-                {
-                    UpdateListener(listener);
-                }
-            }
-        }
-
-        /// <summary>
         /// Get inactive listeners (that have been deleted but the wallet id isnt free)
         /// </summary>
         /// <returns></returns>
@@ -267,34 +182,18 @@ namespace TNBase.DataStorage
             return repoLayer.GetListeners(connection).Where(x => x.Status.Equals(ListenerStates.DELETED) && x.DeletedDate > fewDaysBack && x.DeletedDate <= DateTime.Now).ToList();
         }
 
-        /// <summary>
-        /// Restore paused listeners
-        /// </summary>
         public void ResumePausedListeners()
         {
             log.Debug("Resuming paused listeners!");
 
-            // Get all paused listeners.
-            List<Listener> theListeners = new List<Listener>();
-            theListeners = GetStoppedListeners();
+            var listeners = GetStoppedListeners();
 
-            // Resume paused listeners.
-            foreach (Listener tListener in theListeners)
+            foreach (var listener in listeners)
             {
-                // If they are past the resume date
-                DateTime? resumeDate = Listener.GetResumeDate(tListener);
-                if (resumeDate.HasValue)
+                if(listener.HasPausePeriodElapsed())
                 {
-                    if (resumeDate.Value < DateTime.Now)
-                    {
-                        tListener.Status = ListenerStates.ACTIVE;
-                        tListener.StatusInfo = "";
-
-                        if (!UpdateListener(tListener))
-                        {
-                            log.Error("Failed to maintain (resume paused) listeners.");
-                        }
-                    }
+                    listener.Resume();
+                    UpdateListener(listener);
                 }
             }
         }
@@ -398,24 +297,12 @@ namespace TNBase.DataStorage
             return result;
         }
 
-        /// <summary>
-        /// Update a listener
-        /// </summary>
-        /// <param name="listener"></param>
-        /// <returns></returns>
-        public bool UpdateListener(Listener listener)
+        public void UpdateListener(Listener listener)
         {
             repoLayer.UpdateListener(connection, listener);
             log.Info("Updated listener: " + listener.Forename + " " + listener.Surname + ", Wallet: " + listener.Wallet);
-            return true;
         }
 
-        /// <summary>
-        /// Delete a listener
-        /// </summary>
-        /// <param name="listener"></param>
-        /// <param name="reason"></param>
-        /// <returns></returns>
         public bool SoftDeleteListener(Listener listener, string reason)
         {
             listener.Status = ListenerStates.DELETED;
@@ -814,7 +701,7 @@ namespace TNBase.DataStorage
             // Delete old deleted listener
             foreach (Listener l in listeners)
             {
-                log.Info("Deleting listener with id: " + l.Wallet + ". Name: " + l.GetNiceName() + " as they have been deleted for over " + months + " months.");
+                log.Info("Deleting listener with id: " + l.Wallet + " as they have been deleted for over " + months + " months.");
                 repoLayer.DeleteListener(connection, l);
             }
         }
@@ -1128,22 +1015,6 @@ namespace TNBase.DataStorage
             WeeklyStats forTheWeek = repoLayer.GetWeeklyStats(connection).ToList().Where(x => x.WeekNumber == currentWeekNumber).FirstOrDefault();
 
             return (forTheWeek != null ? forTheWeek : new WeeklyStats());
-        }
-
-        /// <summary>
-        /// Clean deleted dates from non deleted listeners
-        /// </summary>
-        public void CleanDeletedDates()
-        {
-            // Get listeners that are not deleted but have a deleted date
-            List<Listener> listenersToClean = repoLayer.GetListeners(connection).Where(x => !x.Status.Equals(ListenerStates.DELETED) && x.DeletedDate != null).ToList();
-
-            foreach (Listener listener in listenersToClean)
-            {
-                log.Warn("Listener " + listener.GetNiceName() + ", Wallet: " + listener.Wallet + " is " + listener.Status + " but has a deleted date. Removing it!");
-                listener.DeletedDate = null;
-                UpdateListener(listener);
-            }
         }
 
         /// <summary>

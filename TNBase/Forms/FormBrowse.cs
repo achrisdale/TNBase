@@ -65,7 +65,7 @@ namespace TNBase
                     theListener.Magazine.ToString(),
                     theListener.MemStickPlayer.ToString(),
                     theListener.Telephone,
-                    theListener.Joined.ToNiceStr(),
+                    theListener.Joined.ToNullableNaString(DateTimeExtensions.DEFAULT_FORMAT),
                     theListener.Birthday.ToNullableNaString(DateTimeExtensions.BIRTHDAY_FORMAT),
                     theListener.Status.ToString(),
                     theListener.StatusInfo,
@@ -147,17 +147,10 @@ namespace TNBase
                 {
                     theListener.Resume();
 
-                    if (!serviceLayer.UpdateListener(theListener))
-                    {
-                        log.Error("Failed to update and resume listener! WalletId: " + walletNumb);
-                        Interaction.MsgBox("Error: Failed to update listener");
-                    }
-                    else
-                    {
-                        Interaction.MsgBox("Succesfully updated listener.");
-                        log.Info("Resumed and updated listener with WalletId: " + walletNumb);
-                        refreshList();
-                    }
+                    serviceLayer.UpdateListener(theListener);
+                    Interaction.MsgBox("Succesfully updated listener.");
+                    log.Info("Resumed and updated listener with WalletId: " + walletNumb);
+                    refreshList();
                 }
                 catch (ListenerStateChangeException ex)
                 {
@@ -229,7 +222,7 @@ namespace TNBase
                 else
                 {
                     string dataString = null;
-                    dataString = Listener.FormatListenerData(serviceLayer.GetListenerById(walletNumb));
+                    dataString = serviceLayer.GetListenerById(walletNumb).FormatListenerData();
 
                     // Show prompt.
                     DialogResult result = MessageBox.Show("Are you sure you wish to delete the following listener?" + Environment.NewLine + Environment.NewLine + dataString + Environment.NewLine + "Press [Y] to confirm or [N] to cancel.", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
@@ -258,10 +251,7 @@ namespace TNBase
                                 if (walletReturned == DialogResult.Yes)
                                 {
                                     tempListener.MemStickPlayer = false;
-                                    if (!serviceLayer.UpdateListener(tempListener))
-                                    {
-                                        Interaction.MsgBox("Error deleting listener.");
-                                    }
+                                    serviceLayer.UpdateListener(tempListener);
                                 }
                                 else
                                 {

@@ -81,7 +81,7 @@ namespace TNBase
                 arr[9] = theListener.Magazine.ToString();
                 arr[10] = theListener.MemStickPlayer.ToString();
                 arr[11] = theListener.Telephone;
-                arr[12] = theListener.Joined.ToString(DateTimeExtensions.DEFAULT_FORMAT);
+                arr[12] = theListener.Joined.ToNullableNaString(DateTimeExtensions.DEFAULT_FORMAT);
                 arr[13] = theListener.Birthday.ToNullableNaString();
                 arr[14] = theListener.Status.ToString();
                 arr[15] = theListener.StatusInfo;
@@ -155,7 +155,7 @@ namespace TNBase
                     walletNumb = int.Parse(lstDuplicates.Items[theIndex].SubItems[0].Text);
 
                     string dataString = null;
-                    dataString = Listener.FormatListenerData(serviceLayer.GetListenerById(walletNumb));
+                    dataString = serviceLayer.GetListenerById(walletNumb).FormatListenerData();
 
                     // Show prompt.
                     DialogResult result = MessageBox.Show("Are you sure you wish to delete the following listener?" + Environment.NewLine + Environment.NewLine + dataString + Environment.NewLine + "Press [Y] to confirm or [N] to cancel.", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);

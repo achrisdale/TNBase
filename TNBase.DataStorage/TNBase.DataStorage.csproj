@@ -73,6 +73,8 @@
     <Compile Include="DBUtils.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ITNBaseContext.cs" />
+    <Compile Include="Migrations\3_PurgeDeletedListeners.cs" />
+    <Compile Include="Migrations\2_Titles.cs" />
     <Compile Include="Migrations\1_Initial.cs" />
     <Compile Include="Migrations\DatabaseUpdater.cs" />
     <Compile Include="Migrations\ISqlMigration.cs" />

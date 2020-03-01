@@ -334,7 +334,7 @@ namespace TNBase
             {
                 // Is it not a new stats week?
                 if (!(serviceLayer.IsNewStatsWeek()) &&
-                    serviceLayer.GetCurrentWeekStats().hasScanningResults())
+                    serviceLayer.GetCurrentWeekStats().HasScanningResults())
                 {
                     // Check before we create a new stats bit then!
                     DialogResult newWeekCheck = MessageBox.Show("Scanning has already been done this week. Are you sure you want to continue, a new stats week will be created.", ModuleGeneric.getAppShortName());

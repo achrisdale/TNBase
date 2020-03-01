@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace TNBase.Objects
@@ -33,7 +36,7 @@ namespace TNBase.Objects
         public bool Magazine { get; set; }
         public DateTime? Birthday { get; set; }
         [XmlIgnore]
-        public DateTime Joined { get; set; }
+        public DateTime? Joined { get; set; }
         public string Info { get; set; }
         [Column("Status")]
         public string State { get; set; }
@@ -59,33 +62,11 @@ namespace TNBase.Objects
         public DateTime? LastOut { get; set; }
         public int MagazineStock { get; set; }
 
-        public string GetDebugString()
-        {
-            return "Wallet: " + this.Wallet + Environment.NewLine + "Name: " + GetNiceName() + Environment.NewLine + "Addr1: " + this.Addr1 + Environment.NewLine + "Addr2: " + this.Addr2 + Environment.NewLine + "Town: " + this.Town + Environment.NewLine + "County: " + this.County + Environment.NewLine + "Postcode: " + this.Postcode + Environment.NewLine + "Birthday: " + this.Birthday + Environment.NewLine + "Info: " + this.Info + Environment.NewLine + "Joined: " + this.Joined + Environment.NewLine + "LastIn: " + this.LastIn + Environment.NewLine + "LastOut: " + this.LastOut + Environment.NewLine + "Stock: " + this.Stock + Environment.NewLine + "DeletedDate: " + this.DeletedDate + Environment.NewLine + "Telephone: " + this.Telephone + Environment.NewLine + "StatusInfo: " + this.StatusInfo + Environment.NewLine + "Status: " + this.Status + Environment.NewLine + "MemStickPlayer: " + this.MemStickPlayer + Environment.NewLine + "Magazine: " + this.Magazine + Environment.NewLine;
-        }
-
         public string GetNiceName()
         {
-            string start = "";
-
-            // Remove spaces.
-            start = start.Replace(" ", "");
-
-            // Do they have a title?
-            if (!string.IsNullOrEmpty(this.Title))
-            {
-                start = this.Title;
-
-                // Add a dot if its not there.
-                if (!start.EndsWith("."))
-                {
-                    start += ".";
-                }
-                start += " ";
-            }
-
-            // Return the result.
-            return start + this.Forename + " " + this.Surname;
+            var nameParts = new List<string> { Title, Forename, Surname }
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            return string.Join(" ", nameParts);
         }
 
         public static int DaysUntilBirthday(DateTime birthday)
@@ -98,44 +79,60 @@ namespace TNBase.Objects
             return (nextBirthday - DateTime.Today).Days;
         }
 
-        public static DateTime GetStoppedDate(Listener theListener)
+        public DateTime GetStoppedDate()
         {
-            DateTime adate = DateTime.Now;
-
-            if (theListener.Status == ListenerStates.PAUSED)
+            if (Status == ListenerStates.PAUSED)
             {
-                string firstStr = theListener.StatusInfo.Substring(0, theListener.StatusInfo.IndexOf(","));
-                adate = DateTime.Parse(firstStr);
+                var stoppedDate = StatusInfo.Substring(0, StatusInfo.IndexOf(","));
+                return DateTime.Parse(stoppedDate);
             }
 
-            return adate;
+            return DateTime.Now;
         }
 
         public void Pause(DateTime startDate, DateTime? endDate = null)
         {
-            // We can only pause the listener if they are not deleted!
             if (Status == ListenerStates.DELETED)
             {
                 throw new ListenerStateChangeException();
             }
+
             Status = ListenerStates.PAUSED;
 
-            string myDateStr = "";
-            if (endDate == null)
+            var myDateStr = endDate == null ? NEVER_END_PAUSE_STRING : endDate.Value.ToNiceStr();
+            StatusInfo = startDate.ToNiceStr() + "," + myDateStr;
+        }
+
+        public bool CanDeletePersonalData()
+        {
+            return !MemStickPlayer;
+        }
+
+        public void DeletePersonalData()
+        {
+            if (!CanDeletePersonalData())
             {
-                myDateStr = Listener.NEVER_END_PAUSE_STRING;
-            }
-            else
-            {
-                myDateStr = endDate.Value.ToNiceStr();
+                throw new ListenerStateChangeException($"Can't delete listener's {Wallet} data as memory stick player has not been returned.");
             }
 
-            StatusInfo = startDate.ToNiceStr() + "," + myDateStr;
+            Status = ListenerStates.DELETED;
+            Title = "N/A";
+            Forename = "Deleted";
+            Surname = "Deleted";
+            Addr1 = null;
+            Addr2 = null;
+            Town = null;
+            County = null;
+            Postcode = null;
+            DeletedDate = DateTime.UtcNow;
+            Telephone = null;
+            Joined = null;
+            Birthday = null;
+            Info = null;
         }
 
         public void Resume()
         {
-            // We can only resume the listener if they are paused!
             if (Status != ListenerStates.PAUSED)
             {
                 throw new ListenerStateChangeException();
@@ -145,78 +142,79 @@ namespace TNBase.Objects
             StatusInfo = "";
         }
 
-        public static DateTime? GetResumeDate(Listener theListener)
+        public DateTime? GetResumeDate()
         {
-            DateTime? adate = null;
-
-            if (theListener.Status == ListenerStates.PAUSED)
+            if (Status == ListenerStates.PAUSED)
             {
-                string secondStr = theListener.StatusInfo.Substring(theListener.StatusInfo.IndexOf(",") + 1);
-                if ((secondStr != NEVER_END_PAUSE_STRING))
+                string resumeDate = StatusInfo.Substring(StatusInfo.IndexOf(",") + 1);
+                if (resumeDate != NEVER_END_PAUSE_STRING)
                 {
-                    // Try and read the end date.
-                    adate = DateTime.Parse(secondStr);
+                    return DateTime.Parse(resumeDate);
                 }
-
             }
 
-            return adate;
+            return null;
         }
 
-        public static string GetResumeDateString(Listener theListener)
+        public string GetResumeDateString()
         {
-            DateTime? result = GetResumeDate(theListener);
-
-            if (!result.HasValue)
-            {
-                return NEVER_END_PAUSE_STRING;
-            }
-            else
-            {
-                return result.Value.ToNiceStr();
-            }
+            var result = GetResumeDate();
+            return result.HasValue ? result.Value.ToNiceStr() : NEVER_END_PAUSE_STRING;
         }
 
         public DateTime BirthdayThisYear()
         {
-            DateTime copy = Birthday.Value;
-            copy = copy.AddYears(DateTime.Now.Year - Birthday.Value.Year);
-            return copy;
+            return Birthday.Value.AddYears(DateTime.Now.Year - Birthday.Value.Year);
         }
 
-        public static string FormatListenerData(Listener theListener)
+        public string FormatListenerData()
         {
-            string resultStr = null;
+            var builder = new StringBuilder();
+            builder.Append(GetNiceName());
 
-            // Create a data string adding content only if it exists.
-            resultStr = theListener.Title + " " + theListener.Forename + " " + theListener.Surname + Environment.NewLine;
-            if (!(theListener.Addr1 == null))
+            if (Addr1 != null)
             {
-                resultStr += theListener.Addr1;
-                if (!(theListener.Addr2 == null))
-                {
-                    resultStr += ", " + theListener.Addr2;
-                }
-                resultStr += Environment.NewLine;
-
-                if (!(theListener.Town == null))
-                {
-                    resultStr += theListener.Town;
-                    if (!(theListener.County == null))
-                    {
-                        resultStr += ", " + theListener.County;
-                    }
-                    resultStr += Environment.NewLine;
-                }
-
-                if (!(theListener.Postcode == null))
-                {
-                    resultStr += theListener.Postcode + Environment.NewLine;
-                }
+                builder.AppendLine();
+                builder.Append(FormatAddress());
             }
 
-            // Return the result.
-            return resultStr;
+            return builder.ToString();
+        }
+
+        private string FormatAddress()
+        {
+            var builder = new StringBuilder();
+            if (Addr1 != null)
+            {
+                var address = Addr1;
+                if (Addr2 != null)
+                {
+                    address += ", " + Addr2;
+                }
+                builder.AppendLine(address);
+
+                if (Town != null)
+                {
+                    var addressScondLine = Town;
+                    if (County != null)
+                    {
+                        addressScondLine += ", " + County;
+                    }
+                    builder.AppendLine(addressScondLine);
+                }
+
+                if (Postcode != null)
+                {
+                    builder.AppendLine(Postcode);
+                }
+            }
+            return builder.ToString();
+        }
+
+        public bool HasPausePeriodElapsed()
+        {
+            var resumeDate = GetResumeDate();
+            return resumeDate.HasValue && resumeDate.Value < DateTime.Now;
         }
     }
 }
