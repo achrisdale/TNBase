@@ -131,6 +131,19 @@ namespace TNBase.Objects
             Info = null;
         }
 
+        public void Delete()
+        {
+            if (CanDeletePersonalData())
+            {
+                DeletePersonalData();
+            }
+            else
+            {
+                Status = ListenerStates.DELETED;
+            }
+        }
+
+
         public void Resume()
         {
             if (Status != ListenerStates.PAUSED)

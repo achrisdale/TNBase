@@ -58,7 +58,7 @@ namespace TNBase.DataStorage
         List<Listener> GetOrderedListeners(OrderVar ordering);
         int AddListener(Listener listener);
         void UpdateListener(Listener listener);
-        bool SoftDeleteListener(Listener listener, string reason);
+        void SoftDeleteListener(Listener listener, string reason);
         bool RestoreListener(Listener listener);
         void ResumePausedListeners();
 

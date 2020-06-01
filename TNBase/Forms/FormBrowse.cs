@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
+using TNBase.Forms;
+
 namespace TNBase
 {
     public partial class FormBrowse
@@ -196,76 +198,33 @@ namespace TNBase
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            int theIndex = 0;
             if (lstBrowse.FocusedItem != null)
             {
-                theIndex = lstBrowse.FocusedItem.Index;
-
-                // First sub item is wallet number.
-                int walletNumb = 0;
-                walletNumb = int.Parse(lstFreeze.Items[theIndex].Text);
+                var index = lstBrowse.FocusedItem.Index;
+                var wallet = int.Parse(lstFreeze.Items[index].Text);
 
                 if (deletedMode)
                 {
-                    if (serviceLayer.RestoreListener(serviceLayer.GetListenerById(walletNumb)))
+                    if (serviceLayer.RestoreListener(serviceLayer.GetListenerById(wallet)))
                     {
                         Interaction.MsgBox("Successfully restored listener.");
-                        log.Info("Listener resumed: " + walletNumb);
+                        log.Info("Listener resumed: " + wallet);
                         refreshList();
                     }
                     else
                     {
-                        log.Error("Failed to restore listener. Id: " + walletNumb);
+                        log.Error("Failed to restore listener. Id: " + wallet);
                         Interaction.MsgBox("ERROR: Failed to restore listener");
                     }
                 }
                 else
                 {
-                    string dataString = null;
-                    dataString = serviceLayer.GetListenerById(walletNumb).FormatListenerData();
+                    var listener = serviceLayer.GetListenerById(wallet);
+                    var deleteForm = FormDelete.Create(listener);
 
-                    // Show prompt.
-                    DialogResult result = MessageBox.Show("Are you sure you wish to delete the following listener?" + Environment.NewLine + Environment.NewLine + dataString + Environment.NewLine + "Press [Y] to confirm or [N] to cancel.", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
-                    if (result == DialogResult.No)
+                    var deleteResult = deleteForm.ShowDialog();
+                    if (deleteResult == DialogResult.OK)
                     {
-                        return;
-                    }
-                    else if (result == DialogResult.Yes)
-                    {
-                        string myReason = Interaction.InputBox("Please enter a reason for deletion", "S.B.T.N.A.", "");
-                        bool resultofdelete = false;
-
-                        // Check if the delete was a success.
-                        resultofdelete = serviceLayer.SoftDeleteListener(serviceLayer.GetListenerById(walletNumb), myReason);
-                        if (resultofdelete)
-                        {
-                            Interaction.MsgBox("Listener deleted successfully. ");
-                            log.Info("Listener deleted: " + walletNumb);
-                            MessageBox.Show("You should remove all wallets including the magazine wallet" + Environment.NewLine + "from stock for Wallet number " + walletNumb + ".", ModuleGeneric.getAppShortName(), MessageBoxButtons.OK);
-
-                            // Check if the player / memory stick has been returned.
-                            var tempListener = serviceLayer.GetListenerById(walletNumb);
-                            if ((tempListener.MemStickPlayer))
-                            {
-                                DialogResult walletReturned = MessageBox.Show("Did the listener return the memory stick player?", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
-                                if (walletReturned == DialogResult.Yes)
-                                {
-                                    tempListener.MemStickPlayer = false;
-                                    serviceLayer.UpdateListener(tempListener);
-                                }
-                                else
-                                {
-                                    // Else print deleted listener form.
-                                    My.MyProject.Forms.formPrintCollectionForm.Show();
-                                    My.MyProject.Forms.formPrintCollectionForm.SetupForm(tempListener, true);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Interaction.MsgBox("Error deleting listener.");
-                            log.Error("Error deleting listener: " + walletNumb);
-                        }
                         refreshList();
                     }
                 }
