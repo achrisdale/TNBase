@@ -39,6 +39,11 @@
             this.memStickGroupBox = new System.Windows.Forms.GroupBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.newsSentLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.magazinesSentLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.memStickGroupBox.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -72,10 +77,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(460, 24);
+            this.label1.Size = new System.Drawing.Size(529, 25);
             this.label1.TabIndex = 35;
             this.label1.Text = "Are you sure you want to delete the following listener?";
             // 
@@ -84,7 +89,7 @@
             this.listenerDetailsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listenerDetailsLabel.Location = new System.Drawing.Point(30, 52);
             this.listenerDetailsLabel.Name = "listenerDetailsLabel";
-            this.listenerDetailsLabel.Size = new System.Drawing.Size(541, 114);
+            this.listenerDetailsLabel.Size = new System.Drawing.Size(388, 114);
             this.listenerDetailsLabel.TabIndex = 36;
             this.listenerDetailsLabel.Text = "Listener Details";
             // 
@@ -154,6 +159,61 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(112, 17);
             this.toolStripStatusLabel.Text = "toolStripStatusLabel";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.DimGray;
+            this.label2.Location = new System.Drawing.Point(424, 87);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(103, 24);
+            this.label2.TabIndex = 44;
+            this.label2.Text = "News sent:";
+            // 
+            // newsSentLabel
+            // 
+            this.newsSentLabel.AutoSize = true;
+            this.newsSentLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.newsSentLabel.ForeColor = System.Drawing.Color.DimGray;
+            this.newsSentLabel.Location = new System.Drawing.Point(582, 87);
+            this.newsSentLabel.Name = "newsSentLabel";
+            this.newsSentLabel.Size = new System.Drawing.Size(20, 24);
+            this.newsSentLabel.TabIndex = 45;
+            this.newsSentLabel.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.DimGray;
+            this.label3.Location = new System.Drawing.Point(424, 121);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(146, 24);
+            this.label3.TabIndex = 46;
+            this.label3.Text = "Magazines sent:";
+            // 
+            // magazinesSentLabel
+            // 
+            this.magazinesSentLabel.AutoSize = true;
+            this.magazinesSentLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.magazinesSentLabel.ForeColor = System.Drawing.Color.DimGray;
+            this.magazinesSentLabel.Location = new System.Drawing.Point(582, 121);
+            this.magazinesSentLabel.Name = "magazinesSentLabel";
+            this.magazinesSentLabel.Size = new System.Drawing.Size(20, 24);
+            this.magazinesSentLabel.TabIndex = 47;
+            this.magazinesSentLabel.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.DimGray;
+            this.label4.Location = new System.Drawing.Point(486, 52);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 24);
+            this.label4.TabIndex = 48;
+            this.label4.Text = "Wallets";
+            // 
             // FormDelete
             // 
             this.AcceptButton = this.btnDelete;
@@ -161,6 +221,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(614, 335);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.magazinesSentLabel);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.newsSentLabel);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.memStickGroupBox);
             this.Controls.Add(this.listenerDetailsLabel);
@@ -192,5 +257,10 @@
         private System.Windows.Forms.GroupBox memStickGroupBox;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label newsSentLabel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label magazinesSentLabel;
+        private System.Windows.Forms.Label label4;
     }
 }

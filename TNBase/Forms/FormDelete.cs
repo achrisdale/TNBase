@@ -7,8 +7,9 @@ namespace TNBase.Forms
 {
     public partial class FormDelete : Form
     {
-        private IServiceLayer serviceLayer = new ServiceLayer(ModuleGeneric.GetDatabasePath());
+        private readonly IServiceLayer serviceLayer = new ServiceLayer(ModuleGeneric.GetDatabasePath());
         private Listener listener;
+        private bool hasWalletsSent;
 
         public FormDelete()
         {
@@ -17,27 +18,53 @@ namespace TNBase.Forms
 
         public static FormDelete Create(Listener listener)
         {
-            var form = new FormDelete { listener = listener };
-            form.listenerDetailsLabel.Text = listener.FormatListenerData();
-            form.memStickGroupBox.Visible = listener.MemStickPlayer;
-            form.UpdateMemStickReceived(listener.MemStickPlayer);
-            form.btnDelete.Enabled = true;
-            return form;
+            return new FormDelete().Setup(listener);
         }
 
-        private void UpdateMemStickReceived(bool memStickPlayer)
+        private bool CanPermanentlyDelete => !hasWalletsSent && (!listener.MemStickPlayer || yesMemStickRadioButton.Checked);
+
+        private FormDelete Setup(Listener listener)
         {
-            yesMemStickRadioButton.Checked = !memStickPlayer;
-            noMemStickRadioButton.Checked = memStickPlayer;
-            toolStripStatusLabel.Text = memStickPlayer ?
-                "Listener's data will be deleted automatically once the memory stick is returned" :
-                $"Listener has no memory stick, therefore it's data will be deleted and the wallet reserved for {Settings.Default.MonthsUntilDelete} months";
-            btnDelete.Text = memStickPlayer ? "Mark for deletion" : "Permanently delete";
+            this.listener = listener;
+            listenerDetailsLabel.Text = listener.FormatListenerData();
+
+            if (!listener.MemStickPlayer)
+            {
+                SetupNoPlayerIssued();
+            }
+
+            noMemStickRadioButton.Checked = listener.MemStickPlayer;
+            SetupStock(listener);
+            UpdateMemStickReceived();
+            btnDelete.Enabled = true;
+            return this;
+        }
+
+        private void SetupNoPlayerIssued()
+        {
+            memStickQuestionLabel.Text = "Memory stick player has not been issued to this listener";
+            yesMemStickRadioButton.Visible = false;
+            noMemStickRadioButton.Visible = false;
+        }
+
+        private void SetupStock(Listener listener)
+        {
+            newsSentLabel.Text = listener.SentNewsWallets.ToString();
+            magazinesSentLabel.Text = listener.SentMagazineWallets.ToString();
+            hasWalletsSent = listener.SentNewsWallets > 0 || listener.SentMagazineWallets > 0;
+        }
+
+        private void UpdateMemStickReceived()
+        {
+            toolStripStatusLabel.Text = CanPermanentlyDelete ?
+                $"Listener has no player or wallets, therefore it's data will be deleted and the wallet number reserved for {Settings.Default.MonthsUntilDelete} months" :
+                "Listener's data will be deleted automatically once the player and all wallets are returned";
+            btnDelete.Text = CanPermanentlyDelete ? "Permanently delete" : "Mark for deletion";
         }
 
         private void memStickRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            UpdateMemStickReceived(noMemStickRadioButton.Checked);
+            UpdateMemStickReceived();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

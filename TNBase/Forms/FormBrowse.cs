@@ -18,6 +18,7 @@ namespace TNBase
         // Could be changed if page is made bigger. 15 just about fits on the page.
         int limit = 15;
         int offset = 0;
+        private bool showDeleted = false;
 
         bool deletedMode = false;
         private void btnDone_Click(object sender, EventArgs e)
@@ -117,14 +118,16 @@ namespace TNBase
             clearList();
 
             List<Listener> theListeners = new List<Listener>();
-            if (deletedMode)
+            if (deletedMode || showDeleted)
             {
                 theListeners = serviceLayer.GetListenersByStatus(ListenerStates.DELETED).Skip(offset).Take(limit).ToList();
             }
             else
             {
                 OrderVar order = cmbOrder.Text.Equals("Wallet") ? OrderVar.WALLET : OrderVar.SURNAME;
-                theListeners = serviceLayer.GetOrderedListeners(order).Skip(offset).Take(limit).ToList();
+                theListeners = serviceLayer.GetOrderedListeners(order)
+                    .Where(x => x.Status != ListenerStates.DELETED)
+                    .Skip(offset).Take(limit).ToList();
             }
 
             foreach (Listener tListener in theListeners)
@@ -339,6 +342,14 @@ namespace TNBase
             btnRemove.Enabled = !listener.Status.Equals(ListenerStates.DELETED);
             btnStopSending.Enabled = listener.Status.Equals(ListenerStates.ACTIVE);
             btnCancelStop.Enabled = listener.Status.Equals(ListenerStates.PAUSED);
+        }
+
+        private void filterButton_Click(object sender, EventArgs e)
+        {
+            showDeleted = !showDeleted;
+            filterButton.Text = showDeleted ? "Show Active" : "Show Deleted";
+            offset = 0;
+            refreshList();
         }
     }
 }

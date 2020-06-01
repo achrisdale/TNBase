@@ -344,5 +344,9 @@ namespace TNBase.Objects.Test
             Assert.IsTrue(before <= listener.DeletedDate, "Date is greater or equal to before");
             Assert.IsTrue(after >= listener.DeletedDate, "Date is less or equal to after");
         }
+
+        //SentNewsWallets
+        //SentMagazineWallets
+        //CanDeletePersonalData
     }
 }

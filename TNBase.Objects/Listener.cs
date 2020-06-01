@@ -62,6 +62,9 @@ namespace TNBase.Objects
         public DateTime? LastOut { get; set; }
         public int MagazineStock { get; set; }
 
+        public int SentNewsWallets => 3 - Stock;
+        public int SentMagazineWallets => Magazine ? 1 - MagazineStock : 0;
+
         public string GetNiceName()
         {
             var nameParts = new List<string> { Title, Forename, Surname }
@@ -105,7 +108,7 @@ namespace TNBase.Objects
 
         public bool CanDeletePersonalData()
         {
-            return !MemStickPlayer;
+            return !MemStickPlayer && SentNewsWallets == 0 && SentMagazineWallets == 0;
         }
 
         public void DeletePersonalData()

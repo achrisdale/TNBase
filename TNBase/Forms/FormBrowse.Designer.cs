@@ -55,6 +55,7 @@ namespace TNBase
             this.Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.StatusInfo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Stock = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MagazineStock = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LastIn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LastOut = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Info = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -70,9 +71,9 @@ namespace TNBase
             this.btnLast = new System.Windows.Forms.Button();
             this.cmbOrder = new System.Windows.Forms.ComboBox();
             this.Label1 = new System.Windows.Forms.Label();
-            this.MagazineStock = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lstFreeze = new System.Windows.Forms.ListView();
             this.walletFreeze = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.filterButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lstBrowse
@@ -186,6 +187,10 @@ namespace TNBase
             // Stock
             // 
             this.Stock.Text = "News Stock";
+            // 
+            // MagazineStock
+            // 
+            this.MagazineStock.Text = "Mag Stock";
             // 
             // LastIn
             // 
@@ -345,10 +350,6 @@ namespace TNBase
             this.Label1.TabIndex = 63;
             this.Label1.Text = "Order by:";
             // 
-            // MagazineStock
-            // 
-            this.MagazineStock.Text = "Mag Stock";
-            // 
             // lstFreeze
             // 
             this.lstFreeze.AllowColumnReorder = true;
@@ -372,12 +373,24 @@ namespace TNBase
             this.walletFreeze.Text = "Wallet";
             this.walletFreeze.Width = 87;
             // 
+            // filterButton
+            // 
+            this.filterButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterButton.Location = new System.Drawing.Point(910, 11);
+            this.filterButton.Name = "filterButton";
+            this.filterButton.Size = new System.Drawing.Size(168, 37);
+            this.filterButton.TabIndex = 65;
+            this.filterButton.Text = "Show Deleted";
+            this.filterButton.UseVisualStyleBackColor = true;
+            this.filterButton.Click += new System.EventHandler(this.filterButton_Click);
+            // 
             // FormBrowse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1104, 634);
+            this.Controls.Add(this.filterButton);
             this.Controls.Add(this.lstFreeze);
             this.Controls.Add(this.Label1);
             this.Controls.Add(this.cmbOrder);
@@ -437,5 +450,6 @@ namespace TNBase
         internal ColumnHeader MagazineStock;
         internal ListView lstFreeze;
         internal ColumnHeader walletFreeze;
+        private Button filterButton;
     }
 }
