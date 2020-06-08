@@ -403,12 +403,6 @@ namespace TNBase
             My.MyProject.Forms.formFindListener.theType = FormFindListener.FindListenerFormType.PrintLabels;
         }
 
-        private void RestoreDeletedListenersToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            My.MyProject.Forms.formBrowse.Show();
-            My.MyProject.Forms.formBrowse.DeletedOnlyMode();
-        }
-
         private void AddCollectorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             My.MyProject.Forms.formAddCollectors.Show();

@@ -276,6 +276,32 @@ namespace TNBase.Objects.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ListenerStateChangeException))]
+        public void DeletePersonalData_ThrowsException_WhenListenerHoldsNewsWallet()
+        {
+            var listener = new Listener
+            {
+                Stock = 0,
+            };
+
+            listener.DeletePersonalData();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ListenerStateChangeException))]
+        public void DeletePersonalData_ThrowsException_WhenListenerHoldsMagazineWallet()
+        {
+            var listener = new Listener
+            {
+                Stock = 3,
+                Magazine = true,
+                MagazineStock = 0
+            };
+
+            listener.DeletePersonalData();
+        }
+
+        [TestMethod]
         public void DeletePersonalData_ClearsListenersName()
         {
             var listener = new Listener
@@ -345,8 +371,44 @@ namespace TNBase.Objects.Test
             Assert.IsTrue(after >= listener.DeletedDate, "Date is less or equal to after");
         }
 
-        //SentNewsWallets
-        //SentMagazineWallets
-        //CanDeletePersonalData
+        [TestMethod]
+        public void SentNewsWallets_ReturnsZero_WhenAllNewsWalletsAreInStock()
+        {
+            var listener = new Listener { Stock = 3 };
+
+            Assert.AreEqual(0, listener.SentNewsWallets);
+        }
+
+        [TestMethod]
+        public void SentNewsWallets_ReturnsNumberOfSentWallets_WhenNotAllNewsWalletsAreInStock()
+        {
+            var listener = new Listener { Stock = 1 };
+
+            Assert.AreEqual(2, listener.SentNewsWallets);
+        }
+
+        [TestMethod]
+        public void SentMagazineWallets_ReturnsZero_WhenMagazineWalletIsInStock()
+        {
+            var listener = new Listener { MagazineStock = 1, Magazine = true };
+
+            Assert.AreEqual(0, listener.SentMagazineWallets);
+        }
+
+        [TestMethod]
+        public void SentMagazineWallets_ReturnsNumberOfSentWallets_WhenNoMagazineWalletIsInStock()
+        {
+            var listener = new Listener { MagazineStock = 0, Magazine = true };
+
+            Assert.AreEqual(1, listener.SentMagazineWallets);
+        }
+
+        [TestMethod]
+        public void SentMagazineWallets_ReturnsZero_WhenMagazineOptionIsNotSet()
+        {
+            var listener = new Listener { MagazineStock = 0, Magazine = false };
+
+            Assert.AreEqual(0, listener.SentMagazineWallets);
+        }
     }
 }

@@ -126,18 +126,18 @@ namespace TNBase
 
         private IEnumerable<Listener> FindListeners()
         {
+            var listeners = new List<Listener>();
             if (!string.IsNullOrEmpty(txtWallet.Text))
             {
                 var wallet = int.Parse(txtWallet.Text);
-                return new List<Listener> { serviceLayer.GetListenerById(wallet) };
+                listeners.Add(serviceLayer.GetListenerById(wallet));
             }
-
-            if (!string.IsNullOrEmpty(txtForename.Text) || !string.IsNullOrEmpty(txtSurname.Text))
+            else if (!string.IsNullOrEmpty(txtForename.Text) || !string.IsNullOrEmpty(txtSurname.Text))
             {
-                return serviceLayer.GetListenersByName(txtForename.Text, txtSurname.Text);
+                listeners.AddRange(serviceLayer.GetListenersByName(txtForename.Text, txtSurname.Text));
             }
 
-            return new List<Listener>();
+            return listeners.Where(x => x.Status != ListenerStates.DELETED).ToList();
         }
 
         private void txtWallet_KeyPress(object sender, KeyPressEventArgs e)

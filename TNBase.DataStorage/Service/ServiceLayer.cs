@@ -35,11 +35,11 @@ namespace TNBase.DataStorage
         {
             List<Listener> results = null;
 
-            if (String.IsNullOrEmpty(forename) || forename.Equals("*"))
+            if (string.IsNullOrEmpty(forename) || forename.Equals("*"))
             {
                 results = repoLayer.GetListeners(connection).Where(x => x.Surname.ToLower().Equals(surname.ToLower())).ToList();
             }
-            else if (String.IsNullOrEmpty(surname) || surname.Equals("*"))
+            else if (string.IsNullOrEmpty(surname) || surname.Equals("*"))
             {
                 results = repoLayer.GetListeners(connection).Where(x => x.Forename.ToLower().Equals(forename.ToLower())).ToList();
             }
