@@ -60,7 +60,6 @@ namespace TNBase
             this.LastOut = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Info = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblTitle = new System.Windows.Forms.Label();
-            this.btnCancelStop = new System.Windows.Forms.Button();
             this.btnStopSending = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
@@ -214,19 +213,6 @@ namespace TNBase
             this.lblTitle.TabIndex = 51;
             this.lblTitle.Text = "Browse Listeners";
             // 
-            // btnCancelStop
-            // 
-            this.btnCancelStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnCancelStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelStop.Location = new System.Drawing.Point(663, 546);
-            this.btnCancelStop.Name = "btnCancelStop";
-            this.btnCancelStop.Size = new System.Drawing.Size(209, 74);
-            this.btnCancelStop.TabIndex = 56;
-            this.btnCancelStop.Text = "Cancel a Stop";
-            this.btnCancelStop.UseVisualStyleBackColor = false;
-            this.btnCancelStop.Click += new System.EventHandler(this.btnCancelStop_Click);
-            // 
             // btnStopSending
             // 
             this.btnStopSending.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
@@ -376,11 +362,11 @@ namespace TNBase
             // filterButton
             // 
             this.filterButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterButton.Location = new System.Drawing.Point(910, 11);
+            this.filterButton.Location = new System.Drawing.Point(801, 11);
             this.filterButton.Name = "filterButton";
-            this.filterButton.Size = new System.Drawing.Size(168, 37);
+            this.filterButton.Size = new System.Drawing.Size(277, 37);
             this.filterButton.TabIndex = 65;
-            this.filterButton.Text = "Show Deleted";
+            this.filterButton.Text = "Show marked for deletion";
             this.filterButton.UseVisualStyleBackColor = true;
             this.filterButton.Click += new System.EventHandler(this.filterButton_Click);
             // 
@@ -399,7 +385,6 @@ namespace TNBase
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnFirst);
             this.Controls.Add(this.btnDone);
-            this.Controls.Add(this.btnCancelStop);
             this.Controls.Add(this.btnStopSending);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnRemove);
@@ -427,7 +412,6 @@ namespace TNBase
 		internal System.Windows.Forms.ColumnHeader Birthday;
 		internal System.Windows.Forms.Label lblTitle;
 		internal System.Windows.Forms.ColumnHeader Status;
-        private System.Windows.Forms.Button btnCancelStop;
         private System.Windows.Forms.Button btnStopSending;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnRemove;

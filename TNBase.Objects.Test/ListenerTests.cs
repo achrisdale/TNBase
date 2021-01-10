@@ -251,45 +251,44 @@ namespace TNBase.Objects.Test
         }
 
         [TestMethod]
-        public void DeletePersonalData_SetsStatusToDeleted()
+        public void Delete_SetsStatusToDeleted()
         {
             var listener = new Listener
             {
                 Status = ListenerStates.ACTIVE
             };
 
-            listener.DeletePersonalData();
+            listener.Delete();
 
             Assert.AreEqual(ListenerStates.DELETED, listener.Status);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ListenerStateChangeException))]
-        public void DeletePersonalData_ThrowsException_WhenPlayerIsNotReturned()
+        public void Delete_SetStatusToRemoved_WhenPlayerIsNotReturned()
         {
             var listener = new Listener
             {
                 MemStickPlayer = true
             };
 
-            listener.DeletePersonalData();
+            listener.Delete();
+            Assert.AreEqual(ListenerStates.REMOVED, listener.Status);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ListenerStateChangeException))]
-        public void DeletePersonalData_ThrowsException_WhenListenerHoldsNewsWallet()
+        public void Delete_SetStatusToRemoved_WhenListenerHoldsNewsWallet()
         {
             var listener = new Listener
             {
                 Stock = 0,
             };
 
-            listener.DeletePersonalData();
+            listener.Delete();
+            Assert.AreEqual(ListenerStates.REMOVED, listener.Status);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ListenerStateChangeException))]
-        public void DeletePersonalData_ThrowsException_WhenListenerHoldsMagazineWallet()
+        public void Delete_SetStatusToRemoved_WhenListenerHoldsMagazineWallet()
         {
             var listener = new Listener
             {
@@ -298,60 +297,39 @@ namespace TNBase.Objects.Test
                 MagazineStock = 0
             };
 
-            listener.DeletePersonalData();
+            listener.Delete();
+            Assert.AreEqual(ListenerStates.REMOVED, listener.Status);
         }
 
         [TestMethod]
-        public void DeletePersonalData_ClearsListenersName()
+        public void Delete_ClearsListenersPersonalInformation_WhenListenerIsDeleted()
         {
             var listener = new Listener
             {
                 Title = "Title",
                 Forename = "Forename",
-                Surname = "Surname"
-            };
-
-            listener.DeletePersonalData();
-
-            Assert.AreEqual("N/A", listener.Title);
-            Assert.AreEqual("Deleted", listener.Forename);
-            Assert.AreEqual("Deleted", listener.Surname);
-        }
-
-        [TestMethod]
-        public void DeletePersonalData_ClearsListenersAddress()
-        {
-            var listener = new Listener
-            {
+                Surname = "Surname",
                 Addr1 = "Address1",
                 Addr2 = "Address2",
                 Town = "Town",
                 County = "County",
                 Postcode = "Postcode",
-            };
-
-            listener.DeletePersonalData();
-
-            Assert.IsNull(listener.Addr1);
-            Assert.IsNull(listener.Addr2);
-            Assert.IsNull(listener.Town);
-            Assert.IsNull(listener.County);
-            Assert.IsNull(listener.Postcode);
-        }
-
-        [TestMethod]
-        public void DeletePersonalData_ClearsListenersInfo()
-        {
-            var listener = new Listener
-            {
                 Telephone = "123456789",
                 Joined = DateTime.UtcNow,
                 Birthday = DateTime.UtcNow,
                 Info = "Test Info"
             };
 
-            listener.DeletePersonalData();
+            listener.Delete();
 
+            Assert.AreEqual("N/A", listener.Title);
+            Assert.AreEqual("Deleted", listener.Forename);
+            Assert.AreEqual("Deleted", listener.Surname);
+            Assert.IsNull(listener.Addr1);
+            Assert.IsNull(listener.Addr2);
+            Assert.IsNull(listener.Town);
+            Assert.IsNull(listener.County);
+            Assert.IsNull(listener.Postcode);
             Assert.IsNull(listener.Telephone);
             Assert.IsNull(listener.Joined);
             Assert.IsNull(listener.Birthday);
@@ -359,12 +337,51 @@ namespace TNBase.Objects.Test
         }
 
         [TestMethod]
-        public void DeletePersonalData_SetsCorrectDeletedDate()
+        public void Delete_MaintainsListenersPersonalInformation_WhenListenerIsRemoved()
+        {
+            var joinDate = DateTime.Now;
+            var birthday = DateTime.Now;
+
+            var listener = new Listener
+            {
+                MemStickPlayer = true,
+                Title = "Title",
+                Forename = "Forename",
+                Surname = "Surname",
+                Addr1 = "Address1",
+                Addr2 = "Address2",
+                Town = "Town",
+                County = "County",
+                Postcode = "Postcode",
+                Telephone = "123456789",
+                Joined = joinDate,
+                Birthday = birthday,
+                Info = "Test Info"
+            };
+
+            listener.Delete();
+
+            Assert.AreEqual("Title", listener.Title);
+            Assert.AreEqual("Forename", listener.Forename);
+            Assert.AreEqual("Surname", listener.Surname);
+            Assert.AreEqual("Address1", listener.Addr1);
+            Assert.AreEqual("Address2", listener.Addr2);
+            Assert.AreEqual("Town", listener.Town);
+            Assert.AreEqual("County", listener.County);
+            Assert.AreEqual("Postcode", listener.Postcode);
+            Assert.AreEqual("123456789", listener.Telephone);
+            Assert.AreEqual(joinDate, listener.Joined);
+            Assert.AreEqual(birthday, listener.Birthday);
+            Assert.AreEqual("Test Info", listener.Info);
+        }
+
+        [TestMethod]
+        public void Delete_SetsCorrectDeletedDate()
         {
             var listener = new Listener();
 
             var before = DateTime.UtcNow;
-            listener.DeletePersonalData();
+            listener.Delete();
             var after = DateTime.UtcNow;
 
             Assert.IsTrue(before <= listener.DeletedDate, "Date is greater or equal to before");

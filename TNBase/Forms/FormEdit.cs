@@ -12,41 +12,41 @@ namespace TNBase
     {
         IServiceLayer serviceLayer = new ServiceLayer(ModuleGeneric.GetDatabasePath());
 
-        // Variables
         private int listenerWalletNo = 0;
         private Listener myListener;
 
         private bool dateChanged = false;
         private bool restored = false;
 
-        /// <summary>
-        /// Setup the form
-        /// </summary>
-        /// <param name="theListener"></param>
-		public void setupForm(Listener theListener)
+        public static FormEdit Create(Listener listener)
         {
-            if (theListener != null)
-            {
-                comboTitle.Text = theListener.Title;
-                txtForename.Text = theListener.Forename;
-                txtSurname.Text = theListener.Surname;
-                txtAddr1.Text = theListener.Addr1;
-                txtAddr2.Text = theListener.Addr2;
-                txtTown.Text = theListener.Town;
-                txtCounty.Text = theListener.County;
-                txtPostcode.Text = theListener.Postcode;
-                txtTelephone.Text = theListener.Telephone;
-                txtStock.Text = theListener.Stock.ToString();
-                chkMagazine.Checked = theListener.Magazine;
-                txtMagazineStock.Enabled = chkMagazine.Checked;
-                chkMemStickPlayer.Checked = theListener.MemStickPlayer;
-                listenerWalletNo = theListener.Wallet;
-                lblWallet.Text = listenerWalletNo.ToString();
-                lblStatus.Text = theListener.Status.ToString();
+            return new FormEdit().Setup(listener);
+        }
 
-                if (theListener.Birthday.HasValue)
+        public FormEdit Setup(Listener listener)
+        {
+            if (listener != null)
+            {
+                comboTitle.Text = listener.Title;
+                txtForename.Text = listener.Forename;
+                txtSurname.Text = listener.Surname;
+                txtAddr1.Text = listener.Addr1;
+                txtAddr2.Text = listener.Addr2;
+                txtTown.Text = listener.Town;
+                txtCounty.Text = listener.County;
+                txtPostcode.Text = listener.Postcode;
+                txtTelephone.Text = listener.Telephone;
+                txtStock.Text = listener.Stock.ToString();
+                chkMagazine.Checked = listener.Magazine;
+                txtMagazineStock.Enabled = chkMagazine.Checked;
+                chkMemStickPlayer.Checked = listener.MemStickPlayer;
+                listenerWalletNo = listener.Wallet;
+                lblWallet.Text = listenerWalletNo.ToString();
+                lblStatus.Text = listener.Status.ToString();
+
+                if (listener.Birthday.HasValue)
                 {
-                    birthdayDate.Value = new DateTime(DateTime.Now.Year, theListener.Birthday.Value.Month, theListener.Birthday.Value.Day);
+                    birthdayDate.Value = new DateTime(DateTime.Now.Year, listener.Birthday.Value.Month, listener.Birthday.Value.Day);
 
                     chkNoBirthday.Checked = false;
                     birthdayDate.Enabled = true;
@@ -57,7 +57,7 @@ namespace TNBase
                     chkNoBirthday.Checked = true;
                     birthdayDate.Value = DateTime.Parse("01/01/" + DateTime.Now.Year);
                 }
-                dtpJoined.Value = theListener.Joined.HasValue ? theListener.Joined.Value.EnsureMinDate() : DateTime.MinValue.EnsureMinDate();
+                dtpJoined.Value = listener.Joined.HasValue ? listener.Joined.Value.EnsureMinDate() : DateTime.MinValue.EnsureMinDate();
                 dtpJoined.Enabled = false;
 
                 if (lblStatus.Text.Equals(ListenerStates.ACTIVE.ToString()))
@@ -72,10 +72,10 @@ namespace TNBase
                     lblStatus.ForeColor = Color.Red;
                     lblExtra.Text = "Reason:";
                     lblExtraContent.ForeColor = Color.Red;
-                    lblExtraContent.Text = theListener.StatusInfo;
+                    lblExtraContent.Text = listener.StatusInfo;
 
                     // Just incase it doesnt have a value
-                    string dateString = theListener.DeletedDate.HasValue ? theListener.DeletedDate.Value.ToNiceStr() : "??/??/????";
+                    string dateString = listener.DeletedDate.HasValue ? listener.DeletedDate.Value.ToNiceStr() : "??/??/????";
                     lblStatus.Text = lblStatus.Text + " on " + dateString;
 
                     btnRestore.Visible = true;
@@ -85,18 +85,18 @@ namespace TNBase
                     lblStatus.ForeColor = Color.Gray;
                     lblExtra.Text = "Duration:";
                     lblExtraContent.ForeColor = Color.Gray;
-                    lblExtraContent.Text = theListener.GetStoppedDate().ToNiceStr() + " to " + theListener.GetResumeDateString();
+                    lblExtraContent.Text = listener.GetStoppedDate().ToNiceStr() + " to " + listener.GetResumeDateString();
                     btnRestore.Visible = false;
                 }
 
-                txtInformation.Text = theListener.Info;
-                txtStock.Text = theListener.Stock.ToString();
-                txtMagazineStock.Text = theListener.MagazineStock.ToString();
+                txtInformation.Text = listener.Info;
+                txtStock.Text = listener.Stock.ToString();
+                txtMagazineStock.Text = listener.MagazineStock.ToString();
 
                 // Display or hide the last in value 
-                if (theListener.LastIn.HasValue)
+                if (listener.LastIn.HasValue)
                 {
-                    DateLastIn.Value = theListener.LastIn.Value;
+                    DateLastIn.Value = listener.LastIn.Value;
                     DateLastIn.Show();
                 }
                 else
@@ -105,9 +105,9 @@ namespace TNBase
                 }
 
                 // Display or hide the last out value 
-                if (theListener.LastOut.HasValue)
+                if (listener.LastOut.HasValue)
                 {
-                    DateLastOut.Value = theListener.LastOut.Value;
+                    DateLastOut.Value = listener.LastOut.Value;
                     DateLastOut.Show();
                 }
                 else
@@ -115,8 +115,8 @@ namespace TNBase
                     DateLastOut.Hide();
                 }
 
-                myListener = theListener;
-                populateTable(theListener);
+                myListener = listener;
+                populateTable(listener);
             }
             // Update the headers.
             updateEditHeaders();
@@ -124,6 +124,8 @@ namespace TNBase
             // Set the date changed bool to false
             dateChanged = false;
             restored = false;
+
+            return this;
         }
 
         // Populate the in/out table.
@@ -260,25 +262,25 @@ namespace TNBase
         private void btnFirst_Click(object sender, EventArgs e)
         {
             Listener theListener = serviceLayer.GetListeners().First();
-            setupForm(theListener);
+            Setup(theListener);
         }
 
         private void btnLast_Click(object sender, EventArgs e)
         {
             Listener theListener = serviceLayer.GetListeners().Last();
-            setupForm(theListener);
+            Setup(theListener);
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
             Listener theListener = serviceLayer.GetNextListener(serviceLayer.GetListenerById(listenerWalletNo));
-            setupForm(theListener);
+            Setup(theListener);
         }
 
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             Listener theListener = serviceLayer.GetPreviousListener(serviceLayer.GetListenerById(listenerWalletNo));
-            setupForm(theListener);
+            Setup(theListener);
         }
 
         /// <summary>

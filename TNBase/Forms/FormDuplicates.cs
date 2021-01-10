@@ -159,13 +159,13 @@ namespace TNBase
             if (theFormType == DuplicateFormType.EditForm)
             {
                 My.MyProject.Forms.formEdit.Show();
-                My.MyProject.Forms.formEdit.setupForm(listener);
+                My.MyProject.Forms.formEdit.Setup(listener);
             }
 
             if (theFormType == DuplicateFormType.StopSending)
             {
                 My.MyProject.Forms.formStopSending.Show();
-                My.MyProject.Forms.formStopSending.setupForm(listener);
+                My.MyProject.Forms.formStopSending.Setup(listener);
             }
 
             if (theFormType == DuplicateFormType.PrintLabels)

@@ -56,13 +56,13 @@ namespace TNBase
             if (theType == FindListenerFormType.EditForm)
             {
                 My.MyProject.Forms.formEdit.Show();
-                My.MyProject.Forms.formEdit.setupForm(listener);
+                My.MyProject.Forms.formEdit.Setup(listener);
             }
 
             if (theType == FindListenerFormType.StopSending)
             {
                 My.MyProject.Forms.formStopSending.Show();
-                My.MyProject.Forms.formStopSending.setupForm(listener);
+                My.MyProject.Forms.formStopSending.Setup(listener);
             }
 
             if (theType == FindListenerFormType.PrintLabels)

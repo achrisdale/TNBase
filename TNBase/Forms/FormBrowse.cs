@@ -20,19 +20,11 @@ namespace TNBase
         private Listener selectedListener;
         int pageSize = 15;
         int page = 0;
-        private bool showDeleted = false;
+        private bool showRemoved = false;
 
         private void btnDone_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        public void UpdateOrder()
-        {
-            if (string.IsNullOrEmpty(cmbOrder.Text))
-            {
-                cmbOrder.Text = cmbOrder.Items[0].ToString();
-            }
         }
 
         public void AddToListeners(Listener listener)
@@ -74,7 +66,7 @@ namespace TNBase
                 };
 
                 var itm = new ListViewItem(subItems.ToArray());
-                if (listener.Status == ListenerStates.DELETED)
+                if (listener.Status == ListenerStates.REMOVED)
                 {
                     itm.BackColor = Color.DarkRed;
                     itm.ForeColor = Color.White;
@@ -93,17 +85,27 @@ namespace TNBase
 
         }
 
-        public void ClearList()
+        public void ClearForm()
         {
             lstFreeze.Items.Clear();
             lstBrowse.Items.Clear();
+            selectedListener = null;
+            UpdateFormControls();
+        }
+
+        private IEnumerable<Listener> GetOrderedListeners()
+        {
+            if (cmbOrder.Text.Equals("Wallet"))
+                return listeners.OrderBy(x => x.Wallet);
+
+            return listeners.OrderBy(x => x.Surname);
         }
 
         public void RefreshList()
         {
-            ClearList();
+            ClearForm();
 
-            foreach (var listener in listeners.Skip(page).Take(pageSize))
+            foreach (var listener in GetOrderedListeners().Skip(page).Take(pageSize))
             {
                 AddToListeners(listener);
             }
@@ -134,8 +136,11 @@ namespace TNBase
         {
             if (selectedListener != null)
             {
-                My.MyProject.Forms.formEdit.Show();
-                My.MyProject.Forms.formEdit.setupForm(selectedListener);
+                var form = FormEdit.Create(selectedListener);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    UpdateListeners();
+                }
             }
         }
 
@@ -143,8 +148,23 @@ namespace TNBase
         {
             if (selectedListener != null)
             {
-                My.MyProject.Forms.formStopSending.Show();
-                My.MyProject.Forms.formStopSending.setupForm(selectedListener);
+                if (selectedListener.CanPause())
+                {
+                    var form = FormStopSending.Create(selectedListener);
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        UpdateListeners();
+                    }
+                }
+                else if (selectedListener.CanResume())
+                {
+                    selectedListener.Resume();
+
+                    serviceLayer.UpdateListener(selectedListener);
+                    Interaction.MsgBox("Succesfully updated listener.");
+                    log.Info("Resumed and updated listener with WalletId: " + selectedListener.Wallet);
+                    UpdateListeners();
+                }
             }
         }
 
@@ -152,10 +172,8 @@ namespace TNBase
         {
             if (selectedListener != null)
             {
-                var deleteForm = FormDelete.Create(selectedListener);
-
-                var deleteResult = deleteForm.ShowDialog();
-                if (deleteResult == DialogResult.OK)
+                var form = FormDelete.Create(selectedListener);
+                if (form.ShowDialog() == DialogResult.OK)
                 {
                     UpdateListeners();
                 }
@@ -205,16 +223,14 @@ namespace TNBase
         private void formBrowse_Load(object sender, EventArgs e)
         {
             AddHorribleHeaders();
-            UpdateOrder();
             UpdateListeners();
         }
 
         private void UpdateListeners()
         {
-            var order = cmbOrder.Text.Equals("Wallet") ? OrderVar.WALLET : OrderVar.SURNAME;
-            listeners = serviceLayer.GetOrderedListeners(order)
-                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED) ||
-                            (!showDeleted && x.Status != ListenerStates.DELETED))
+            listeners = serviceLayer.GetListeners()
+                .Where(x => (showRemoved && x.Status == ListenerStates.REMOVED) ||
+                            (!showRemoved && (x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED)))
                 .ToList();
             RefreshList();
         }
@@ -259,19 +275,41 @@ namespace TNBase
         {
             var wallet = int.Parse(lstFreeze.Items[index].Text);
             selectedListener = serviceLayer.GetListenerById(wallet);
-
-            // Buttons only available if required.
-            btnRemove.Enabled = !selectedListener.Status.Equals(ListenerStates.DELETED);
-            btnStopSending.Enabled = selectedListener.Status.Equals(ListenerStates.ACTIVE);
-            btnCancelStop.Enabled = selectedListener.Status.Equals(ListenerStates.PAUSED);
+            UpdateFormControls();
         }
 
         private void filterButton_Click(object sender, EventArgs e)
         {
-            showDeleted = !showDeleted;
-            filterButton.Text = showDeleted ? "Show Active" : "Show Deleted";
+            showRemoved = !showRemoved;
+            filterButton.Text = showRemoved ? "Show active listeners" : "Show marked for deletion";
             page = 0;
             UpdateListeners();
+        }
+
+        private void UpdateFormControls()
+        {
+            if (selectedListener == null)
+            {
+                btnEdit.Visible = false;
+                btnRemove.Visible = false;
+                btnStopSending.Visible = false;
+            }
+            else
+            {
+                btnEdit.Visible = selectedListener.CanEdit();
+                btnRemove.Visible = selectedListener.CanDelete();
+
+                if (selectedListener.CanPause())
+                {
+                    btnStopSending.Text = "Stop sending";
+                    btnStopSending.Visible = true;
+                }
+                else if (selectedListener.CanResume())
+                {
+                    btnStopSending.Text = "Cancel a stop";
+                    btnStopSending.Visible = true;
+                }
+            }
         }
     }
 }

@@ -11,14 +11,14 @@ namespace TNBase
         private NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         private IServiceLayer serviceLayer = new ServiceLayer(ModuleGeneric.GetDatabasePath());
 
-        // The listener the form was setup with.
         private Listener myListener;
 
-        /// <summary>
-        /// Setup the form with some listener.
-        /// </summary>
-        /// <param name="theListener"></param>
-		public void setupForm(Listener theListener)
+        public static FormStopSending Create(Listener listener)
+        {
+            return new FormStopSending().Setup(listener);
+        }
+
+        public FormStopSending Setup(Listener theListener)
         {
             bool dateSet = false;
 
@@ -61,8 +61,9 @@ namespace TNBase
                 endDate.Value = tempDate;
             }
 
-            // Set my listener.
             myListener = theListener;
+
+            return this;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

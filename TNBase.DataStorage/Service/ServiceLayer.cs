@@ -485,7 +485,6 @@ namespace TNBase.DataStorage
         {
             List<Listener> listeners = repoLayer.GetListeners(connection).Where(x => x.Status.Equals(ListenerStates.DELETED) && x.DeletedDate < DateTime.Now.AddMonths(-months)).ToList();
 
-            // Delete old deleted listener
             foreach (Listener l in listeners)
             {
                 log.Info("Purging listener with id: " + l.Wallet + " as they have been marked as deleted for over " + months + " months.");

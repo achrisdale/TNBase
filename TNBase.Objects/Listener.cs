@@ -106,52 +106,46 @@ namespace TNBase.Objects
             StatusInfo = startDate.ToNiceStr() + "," + myDateStr;
         }
 
-        public bool CanDeletePersonalData()
+        public bool CanDelete()
         {
-            return !MemStickPlayer && SentNewsWallets == 0 && SentMagazineWallets == 0;
-        }
-
-        public void DeletePersonalData()
-        {
-            if (!CanDeletePersonalData())
-            {
-                throw new ListenerStateChangeException($"Can't delete listener's {Wallet} data as memory stick player has not been returned.");
-            }
-
-            Status = ListenerStates.DELETED;
-            Title = "N/A";
-            Forename = "Deleted";
-            Surname = "Deleted";
-            Addr1 = null;
-            Addr2 = null;
-            Town = null;
-            County = null;
-            Postcode = null;
-            DeletedDate = DateTime.UtcNow;
-            Telephone = null;
-            Joined = null;
-            Birthday = null;
-            Info = null;
+            return Status == ListenerStates.ACTIVE || Status == ListenerStates.PAUSED;
         }
 
         public void Delete()
         {
-            if (CanDeletePersonalData())
+            if (!CanDelete())
             {
-                DeletePersonalData();
+                throw new ListenerStateChangeException($"Cannot delete listener {Wallet} as it's state is {Status}");
+            }
+
+            if (!MemStickPlayer && SentNewsWallets == 0 && SentMagazineWallets == 0)
+            {
+                Status = ListenerStates.DELETED;
+                Title = "N/A";
+                Forename = "Deleted";
+                Surname = "Deleted";
+                Addr1 = null;
+                Addr2 = null;
+                Town = null;
+                County = null;
+                Postcode = null;
+                DeletedDate = DateTime.UtcNow;
+                Telephone = null;
+                Joined = null;
+                Birthday = null;
+                Info = null;
             }
             else
             {
-                Status = ListenerStates.DELETED;
+                Status = ListenerStates.REMOVED;
             }
         }
 
-
         public void Resume()
         {
-            if (Status != ListenerStates.PAUSED)
+            if (!CanResume())
             {
-                throw new ListenerStateChangeException();
+                throw new ListenerStateChangeException($"Cannot resume listener {Wallet} as it's state is {Status}");
             }
 
             Status = ListenerStates.ACTIVE;
@@ -231,6 +225,21 @@ namespace TNBase.Objects
         {
             var resumeDate = GetResumeDate();
             return resumeDate.HasValue && resumeDate.Value < DateTime.Now;
+        }
+
+        public bool CanEdit()
+        {
+            return Status == ListenerStates.ACTIVE || Status == ListenerStates.PAUSED;
+        }
+
+        public bool CanPause()
+        {
+            return Status == ListenerStates.ACTIVE;
+        }
+
+        public bool CanResume()
+        {
+            return Status == ListenerStates.PAUSED;
         }
     }
 }
