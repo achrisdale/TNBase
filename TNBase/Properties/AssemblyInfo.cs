@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Resources;
 
@@ -30,6 +29,6 @@ using System.Resources;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.6.5.0")]
-[assembly: AssemblyFileVersion("1.6.5.0")]
+[assembly: AssemblyVersion("1.6.5.4")]
+[assembly: AssemblyFileVersion("1.6.5.4")]
 [assembly: NeutralResourcesLanguageAttribute("en-GB")]

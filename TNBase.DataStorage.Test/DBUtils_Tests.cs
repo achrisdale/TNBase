@@ -1,14 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TNBase.DataStorage.Test
 {
-    [DeploymentItem(@"x86\SQLite.Interop.dll", "x86")] // this is the key
-    [DeploymentItem("Listeners.s3db")]
     [TestClass]
     public class DBUtils_Tests
     {

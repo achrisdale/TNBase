@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data.SQLite;
 using TNBase.DataStorage.Test.TestHelpers;
 using TNBase.Objects;
@@ -7,8 +6,6 @@ using System.Collections.Generic;
 
 namespace TNBase.DataStorage.Test
 {
-    [DeploymentItem(@"x86\SQLite.Interop.dll", "x86")] // this is the key
-    [DeploymentItem("Listeners.s3db")]
     [TestClass]
     public class RepoStorage_Tests
     {
@@ -21,17 +18,15 @@ namespace TNBase.DataStorage.Test
             // setup connection
             if (connection == null)
             {
-                connection = new SQLiteConnection(DBUtils.GenConnectionString("Listeners.s3db"));
+                connection = new SQLiteConnection(DBUtils.GenConnectionString(":memory:"));
                 connection.Open();
+                DatabaseHelper.CreateDatabase(connection);
             }
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            repoLayer.ClearAllData(connection);
-
-            // Close connection
             if (connection != null)
             {
                 connection.Close();
@@ -254,21 +249,20 @@ namespace TNBase.DataStorage.Test
         [TestMethod]
         public void Repo_TestScans()
         {
-            IServiceLayer serviceLayer = new ServiceLayer("Listeners.s3db", repoLayer);
-            serviceLayer.EnsureScanTableExists();
-
             Assert.AreEqual(0, repoLayer.GetScanRecords(connection).Count);
 
             Scan temp = new Scan();
             temp.Wallet = 10;
-            temp.scanType = ScanTypes.OUT;
+            temp.ScanType = ScanTypes.OUT;
+            temp.WalletType = WalletTypes.Magazine;
 
             repoLayer.InsertScan(connection, temp);
 
             Assert.AreEqual(1, repoLayer.GetScanRecords(connection).Count);
 
             Assert.AreEqual(10, repoLayer.GetScanRecords(connection)[0].Wallet);
-            Assert.AreEqual(ScanTypes.OUT, repoLayer.GetScanRecords(connection)[0].scanType);
+            Assert.AreEqual(ScanTypes.OUT, repoLayer.GetScanRecords(connection)[0].ScanType);
+            Assert.AreEqual(WalletTypes.Magazine, repoLayer.GetScanRecords(connection)[0].WalletType);
 
             repoLayer.DeleteScans(connection, 10);
 

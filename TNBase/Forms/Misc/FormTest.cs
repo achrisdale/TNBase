@@ -1,21 +1,15 @@
 using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
 using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
 using System.IO;
 using System.Threading;
 namespace TNBase
 {
-	public partial class FormTest
+    public partial class FormTest
 	{
         private NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         IServiceLayer serviceLayer = new ServiceLayer(ModuleGeneric.GetDatabasePath());
@@ -102,7 +96,7 @@ namespace TNBase
 			string myWallet = Interaction.InputBox("Please enter a wallet number!");
 			var myWalletInt = int.Parse(myWallet);
 			My.MyProject.Forms.formPrintCollectionForm.Show();
-			My.MyProject.Forms.formPrintCollectionForm.setupForm(serviceLayer.GetListenerById(myWalletInt), true);
+			My.MyProject.Forms.formPrintCollectionForm.SetupForm(serviceLayer.GetListenerById(myWalletInt), true);
 		}
 
 		private void formTest_Load(object sender, EventArgs e)
