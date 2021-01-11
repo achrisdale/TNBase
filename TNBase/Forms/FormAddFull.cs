@@ -96,15 +96,6 @@ namespace TNBase
             var msgResult = MessageBox.Show("Would you like to print labels for the new listener?", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
             if (msgResult == DialogResult.Yes)
             {
-                theStr = "01/01/" + DateTime.Now.Year;
-            }
-        }
-
-        private void PrintLabels(Listener listener)
-        {
-            var msgResult = MessageBox.Show("Would you like to print labels for the new listener?", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
-            if (msgResult == DialogResult.Yes)
-            {
                 var form = new FormChoosePrintPoint();
                 form.SetupForm(listener);
                 form.ShowDialog();

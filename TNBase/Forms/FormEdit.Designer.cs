@@ -489,7 +489,6 @@ namespace TNBase
             this.chkNoBirthday.TabIndex = 59;
             this.chkNoBirthday.Text = "Birthday Unknown";
             this.chkNoBirthday.UseVisualStyleBackColor = false;
-            this.chkNoBirthday.CheckedChanged += new System.EventHandler(this.chkNoBirthday_CheckedChanged);
             this.chkNoBirthday.Validating += new System.ComponentModel.CancelEventHandler(this.chkNoBirthday_Validating);
             // 
             // btnNext

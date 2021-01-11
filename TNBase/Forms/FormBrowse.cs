@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
-using TNBase.Objects;
-using TNBase.DataStorage;
-using System.Globalization;
 
 namespace TNBase
 {
@@ -85,7 +82,7 @@ namespace TNBase
                     listener.inOutRecords.Out3.ToString(),
                     listener.inOutRecords.Out4.ToString()
                 };
-                arr[18] = theListener.LastOut.ToNullableNaString();
+
                 var itm = new ListViewItem(subItems.ToArray());
                 if (listener.Status == ListenerStates.DELETED)
                 {
@@ -93,8 +90,6 @@ namespace TNBase
                     itm.ForeColor = Color.White;
                 }
                 else if (listener.Status == ListenerStates.PAUSED)
-				}
-                else if (theListener.Status == ListenerStates.PAUSED)
                 {
                     itm.BackColor = Color.LightGray;
                 }

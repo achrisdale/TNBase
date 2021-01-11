@@ -46,7 +46,8 @@ namespace TNBase
 
                 if (theListener.HasBirthday)
                 {
-                    birthdayDate.Value = new DateTime(DateTime.Now.Year, theListener.Birthday.Value.Month, theListener.Birthday.Value.Day);
+                    cbBirthdayDay.SelectedIndex = theListener.BirthdayDay.Value - 1;
+                    cbBirthdayMonth.SelectedIndex = theListener.BirthdayMonth.Value - 1;
 
                     chkNoBirthday.Checked = false;
                     cbBirthdayDay.Enabled = true;
@@ -337,13 +338,12 @@ namespace TNBase
                     !chkMemStickPlayer.Checked.Equals(myListener.MemStickPlayer) ||
                     restored ||
                     !int.Parse(txtStock.Text).Equals(myListener.Stock) ||
-                    !int.Parse(txtMagazineStock.Text).Equals(myListener.MagazineStock) ||
-                    dateChanged);
+                    !int.Parse(txtMagazineStock.Text).Equals(myListener.MagazineStock);
         }
 
-        private void birthdayDate_ValueChanged(object sender, EventArgs e)
+        private bool HasBirthdayChanged()
         {
-            dateChanged = true;
+            throw new NotImplementedException();
         }
 
         private void updateEditHeaders()
@@ -365,29 +365,37 @@ namespace TNBase
 
             comboTitle.Items.AddRange(ListenerTitles.getAllTitles().ToArray());
 
-            // Restrict input to month and day
-            birthdayDate.MinDate = new DateTime(DateTime.UtcNow.Year, 01, 01);
-            birthdayDate.MaxDate = new DateTime(DateTime.UtcNow.Year, 12, 31);
-            birthdayDate.Format = DateTimePickerFormat.Custom;
-            birthdayDate.CustomFormat = "dd MMMM";
         }
 
         private void chkNoBirthday_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkNoBirthday.Checked == false)
-            {
-                birthdayDate.Enabled = true;
-            }
-            else
-            {
-                birthdayDate.Enabled = false;
-                birthdayDate.Value = DateTime.Parse("01/01/" + DateTime.Now.Year);
-            }
+            cbBirthdayDay.Enabled = !chkNoBirthday.Checked;
+            cbBirthdayMonth.Enabled = !chkNoBirthday.Checked;
         }
 
         private void chkMagazine_CheckedChanged(object sender, EventArgs e)
         {
             txtMagazineStock.Enabled = chkMagazine.Checked;
+        }
+
+        private void cbBirthdayMonth_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = ValidateBirthday();
+        }
+
+        private void cbBirthdayDay_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = ValidateBirthday();
+        }
+
+        private void chkNoBirthday_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = ValidateBirthday();
+        }
+
+        private bool ValidateBirthday()
+        {
+            return true;
         }
     }
 }
