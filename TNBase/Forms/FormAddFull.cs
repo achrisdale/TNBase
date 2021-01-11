@@ -59,7 +59,38 @@ namespace TNBase
             newListener.Info = txtInformation.Text;
             if ((!string.IsNullOrEmpty(txtTelephone.Text)))
             {
-                newListener.Telephone = (txtTelephone.Text);
+                Wallet = 0,
+                Title = comboTitle.Text,
+                Forename = txtForename.Text,
+                Surname = txtSurname.Text,
+                Addr1 = txtAddr1.Text,
+                Addr2 = txtAddr2.Text,
+                Town = txtTown.Text,
+                County = txtCounty.Text,
+                Postcode = txtPostcode.Text,
+                MemStickPlayer = chkTape.Checked,
+                Magazine = chkMagazine.Checked,
+                Info = txtInformation.Text,
+                Telephone = string.IsNullOrEmpty(txtTelephone.Text) ? "0" : txtTelephone.Text,
+                BirthdayDay = cbxBirthdayDay.SelectedIndex + 1,
+                BirthdayMonth = cbxBirthdayMonth.SelectedIndex + 1,
+                Status = ListenerStates.ACTIVE,
+                StatusInfo = "",
+                DeletedDate = DateTime.Now,
+                Joined = DateTime.Now,
+                inOutRecords = new InOutRecords()
+            };
+
+            var result = serviceLayer.AddListener(newListener);
+            if (result > 0)
+            {
+                log.Debug("Listener has been added. ID: " + result + ", Name: " + newListener.GetNiceName());
+                Interaction.MsgBox("The listener has successfully been added.");
+
+                var newListenerWithWalletNo = serviceLayer.GetListenerById(result);
+
+                PrintLabels(newListenerWithWalletNo);
+                PrintMemoryStickForm(newListenerWithWalletNo);
             }
             else
             {
@@ -70,24 +101,34 @@ namespace TNBase
             {
                 theStr = "01/01/" + DateTime.Now.Year;
             }
-            else
+        }
+
+        private void PrintLabels(Listener listener)
+        {
+            var msgResult = MessageBox.Show("Would you like to print labels for the new listener?", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
+            if (msgResult == DialogResult.Yes)
             {
-                theStr = birthdayDate.Value.ToString(ModuleGeneric.DATE_FORMAT);
+                var form = new FormChoosePrintPoint();
+                form.SetupForm(listener);
+                form.ShowDialog();
             }
-            newListener.Birthday = DateTime.Parse(theStr);
-            newListener.Status = ListenerStates.ACTIVE;
-            newListener.StatusInfo = "";
-            newListener.DeletedDate = DateTime.Now;
-            newListener.Joined = DateTime.Now;
+        }
 
-            newListener.inOutRecords = new InOutRecords();
-
-            int result = 0;
-            result = serviceLayer.AddListener(newListener);
-            if (result > 0)
+        private DateTime? GetBirthdayValue()
+        {
+            if (chkNoBirthday.Checked)
             {
-                log.Debug("Listener has been added. ID: " + result + ", Name: " + newListener.GetNiceName());
-                Interaction.MsgBox("The listener has successfully been added.");
+                return null;
+            }
+
+            var day = cbxBirthdayDay.SelectedIndex + 1;
+            var month = cbxBirthdayMonth.SelectedIndex + 1;
+            return new DateTime(DateTime.Now.Year, month, day);
+        }
+
+        public FormAddFull()
+        {
+            InitializeComponent();
 
                 Listener newListenerWithWalletNo = serviceLayer.GetListenerById(result);
 

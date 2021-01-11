@@ -72,14 +72,26 @@
   <ItemGroup>
     <Compile Include="DBUtils.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="ITNBaseContext.cs" />
+    <Compile Include="Migrations\2_Birthdays.cs" />
+    <Compile Include="Migrations\1_Initial.cs" />
+    <Compile Include="Migrations\DatabaseUpdater.cs" />
+    <Compile Include="Migrations\ISqlMigration.cs" />
+    <Compile Include="Migrations\SqlMigration.cs" />
     <Compile Include="Repository\IRepositoryLayer.cs" />
     <Compile Include="Service\IServiceLayer.cs" />
     <Compile Include="OrderVar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\RepositoryLayer.cs" />
+    <Compile Include="Service\ScanService.cs" />
     <Compile Include="Service\ServiceLayer.cs" />
+    <Compile Include="TNBaseContext.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TNBase.Infrastructure\TNBase.Infrastructure.csproj">
+      <Project>{68828006-18c6-4f24-ad61-5350c524c093}</Project>
+      <Name>TNBase.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TNBase.Objects\TNBase.Objects.csproj">
       <Project>{3abec2d1-048c-4fad-a649-c686a2e91c82}</Project>
       <Name>TNBase.Objects</Name>

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
+using System.Globalization;
 
 namespace TNBase
 {
@@ -22,7 +23,6 @@ namespace TNBase
 		private int listenerWalletNo = 0;
 		private Listener myListener;
 
-        private bool dateChanged = false;
         private bool restored = false;
 
         /// <summary>
@@ -48,19 +48,21 @@ namespace TNBase
 				lblWallet.Text = listenerWalletNo.ToString();
 				lblStatus.Text = theListener.Status.ToString();
 
-                if (theListener.Birthday.HasValue)
+                if (theListener.HasBirthday)
                 {
-                    birthdayDate.Value = theListener.Birthday.Value;
+                    birthdayDate.Value = new DateTime(DateTime.Now.Year, theListener.Birthday.Value.Month, theListener.Birthday.Value.Day);
 
                     chkNoBirthday.Checked = false;
-                    birthdayDate.Enabled = true;
+                    cbBirthdayDay.Enabled = true;
+                    cbBirthdayMonth.Enabled = true;
                 }
                 else
                 {
-                    birthdayDate.Enabled = false;
+                    cbBirthdayDay.Enabled = false;
+                    cbBirthdayMonth.Enabled = false;
                     chkNoBirthday.Checked = true;
-                    birthdayDate.Value = DateTime.Parse("01/01/" + DateTime.Now.Year);
                 }
+
                 dtpJoined.Value = theListener.Joined.EnsureMinDate();
 				dtpJoined.Enabled = false;
 
@@ -120,7 +122,6 @@ namespace TNBase
             updateEditHeaders();
 
             // Set the date changed bool to false
-            dateChanged = false;
             restored = false;
 		}
 
@@ -176,6 +177,11 @@ namespace TNBase
             bool nameChanged = HasNameChanged();
             bool updated = HasUpdated();
 
+            if (!ValidateChildren())
+            {
+                return;
+            }
+
             if (comboTitle.SelectedItem == null)
             {
                 Interaction.MsgBox("Invalid title entered, please use an item in the drop down list.");
@@ -211,11 +217,13 @@ namespace TNBase
                 
                 if (chkNoBirthday.Checked)
                 {
-                    myListener.Birthday = null;
+                    myListener.BirthdayDay = null;
+                    myListener.BirthdayMonth = null;
                 }
                 else
                 {
-                    myListener.Birthday = birthdayDate.Value;
+                    myListener.BirthdayDay = cbBirthdayDay.SelectedIndex + 1;
+                    myListener.BirthdayMonth = cbBirthdayMonth.SelectedIndex + 1;
                 }
 
                 if (serviceLayer.UpdateListener(myListener))
@@ -310,7 +318,8 @@ namespace TNBase
         {
             string selectedItem = comboTitle.SelectedItem == null ? "n/a" : comboTitle.SelectedItem.ToString();
 
-            return (HasAddressChanged() ||
+            return HasAddressChanged() ||
+                    HasBirthdayChanged() ||
                     !selectedItem.Equals(myListener.Title) ||
                     !txtForename.Text.Equals(myListener.Forename) ||
                     !txtSurname.Text.Equals(myListener.Surname) ||
@@ -320,13 +329,14 @@ namespace TNBase
                     !chkMemStickPlayer.Checked.Equals(myListener.MemStickPlayer) ||
                     restored ||
                     !int.Parse(txtStock.Text).Equals(myListener.Stock) ||
+                    !int.Parse(txtMagazineStock.Text).Equals(myListener.MagazineStock) ||
                     dateChanged);
         }
 
-		private void birthdayDate_ValueChanged(object sender, EventArgs e)
-		{
+        private void birthdayDate_ValueChanged(object sender, EventArgs e)
+        {
             dateChanged = true;
-		}
+        }
 
 		private void updateEditHeaders()
 		{
@@ -352,17 +362,24 @@ namespace TNBase
             birthdayDate.MaxDate = new DateTime(DateTime.UtcNow.Year, 12, 31);
             birthdayDate.Format = DateTimePickerFormat.Custom;
             birthdayDate.CustomFormat = "dd MMMM";
-		}
+        }
 
         private void chkNoBirthday_CheckedChanged(object sender, EventArgs e)
         {
             if (chkNoBirthday.Checked == false)
             {
                 birthdayDate.Enabled = true;
-            } else {
+            }
+            else
+            {
                 birthdayDate.Enabled = false;
                 birthdayDate.Value = DateTime.Parse("01/01/" + DateTime.Now.Year);
             }
+        }
+
+        private void chkMagazine_CheckedChanged(object sender, EventArgs e)
+        {
+            txtMagazineStock.Enabled = chkMagazine.Checked;
         }
     }
 }

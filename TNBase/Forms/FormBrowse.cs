@@ -1,154 +1,148 @@
 using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
 using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
 using System.Linq;
-using System.Xml.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
+using System.Globalization;
+
 namespace TNBase
 {
-	public partial class FormBrowse
-	{
-		NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
+    public partial class FormBrowse
+    {
+        NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         IServiceLayer serviceLayer = new ServiceLayer(ModuleGeneric.GetDatabasePath());
 
-		// Could be changed if page is made bigger. 15 just about fits on the page.
-		int limit = 15;
-		int offset = 0;
+        // Could be changed if page is made bigger. 15 just about fits on the page.
+        int limit = 15;
+        int offset = 0;
 
-		bool deletedMode = false;
-		private void btnDone_Click(object sender, EventArgs e)
-		{
-			log.Trace("Closing form, user has cancelled.");
-			this.Close();
-		}
+        bool deletedMode = false;
+        private void btnDone_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
-		public void UpdateOrder()
-		{
-			if (string.IsNullOrEmpty(cmbOrder.Text)) {
-				cmbOrder.Text = cmbOrder.Items[0].ToString();
-			}
-		}
+        public void UpdateOrder()
+        {
+            if (string.IsNullOrEmpty(cmbOrder.Text))
+            {
+                cmbOrder.Text = cmbOrder.Items[0].ToString();
+            }
+        }
 
-		// Set to deleted only mode.
-		public void DeletedOnlyMode()
-		{
-			deletedMode = true;
-			lblTitle.Text = "Browse Deleted Listeners";
-			btnEdit.Visible = false;
-			btnCancelStop.Visible = false;
-			btnStopSending.Visible = false;
-			btnRemove.Text = "Restore";
-			btnRemove.BackColor = Color.Orange;
-			refreshList();
-			log.Trace("Started in Delete mode.");
-		}
+        // Set to deleted only mode.
+        public void DeletedOnlyMode()
+        {
+            deletedMode = true;
+            lblTitle.Text = "Browse Deleted Listeners";
+            btnEdit.Visible = false;
+            btnCancelStop.Visible = false;
+            btnStopSending.Visible = false;
+            btnRemove.Text = "Restore";
+            btnRemove.BackColor = Color.Orange;
+            refreshList();
+            log.Trace("Started in Delete mode.");
+        }
 
-		// Add items to the list.
-		public void addToListeners(Listener theListener)
-		{
-			try {
-				//Add items in the listview
-				string[] arr = new string[21 + 17];
-				ListViewItem itm = null;
+        // Add items to the list.
+        public void addToListeners(Listener listener)
+        {
+            try
+            {
+                lstFreeze.Items.Add(listener.Wallet.ToString());
 
-				//Add first item
-				arr[0] = theListener.Wallet.ToString();
-				arr[1] = theListener.Title;
-				arr[2] = theListener.Forename;
-				arr[3] = theListener.Surname;
-				arr[4] = theListener.Addr1;
-				arr[5] = theListener.Addr2;
-				arr[6] = theListener.Town;
-				arr[7] = theListener.County;
-				arr[8] = theListener.Postcode;
-				arr[9] = theListener.Magazine.ToString();
-				arr[10] = theListener.MemStickPlayer.ToString();
-				arr[11] = theListener.Telephone;
-                arr[12] = theListener.Joined.ToNiceStr();
-                arr[13] = theListener.Birthday.ToNullableNaString(DateTimeExtensions.BIRTHDAY_FORMAT);
-				arr[14] = theListener.Status.ToString();
-				arr[15] = theListener.StatusInfo;
-				arr[16] = theListener.Stock.ToString();
-                arr[17] = theListener.LastIn.ToNullableNaString();
-                arr[18] = theListener.LastOut.ToNullableNaString();
-				arr[19] = theListener.Info;
+                var subItems = new List<string>
+                {
+                    listener.Title,
+                    listener.Forename,
+                    listener.Surname,
+                    listener.Addr1,
+                    listener.Addr2,
+                    listener.Town,
+                    listener.County,
+                    listener.Postcode,
+                    listener.Magazine.ToString(),
+                    listener.MemStickPlayer.ToString(),
+                    listener.Telephone,
+                    listener.Joined.ToNiceStr(),
+                    listener.BirthdayText,
+                    listener.Status.ToString(),
+                    listener.StatusInfo,
+                    listener.Stock.ToString(),
+                    listener.MagazineStock.ToString(),
+                    listener.LastIn.ToNullableNaString(),
+                    listener.LastOut.ToNullableNaString(),
+                    listener.Info,
+                    listener.inOutRecords.In1.ToString(),
+                    listener.inOutRecords.In2.ToString(),
+                    listener.inOutRecords.In3.ToString(),
+                    listener.inOutRecords.In4.ToString(),
+                    listener.inOutRecords.Out1.ToString(),
+                    listener.inOutRecords.Out2.ToString(),
+                    listener.inOutRecords.Out3.ToString(),
+                    listener.inOutRecords.Out4.ToString()
+                };
 
-				arr[20] = theListener.inOutRecords.In1.ToString();
-                arr[21] = theListener.inOutRecords.In2.ToString();
-                arr[22] = theListener.inOutRecords.In3.ToString();
-                arr[23] = theListener.inOutRecords.In4.ToString();
-                arr[24] = theListener.inOutRecords.In5.ToString();
-                arr[25] = theListener.inOutRecords.In6.ToString();
-                arr[26] = theListener.inOutRecords.In7.ToString();
-                arr[27] = theListener.inOutRecords.In8.ToString();
-                arr[28] = theListener.inOutRecords.Out1.ToString();
-                arr[29] = theListener.inOutRecords.Out2.ToString();
-                arr[30] = theListener.inOutRecords.Out3.ToString();
-                arr[31] = theListener.inOutRecords.Out4.ToString();
-                arr[32] = theListener.inOutRecords.Out5.ToString();
-                arr[33] = theListener.inOutRecords.Out6.ToString();
-                arr[34] = theListener.inOutRecords.Out7.ToString();
-                arr[35] = theListener.inOutRecords.Out8.ToString();
-
-				itm = new ListViewItem(arr);
-				if (theListener.Status == ListenerStates.DELETED) {
-					itm.BackColor = Color.DarkRed;
-					itm.ForeColor = Color.White;
-				}
-                else if (theListener.Status == ListenerStates.PAUSED)
+                var itm = new ListViewItem(subItems.ToArray());
+                if (listener.Status == ListenerStates.DELETED)
+                {
+                    itm.BackColor = Color.DarkRed;
+                    itm.ForeColor = Color.White;
+                }
+                else if (listener.Status == ListenerStates.PAUSED)
                 {
                     itm.BackColor = Color.LightGray;
                 }
 
-				lstBrowse.Items.Add(itm);
-			} catch (Exception ex) {
-				log.Error(ex, "Could not add listener to browse table.");
-			}
+                lstBrowse.Items.Add(itm);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex, "Could not add listener to browse table.");
+            }
 
-		}
+        }
 
-		public void clearList()
-		{
-			lstBrowse.Items.Clear();
-		}
+        public void clearList()
+        {
+            lstFreeze.Items.Clear();
+            lstBrowse.Items.Clear();
+        }
 
-		public void refreshList()
-		{
-			clearList();
+        public void refreshList()
+        {
+            clearList();
 
-			List<Listener> theListeners = new List<Listener>();
-			if (deletedMode) 
+            List<Listener> theListeners = new List<Listener>();
+            if (deletedMode)
             {
                 theListeners = serviceLayer.GetListenersByStatus(ListenerStates.DELETED).Skip(offset).Take(limit).ToList();
-			} 
-            else 
+            }
+            else
             {
                 OrderVar order = cmbOrder.Text.Equals("Wallet") ? OrderVar.WALLET : OrderVar.SURNAME;
                 theListeners = serviceLayer.GetOrderedListeners(order).Skip(offset).Take(limit).ToList();
-			}
+            }
 
-			foreach (Listener tListener in theListeners) {
-				addToListeners(tListener);
-			}
-		}
+            foreach (Listener tListener in theListeners)
+            {
+                addToListeners(tListener);
+            }
+        }
 
-		private void btnCancelStop_Click(object sender, EventArgs e)
-		{
-			int theIndex = 0;
+        private void btnCancelStop_Click(object sender, EventArgs e)
+        {
+            int theIndex = 0;
             if (lstBrowse.FocusedItem != null)
             {
                 theIndex = lstBrowse.FocusedItem.Index;
 
                 // First sub item is wallet number.
                 int walletNumb = 0;
-                walletNumb = int.Parse(lstBrowse.Items[theIndex].SubItems[0].Text);
+                walletNumb = int.Parse(lstFreeze.Items[theIndex].Text);
 
                 Listener theListener = serviceLayer.GetListenerById(walletNumb);
                 try
@@ -173,43 +167,9 @@ namespace TNBase
                     Interaction.MsgBox("This listener is not Paused.");
                 }
             }
-		}
+        }
 
-		private void btnEdit_Click(object sender, EventArgs e)
-		{
-			int theIndex = 0;
-            if (lstBrowse.FocusedItem != null)
-            {
-                theIndex = lstBrowse.FocusedItem.Index;
-
-                // First sub item is wallet number.
-                int walletNumb = 0;
-                walletNumb = int.Parse(lstBrowse.Items[theIndex].SubItems[0].Text);
-
-                Listener theListener = serviceLayer.GetListenerById(walletNumb);
-                My.MyProject.Forms.formEdit.Show();
-                My.MyProject.Forms.formEdit.setupForm(theListener);
-            }
-		}
-
-		private void btnStopSending_Click(object sender, EventArgs e)
-		{
-			int theIndex = 0;
-            if (lstBrowse.FocusedItem != null)
-            {
-                theIndex = lstBrowse.FocusedItem.Index;
-
-                // First sub item is wallet number.
-                int walletNumb = 0;
-                walletNumb = int.Parse(lstBrowse.Items[theIndex].SubItems[0].Text);
-
-                Listener theListener = serviceLayer.GetListenerById(walletNumb);
-                My.MyProject.Forms.formStopSending.Show();
-                My.MyProject.Forms.formStopSending.setupForm(theListener);
-            }
-		}
-
-		private void btnRemove_Click(object sender, EventArgs e)
+        private void btnEdit_Click(object sender, EventArgs e)
         {
             int theIndex = 0;
             if (lstBrowse.FocusedItem != null)
@@ -218,7 +178,41 @@ namespace TNBase
 
                 // First sub item is wallet number.
                 int walletNumb = 0;
-                walletNumb = int.Parse(lstBrowse.Items[theIndex].SubItems[0].Text);
+                walletNumb = int.Parse(lstFreeze.Items[theIndex].Text);
+
+                Listener theListener = serviceLayer.GetListenerById(walletNumb);
+                My.MyProject.Forms.formEdit.Show();
+                My.MyProject.Forms.formEdit.setupForm(theListener);
+            }
+        }
+
+        private void btnStopSending_Click(object sender, EventArgs e)
+        {
+            int theIndex = 0;
+            if (lstBrowse.FocusedItem != null)
+            {
+                theIndex = lstBrowse.FocusedItem.Index;
+
+                // First sub item is wallet number.
+                int walletNumb = 0;
+                walletNumb = int.Parse(lstFreeze.Items[theIndex].Text);
+
+                Listener theListener = serviceLayer.GetListenerById(walletNumb);
+                My.MyProject.Forms.formStopSending.Show();
+                My.MyProject.Forms.formStopSending.setupForm(theListener);
+            }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            int theIndex = 0;
+            if (lstBrowse.FocusedItem != null)
+            {
+                theIndex = lstBrowse.FocusedItem.Index;
+
+                // First sub item is wallet number.
+                int walletNumb = 0;
+                walletNumb = int.Parse(lstFreeze.Items[theIndex].Text);
 
                 if (deletedMode)
                 {
@@ -275,7 +269,7 @@ namespace TNBase
                                 {
                                     // Else print deleted listener form.
                                     My.MyProject.Forms.formPrintCollectionForm.Show();
-                                    My.MyProject.Forms.formPrintCollectionForm.setupForm(tempListener, true);
+                                    My.MyProject.Forms.formPrintCollectionForm.SetupForm(tempListener, true);
                                 }
                             }
                         }
@@ -288,93 +282,116 @@ namespace TNBase
                     }
                 }
             }
-		}
+        }
 
-		private void btnFirst_Click(object sender, EventArgs e)
-		{
-			offset = 0;
-			refreshList();
-		}
+        private void btnFirst_Click(object sender, EventArgs e)
+        {
+            offset = 0;
+            refreshList();
+        }
 
-		private void btnPrevious_Click(object sender, EventArgs e)
-		{
-			offset = Math.Max(offset - limit, 0);
-			refreshList();
-		}
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            offset = Math.Max(offset - limit, 0);
+            refreshList();
+        }
 
-		private void btnNext_Click(object sender, EventArgs e)
-		{
-			if (deletedMode) {
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            if (deletedMode)
+            {
                 offset = Math.Min(offset + limit, serviceLayer.GetInactiveListeners().Count - limit);
-			} else {
+            }
+            else
+            {
                 offset = Math.Min(offset + limit, serviceLayer.GetListeners().Count - limit);
-			}
-			refreshList();
-		}
+            }
+            refreshList();
+        }
 
-		private void btnLast_Click(object sender, EventArgs e)
-		{
-			if (deletedMode) 
+        private void btnLast_Click(object sender, EventArgs e)
+        {
+            if (deletedMode)
             {
-				offset = serviceLayer.GetInactiveListeners().Count - limit;
-			} 
-            else 
+                offset = serviceLayer.GetInactiveListeners().Count - limit;
+            }
+            else
             {
-				offset = serviceLayer.GetListeners().Count - limit;
-			}
-			refreshList();
-		}
+                offset = serviceLayer.GetListeners().Count - limit;
+            }
+            refreshList();
+        }
 
-		private void AddHorribleHeaders()
-		{
+        private void AddHorribleHeaders()
+        {
             int weekNumber = serviceLayer.GetCurrentWeekNumber();
 
-			// Have a horrible 8 week history.
-			for (int count = 1; count <= 8; count++) {
-                int final = weekNumber - (8 - count);
-				lstBrowse.Columns.Add(final + " (IN)");
-			}
-			for (int count = 1; count <= 8; count++) {
-                int final = weekNumber - (8 - count);
-				lstBrowse.Columns.Add(final + " (OUT)");
-			}
-		}
+            // Have a horrible 8 week history.
+            for (int count = 1; count <= 4; count++)
+            {
+                int final = weekNumber - (4 - count);
+                lstBrowse.Columns.Add(final + " (IN)");
+            }
+            for (int count = 1; count <= 4; count++)
+            {
+                int final = weekNumber - (4 - count);
+                lstBrowse.Columns.Add(final + " (OUT)");
+            }
+        }
 
-		private void formBrowse_Load(object sender, EventArgs e)
-		{
-			AddHorribleHeaders();
+        private void formBrowse_Load(object sender, EventArgs e)
+        {
+            AddHorribleHeaders();
 
-			UpdateOrder();
-			refreshList();
-		}
+            UpdateOrder();
+            refreshList();
+        }
 
-		private void cmbOrder_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			refreshList();
-		}
-		public FormBrowse()
-		{
-			Load += formBrowse_Load;
-			InitializeComponent();
-		}
+        private void cmbOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            refreshList();
+        }
+        public FormBrowse()
+        {
+            Load += formBrowse_Load;
+            InitializeComponent();
+        }
 
         private void lstBrowse_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lstBrowse.FocusedItem != null)
             {
-                int theIndex = lstBrowse.FocusedItem.Index;
-
-                // First sub item is wallet number.
-                int walletNumb = 0;
-                walletNumb = int.Parse(lstBrowse.Items[theIndex].SubItems[0].Text);
-
-                Listener listener = serviceLayer.GetListenerById(walletNumb);
-
-                // Buttons only available if required.
-                btnRemove.Enabled = !listener.Status.Equals(ListenerStates.DELETED);
-                btnStopSending.Enabled = listener.Status.Equals(ListenerStates.ACTIVE);
-                btnCancelStop.Enabled = listener.Status.Equals(ListenerStates.PAUSED);
+                lstFreeze.Items[lstBrowse.FocusedItem.Index].Focused = true;
+                lstFreeze.Items[lstBrowse.FocusedItem.Index].Selected = true;
+                lstFreeze.Select();
+                lstFreeze.Focus();
+                lstBrowse.Focus();
             }
         }
-	}
+
+        private void lstFreeze_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstFreeze.FocusedItem != null)
+            {
+                lstBrowse.Items[lstFreeze.FocusedItem.Index].Focused = true;
+                lstBrowse.Items[lstFreeze.FocusedItem.Index].Selected = true;
+                lstBrowse.Select();
+                lstBrowse.Focus();
+                lstFreeze.Focus();
+                SelectItem(lstFreeze.FocusedItem.Index);
+            }
+        }
+
+        private void SelectItem(int index)
+        {
+            var walletNumb = int.Parse(lstFreeze.Items[index].Text);
+
+            Listener listener = serviceLayer.GetListenerById(walletNumb);
+
+            // Buttons only available if required.
+            btnRemove.Enabled = !listener.Status.Equals(ListenerStates.DELETED);
+            btnStopSending.Enabled = listener.Status.Equals(ListenerStates.ACTIVE);
+            btnCancelStop.Enabled = listener.Status.Equals(ListenerStates.PAUSED);
+        }
+    }
 }
