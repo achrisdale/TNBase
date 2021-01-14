@@ -16,7 +16,8 @@ namespace TNBase.Objects.Test
             listener.Addr1 = "29 Baker Street";
             listener.Addr2 = "";
             listener.Postcode = "N193HH";
-            listener.Birthday = DateTime.Parse("01/01/2015");
+            listener.BirthdayDay = 1;
+            listener.BirthdayMonth = 1;
             listener.County = "Londonshire";
             listener.inOutRecords = new InOutRecords();
             listener.MemStickPlayer = true;
@@ -41,17 +42,6 @@ namespace TNBase.Objects.Test
 
             dateTime = DateTime.Now.AddDays(67);
             Assert.AreEqual(67, Listener.DaysUntilBirthday(dateTime));
-        }
-
-        [TestMethod]
-        public void Listener_BirthdayThisYear()
-        {
-            Listener dummy = CreateValidListener();
-            DateTime birthdayThisYear = dummy.BirthdayThisYear();
-
-            Assert.AreEqual(DateTime.Now.Year, birthdayThisYear.Year);
-            Assert.AreEqual(dummy.Birthday.Value.Month, birthdayThisYear.Month);
-            Assert.AreEqual(dummy.Birthday.Value.Day, birthdayThisYear.Day);
         }
 
         [TestMethod]
@@ -316,7 +306,8 @@ namespace TNBase.Objects.Test
                 Postcode = "Postcode",
                 Telephone = "123456789",
                 Joined = DateTime.UtcNow,
-                Birthday = DateTime.UtcNow,
+                BirthdayDay = 5,
+                BirthdayMonth = 12,
                 Info = "Test Info"
             };
 
@@ -332,7 +323,8 @@ namespace TNBase.Objects.Test
             Assert.IsNull(listener.Postcode);
             Assert.IsNull(listener.Telephone);
             Assert.IsNull(listener.Joined);
-            Assert.IsNull(listener.Birthday);
+            Assert.IsNull(listener.BirthdayDay);
+            Assert.IsNull(listener.BirthdayMonth);
             Assert.IsNull(listener.Info);
         }
 
@@ -340,7 +332,6 @@ namespace TNBase.Objects.Test
         public void Delete_MaintainsListenersPersonalInformation_WhenListenerIsRemoved()
         {
             var joinDate = DateTime.Now;
-            var birthday = DateTime.Now;
 
             var listener = new Listener
             {
@@ -355,7 +346,8 @@ namespace TNBase.Objects.Test
                 Postcode = "Postcode",
                 Telephone = "123456789",
                 Joined = joinDate,
-                Birthday = birthday,
+                BirthdayDay = 5,
+                BirthdayMonth = 12,
                 Info = "Test Info"
             };
 
@@ -371,7 +363,8 @@ namespace TNBase.Objects.Test
             Assert.AreEqual("Postcode", listener.Postcode);
             Assert.AreEqual("123456789", listener.Telephone);
             Assert.AreEqual(joinDate, listener.Joined);
-            Assert.AreEqual(birthday, listener.Birthday);
+            Assert.AreEqual(5, listener.BirthdayDay);
+            Assert.AreEqual(12, listener.BirthdayMonth);
             Assert.AreEqual("Test Info", listener.Info);
         }
 

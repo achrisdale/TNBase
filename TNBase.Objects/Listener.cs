@@ -170,7 +170,8 @@ namespace TNBase.Objects
                 DeletedDate = DateTime.UtcNow;
                 Telephone = null;
                 Joined = null;
-                Birthday = null;
+                BirthdayDay = null;
+                BirthdayMonth = null;
                 Info = null;
             }
             else
@@ -210,11 +211,6 @@ namespace TNBase.Objects
             return result.HasValue ? result.Value.ToNiceStr() : NEVER_END_PAUSE_STRING;
         }
 
-        public DateTime BirthdayThisYear()
-        {
-            return Birthday.Value.AddYears(DateTime.Now.Year - Birthday.Value.Year);
-        }
-
         public string FormatListenerData()
         {
             var builder = new StringBuilder();
@@ -226,12 +222,8 @@ namespace TNBase.Objects
                 builder.Append(FormatAddress());
             }
 
-        //public DateTime BirthdayThisYear()
-        //{
-        //    DateTime copy = Birthday.Value;
-        //    copy = copy.AddYears(DateTime.Now.Year - Birthday.Value.Year);
-        //    return copy;
-        //}
+            return builder.ToString();
+        }
 
         private string FormatAddress()
         {

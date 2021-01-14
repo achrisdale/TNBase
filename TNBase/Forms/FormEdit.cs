@@ -45,7 +45,7 @@ namespace TNBase
                 lblWallet.Text = listenerWalletNo.ToString();
                 lblStatus.Text = listener.Status.ToString();
 
-                if (listener.Birthday.HasValue)
+                if (listener.HasBirthday)
                 {
                     cbBirthdayDay.SelectedIndex = listener.BirthdayDay.Value - 1;
                     cbBirthdayMonth.SelectedIndex = listener.BirthdayMonth.Value - 1;
@@ -358,7 +358,7 @@ namespace TNBase
         {
             InitializeComponent();
 
-            comboTitle.Items.AddRange(ListenerTitles.getAllTitles().ToArray());
+            comboTitle.Items.AddRange(ListenerTitles.GetAllTitles().ToArray());
             cbBirthdayDay.Items.AddRange(Enumerable.Range(1, 31).Select(x => x.ToString()).ToArray());
             cbBirthdayMonth.Items.AddRange(Enumerable.Range(1, 12).Select(x => DateTimeFormatInfo.CurrentInfo.GetMonthName(x)).ToArray());
         }
