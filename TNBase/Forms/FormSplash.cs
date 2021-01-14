@@ -65,11 +65,6 @@ namespace TNBase
             progressBar.Value = 60;
 
             serviceLayer.DeleteOverdueDeletedListeners(Settings.Default.MonthsUntilDelete);
-            progressBar.Value = 80;
-
-            // Clear years (for old birthdays)
-            serviceLayer.RunCommand("UPDATE Listeners SET Birthday = '" + DateTime.Now.Year + "' || SUBSTR(Birthday, 5);");
-
             progressBar.Value = 100;
             log.Debug("Finished loading!");
 

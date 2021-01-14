@@ -171,24 +171,6 @@
             Form load.
             </summary>
         </member>
-        <member name="M:TNBase.FormEdit.HasAddressChanged">
-            <summary>
-            Has the address changed?
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:TNBase.FormEdit.HasNameChanged">
-            <summary>
-            Has the name changed.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:TNBase.FormEdit.HasUpdated">
-            <summary>
-            Has the listener been updated
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:TNBase.FormLogViewer.UpdateText(System.String)">
             <summary>
             Highlight log text by color

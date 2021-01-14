@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using TNBase.Infrastructure.Extensions;
 
 namespace TNBase.DataStorage
 {
@@ -74,37 +75,38 @@ namespace TNBase.DataStorage
 
         public List<Listener> GetNextWeekBirthdays()
         {
-            List<Listener> list = repoLayer.GetListeners(connection).Where(x => x.Birthday.HasValue && !x.Status.Equals(ListenerStates.DELETED)).ToList();
-            List<Listener> results = new List<Listener>();
+            var list = repoLayer.GetListeners(connection).Where(x =>
+                x.HasBirthday &&
+                !x.Status.Equals(ListenerStates.DELETED))
+            .ToList();
 
-            // Logic duplicated in print birthday form!
-            DateTime nowDate;
-            DateTime weekDate;
-            if ((System.DateTime.Now.Month == 12 & System.DateTime.Now.Day >= 8 & System.DateTime.Now.Day <= 14))
+            var currentWeek = DateTime.Now.WeekOfYear();
+
+            var lastRecordingWeek = GetLastRecordingWeekOfYear();
+            var weeksThisYear = new DateTime(DateTime.Now.Year, 12, 31).WeekOfYear() == 53 ? 53 : 52; // can be 52, 53 or 1
+
+            var weekOffset = currentWeek == lastRecordingWeek ? 4 : currentWeek == 53 ? 1 : 2;
+
+            var weekToInclude = (currentWeek + weekOffset) % weeksThisYear;
+
+            var nextWeeks = new List<int> { weekToInclude };
+            if (currentWeek == lastRecordingWeek - 1)
             {
-                nowDate = System.DateTime.Now.AddDays(9);
-                weekDate = DateTime.Now.AddDays(29);
-            }
-            else if ((System.DateTime.Now.Month == 12 & System.DateTime.Now.Day >= 15 & System.DateTime.Now.Day <= 25))
-            {
-                nowDate = System.DateTime.Now.AddDays(23);
-                weekDate = DateTime.Now.AddDays(29);
-            }
-            else
-            {
-                nowDate = System.DateTime.Now.AddDays(9);
-                weekDate = DateTime.Now.AddDays(15);
+                nextWeeks.Add(weekToInclude + 1);
             }
 
-            foreach (Listener l in list)
-            {
-                DateTime birthdayThisYear = l.BirthdayThisYear();
-                if (birthdayThisYear >= nowDate && birthdayThisYear <= weekDate)
-                {
-                    results.Add(l);
-                }
-            }
-            return results;
+            return list.Where(x => nextWeeks.Contains(x.NextBirthdayDate.Value.WeekOfYear())).ToList();
+        }
+
+        private int GetLastRecordingWeekOfYear()
+        {
+            var lastRecordingInDecember = 25; // TODO Put it in config
+            var recordingDayOfWeek = 6; // TODO Put it in config
+
+            var lastRecordingDay = new DateTime(DateTime.Now.Year, 12, lastRecordingInDecember);
+
+            var weekOffset = lastRecordingDay.DayNumberOfWeek() >= recordingDayOfWeek ? 0 : 1;
+            return lastRecordingDay.WeekOfYear() - weekOffset;
         }
 
         public List<Listener> GetInactiveListeners()
@@ -351,7 +353,7 @@ namespace TNBase.DataStorage
 
         public List<Listener> GetListenersWithBirthdays()
         {
-            return repoLayer.GetListeners(connection).Where(x => x.Birthday.HasValue).ToList();
+            return repoLayer.GetListeners(connection).Where(x => x.BirthdayDay.HasValue && x.BirthdayMonth.HasValue).ToList();
         }
 
         public bool UpdateYearStats(YearStats stats)

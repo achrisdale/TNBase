@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
-using TNBase.Objects;
 using TNBase.DataStorage;
 using TNBase.Forms;
 using NLog;
+
+using TNBase.Objects;
 
 namespace TNBase
 {
@@ -47,7 +48,7 @@ namespace TNBase
                     listener.MemStickPlayer.ToString(),
                     listener.Telephone,
                     listener.Joined.ToNullableNaString(DateTimeExtensions.DEFAULT_FORMAT),
-                    listener.Birthday.ToNullableNaString(DateTimeExtensions.BIRTHDAY_FORMAT),
+                    listener.BirthdayText,
                     listener.Status.ToString(),
                     listener.StatusInfo,
                     listener.Stock.ToString(),
