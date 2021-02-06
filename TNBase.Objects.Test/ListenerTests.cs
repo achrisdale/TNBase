@@ -241,7 +241,7 @@ namespace TNBase.Objects.Test
         }
 
         [TestMethod]
-        public void Delete_SetsStatusToDeleted()
+        public void Delete_SetsStatusToPurged()
         {
             var listener = new Listener
             {
@@ -250,11 +250,11 @@ namespace TNBase.Objects.Test
 
             listener.Delete();
 
-            Assert.AreEqual(ListenerStates.DELETED, listener.Status);
+            Assert.AreEqual(ListenerStates.PURGED, listener.Status);
         }
 
         [TestMethod]
-        public void Delete_SetStatusToRemoved_WhenPlayerIsNotReturned()
+        public void Delete_SetStatusToDeleted_WhenPlayerIsNotReturned()
         {
             var listener = new Listener
             {
@@ -262,11 +262,11 @@ namespace TNBase.Objects.Test
             };
 
             listener.Delete();
-            Assert.AreEqual(ListenerStates.REMOVED, listener.Status);
+            Assert.AreEqual(ListenerStates.DELETED, listener.Status);
         }
 
         [TestMethod]
-        public void Delete_SetStatusToRemoved_WhenListenerHoldsNewsWallet()
+        public void Delete_SetStatusToDeleted_WhenListenerHoldsNewsWallet()
         {
             var listener = new Listener
             {
@@ -274,11 +274,11 @@ namespace TNBase.Objects.Test
             };
 
             listener.Delete();
-            Assert.AreEqual(ListenerStates.REMOVED, listener.Status);
+            Assert.AreEqual(ListenerStates.DELETED, listener.Status);
         }
 
         [TestMethod]
-        public void Delete_SetStatusToRemoved_WhenListenerHoldsMagazineWallet()
+        public void Delete_SetStatusToDeleted_WhenListenerHoldsMagazineWallet()
         {
             var listener = new Listener
             {
@@ -288,11 +288,11 @@ namespace TNBase.Objects.Test
             };
 
             listener.Delete();
-            Assert.AreEqual(ListenerStates.REMOVED, listener.Status);
+            Assert.AreEqual(ListenerStates.DELETED, listener.Status);
         }
 
         [TestMethod]
-        public void Delete_ClearsListenersPersonalInformation_WhenListenerIsDeleted()
+        public void Delete_ClearsListenersPersonalInformation_WhenListenerIsPurged()
         {
             var listener = new Listener
             {
@@ -329,7 +329,7 @@ namespace TNBase.Objects.Test
         }
 
         [TestMethod]
-        public void Delete_MaintainsListenersPersonalInformation_WhenListenerIsRemoved()
+        public void Delete_MaintainsListenersPersonalInformation_WhenListenerIsDeleted()
         {
             var joinDate = DateTime.Now;
 

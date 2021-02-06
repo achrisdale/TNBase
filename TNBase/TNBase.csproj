@@ -155,7 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionHandler.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Forms\FormDelete.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -647,9 +646,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="Resource\codes\Thumbs.db" />
-    <None Include="Resource\Listeners.s3db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Resource\Listeners.s3db" />
     <None Include="Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

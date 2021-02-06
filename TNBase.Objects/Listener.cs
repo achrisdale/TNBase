@@ -146,7 +146,7 @@ namespace TNBase.Objects
 
         public bool CanDelete()
         {
-            return Status == ListenerStates.ACTIVE || Status == ListenerStates.PAUSED;
+            return Status != ListenerStates.DELETED && Status != ListenerStates.PURGED;
         }
 
         public void Delete()
@@ -158,7 +158,7 @@ namespace TNBase.Objects
 
             if (!MemStickPlayer && SentNewsWallets == 0 && SentMagazineWallets == 0)
             {
-                Status = ListenerStates.DELETED;
+                Status = ListenerStates.PURGED;
                 Title = "N/A";
                 Forename = "Deleted";
                 Surname = "Deleted";
@@ -176,7 +176,7 @@ namespace TNBase.Objects
             }
             else
             {
-                Status = ListenerStates.REMOVED;
+                Status = ListenerStates.DELETED;
             }
         }
 

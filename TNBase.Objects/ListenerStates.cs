@@ -5,6 +5,6 @@
         ACTIVE,
         DELETED,
         PAUSED,
-        REMOVED
+        PURGED
     }
 }

@@ -67,7 +67,7 @@ namespace TNBase
                 };
 
                 var itm = new ListViewItem(subItems.ToArray());
-                if (listener.Status == ListenerStates.REMOVED)
+                if (listener.Status == ListenerStates.DELETED)
                 {
                     itm.BackColor = Color.DarkRed;
                     itm.ForeColor = Color.White;
@@ -230,7 +230,7 @@ namespace TNBase
         private void UpdateListeners()
         {
             listeners = serviceLayer.GetListeners()
-                .Where(x => (showRemoved && x.Status == ListenerStates.REMOVED) ||
+                .Where(x => (showRemoved && x.Status == ListenerStates.DELETED) ||
                             (!showRemoved && (x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED)))
                 .ToList();
             RefreshList();

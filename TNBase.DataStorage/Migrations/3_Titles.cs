@@ -3,9 +3,9 @@ using System.Data.SQLite;
 
 namespace TNBase.DataStorage.Migrations
 {
-    public class _2_Titles : SqlMigration
+    public class _3_Titles : SqlMigration
     {
-        public _2_Titles(SQLiteConnection connection) : base(connection)
+        public _3_Titles(SQLiteConnection connection) : base(connection)
         { }
 
         public override void Up()
