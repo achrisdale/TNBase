@@ -5,6 +5,9 @@ using System.Drawing;
 using System.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
+using System.Globalization;
+using TNBase.Infrastructure.Extensions;
+
 namespace TNBase
 {
     public partial class FormPrintBirthdays
@@ -69,7 +72,14 @@ namespace TNBase
 
                 g.DrawString(theListener.BirthdayText, reportFontSmallBold, Brushes.Black, 460, 240 + (70 * value));
 
-                string birthdayDayOfWeek = theListener.HasBirthday ? birthdayDayOfWeek = theListener.NextBirthdayDate.Value.ToString("dddd") : "N/A";
+                var nextBirthday = theListener.NextBirthdayDate;
+                if (nextBirthday.HasValue && nextBirthday.Value.Day != theListener.BirthdayDay)
+                {
+                    g.DrawString($"(carried to {nextBirthday.Value.Day.WithSuffix()} {DateTimeFormatInfo.CurrentInfo.GetMonthName(nextBirthday.Value.Month)})",
+                        reportFontSmall, Brushes.Black, 460, 240 + (70 * value) + 25);
+                }
+
+                string birthdayDayOfWeek = theListener.HasBirthday ? theListener.NextBirthdayDate.Value.ToString("dddd") : "N/A";
                 g.DrawString(birthdayDayOfWeek, reportFontSmallBold, Brushes.Black, 650, 240 + (70 * value));
 
                 string commaString = ", ";

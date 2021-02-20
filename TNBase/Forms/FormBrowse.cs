@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
+using TNBase.DataStorage;
+using TNBase.Objects;
 
 namespace TNBase
 {
@@ -50,7 +52,7 @@ namespace TNBase
             try
             {
                 lstFreeze.Items.Add(listener.Wallet.ToString());
-				ListViewItem itm = null;
+
                 var subItems = new List<string>
                 {
                     listener.Title,

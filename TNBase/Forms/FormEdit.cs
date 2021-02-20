@@ -6,6 +6,7 @@ using System.Linq;
 using TNBase.Objects;
 using TNBase.DataStorage;
 using System.Globalization;
+using TNBase.Infrastructure.Helpers;
 
 namespace TNBase
 {
@@ -55,6 +56,9 @@ namespace TNBase
                 }
                 else
                 {
+                    cbBirthdayDay.SelectedIndex = -1;
+                    cbBirthdayMonth.SelectedIndex = -1;
+
                     cbBirthdayDay.Enabled = false;
                     cbBirthdayMonth.Enabled = false;
                     chkNoBirthday.Checked = true;
@@ -292,10 +296,6 @@ namespace TNBase
             setupForm(theListener);
         }
 
-        /// <summary>
-        /// Has the address changed?
-        /// </summary>
-        /// <returns></returns>
         private bool HasAddressChanged()
         {
             // Its true if any of these things have changed (i.e. they are not all equal)
@@ -306,10 +306,6 @@ namespace TNBase
                     && txtPostcode.Text.Equals(myListener.Postcode));
         }
 
-        /// <summary>
-        /// Has the name changed.
-        /// </summary>
-        /// <returns></returns>
         private bool HasNameChanged()
         {
             string selectedItem = comboTitle.SelectedItem == null ? "n/a" : comboTitle.SelectedItem.ToString();
@@ -319,10 +315,6 @@ namespace TNBase
                     && txtForename.Text.Equals(myListener.Forename));
         }
 
-        /// <summary>
-        /// Has the listener been updated
-        /// </summary>
-        /// <returns></returns>
         private bool HasUpdated()
         {
             string selectedItem = comboTitle.SelectedItem == null ? "n/a" : comboTitle.SelectedItem.ToString();
@@ -343,7 +335,11 @@ namespace TNBase
 
         private bool HasBirthdayChanged()
         {
-            throw new NotImplementedException();
+            return chkNoBirthday.Checked == myListener.HasBirthday ||
+                (!myListener.BirthdayDay.HasValue && cbBirthdayDay.SelectedIndex >= 0) ||
+                (!myListener.BirthdayMonth.HasValue && cbBirthdayMonth.SelectedIndex >= 0) ||
+                (myListener.BirthdayDay.HasValue && cbBirthdayDay.SelectedIndex != myListener.BirthdayDay - 1) ||
+                (myListener.BirthdayMonth.HasValue && cbBirthdayMonth.SelectedIndex != myListener.BirthdayMonth - 1);
         }
 
         private void updateEditHeaders()
@@ -364,7 +360,8 @@ namespace TNBase
             InitializeComponent();
 
             comboTitle.Items.AddRange(ListenerTitles.getAllTitles().ToArray());
-
+            cbBirthdayDay.Items.AddRange(Enumerable.Range(1, 31).Select(x => x.ToString()).ToArray());
+            cbBirthdayMonth.Items.AddRange(Enumerable.Range(1, 12).Select(x => DateTimeFormatInfo.CurrentInfo.GetMonthName(x)).ToArray());
         }
 
         private void chkNoBirthday_CheckedChanged(object sender, EventArgs e)
@@ -380,21 +377,35 @@ namespace TNBase
 
         private void cbBirthdayMonth_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = ValidateBirthday();
+            e.Cancel = !ValidateBirthday();
         }
 
         private void cbBirthdayDay_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = ValidateBirthday();
+            e.Cancel = !ValidateBirthday();
         }
 
         private void chkNoBirthday_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = ValidateBirthday();
+            e.Cancel = !ValidateBirthday();
         }
 
         private bool ValidateBirthday()
         {
+            if (!chkNoBirthday.Checked)
+            {
+                if (cbBirthdayDay.SelectedIndex < 0 || cbBirthdayMonth.SelectedIndex < 0)
+                {
+                    errorProvider.SetError(cbBirthdayMonth, "Birthday value is required");
+                    return false;
+                }
+
+                if (cbBirthdayDay.SelectedIndex + 1 > DateHelpers.GetDaysInMonth(cbBirthdayMonth.SelectedIndex + 1))
+                {
+                    errorProvider.SetError(cbBirthdayMonth, "Birthday value is not valid");
+                    return false;
+                }
+            }
             return true;
         }
     }

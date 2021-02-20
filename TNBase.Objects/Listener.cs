@@ -56,9 +56,13 @@ namespace TNBase.Objects
                 var now = DateTime.Now;
                 var isNextYear = BirthdayMonth.Value < now.Month || (BirthdayDay < now.Day && BirthdayMonth == now.Month);
                 var year = isNextYear ? now.Year + 1 : now.Year;
-                var dayAdjustedForLeapYear = !DateTime.IsLeapYear(year) && BirthdayDay == 29 && BirthdayMonth == 2 ? 28 : BirthdayDay.Value;
+                
+                if(!DateTime.IsLeapYear(year) && BirthdayDay == 29 && BirthdayMonth == 2)
+                {
+                    return new DateTime(year, 3, 1); // move birthday forward by a day if not leap year
+                }
 
-                return new DateTime(year, BirthdayMonth.Value, dayAdjustedForLeapYear);
+                return new DateTime(year, BirthdayMonth.Value, BirthdayDay.Value);
             }
         }
 

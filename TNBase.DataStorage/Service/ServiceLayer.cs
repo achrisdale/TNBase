@@ -98,17 +98,6 @@ namespace TNBase.DataStorage
             return list.Where(x => nextWeeks.Contains(x.NextBirthdayDate.Value.WeekOfYear())).ToList();
         }
 
-        private DateTime GetNextBirthday(int month, int day)
-        {
-            var birthday = new DateTime(DateTime.Now.Year, month, day);
-            if (birthday < DateTime.Now.Date)
-            {
-                return birthday.AddYears(1);
-            }
-
-            return birthday;
-        }
-
         private int GetLastRecordingWeekOfYear()
         {
             var lastRecordingInDecember = 25; // TODO Put it in config
@@ -118,12 +107,6 @@ namespace TNBase.DataStorage
 
             var weekOffset = lastRecordingDay.DayNumberOfWeek() >= recordingDayOfWeek ? 0 : 1;
             return lastRecordingDay.WeekOfYear() - weekOffset;
-        }
-
-        private DateTime GetDateWithNonLeapYearAdjustment(int year, int month, int day)
-        {
-            var adjustedDay = day == 29 && month == 2 && !DateTime.IsLeapYear(year) ? 28 : day;
-            return new DateTime(year, month, adjustedDay);
         }
 
         public void CleanUpTitles()
