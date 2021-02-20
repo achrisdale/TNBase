@@ -241,14 +241,14 @@ namespace TNBase.Objects.Test
         }
 
         [TestMethod]
-        public void Delete_SetsStatusToPurged()
+        public void Delete_SetsStatusToPurged_WhenNoWaletsOrEquipmentOwn()
         {
             var listener = new Listener
             {
                 Status = ListenerStates.ACTIVE
             };
 
-            listener.Delete();
+            listener.Delete("");
 
             Assert.AreEqual(ListenerStates.PURGED, listener.Status);
         }
@@ -261,7 +261,7 @@ namespace TNBase.Objects.Test
                 MemStickPlayer = true
             };
 
-            listener.Delete();
+            listener.Delete("");
             Assert.AreEqual(ListenerStates.DELETED, listener.Status);
         }
 
@@ -273,7 +273,7 @@ namespace TNBase.Objects.Test
                 Stock = 0,
             };
 
-            listener.Delete();
+            listener.Delete("");
             Assert.AreEqual(ListenerStates.DELETED, listener.Status);
         }
 
@@ -287,7 +287,7 @@ namespace TNBase.Objects.Test
                 MagazineStock = 0
             };
 
-            listener.Delete();
+            listener.Delete("");
             Assert.AreEqual(ListenerStates.DELETED, listener.Status);
         }
 
@@ -311,7 +311,7 @@ namespace TNBase.Objects.Test
                 Info = "Test Info"
             };
 
-            listener.Delete();
+            listener.Delete("");
 
             Assert.AreEqual("N/A", listener.Title);
             Assert.AreEqual("Deleted", listener.Forename);
@@ -351,7 +351,7 @@ namespace TNBase.Objects.Test
                 Info = "Test Info"
             };
 
-            listener.Delete();
+            listener.Delete("");
 
             Assert.AreEqual("Title", listener.Title);
             Assert.AreEqual("Forename", listener.Forename);
@@ -369,16 +369,132 @@ namespace TNBase.Objects.Test
         }
 
         [TestMethod]
-        public void Delete_SetsCorrectDeletedDate()
+        public void Delete_SetsCorrectDeletedDate_WhenListenerIsDeleted()
         {
             var listener = new Listener();
 
             var before = DateTime.UtcNow;
-            listener.Delete();
+            listener.Delete("");
             var after = DateTime.UtcNow;
 
             Assert.IsTrue(before <= listener.DeletedDate, "Date is greater or equal to before");
             Assert.IsTrue(after >= listener.DeletedDate, "Date is less or equal to after");
+        }
+
+        [TestMethod]
+        public void Delete_SetsCorrectDeletedDate_WhenListenerIsPurged()
+        {
+            var listener = new Listener
+            {
+                MemStickPlayer = true
+            };
+
+            var before = DateTime.UtcNow;
+            listener.Delete("");
+            var after = DateTime.UtcNow;
+
+            Assert.IsTrue(before <= listener.DeletedDate, "Date is greater or equal to before");
+            Assert.IsTrue(after >= listener.DeletedDate, "Date is less or equal to after");
+        }
+
+        [TestMethod]
+        public void Delete_SetsReason_WhenListenerIsDeleted()
+        {
+            var listener = new Listener();
+
+            listener.Delete("Delete reason");
+
+            Assert.AreEqual("Delete reason", listener.StatusInfo);
+        }
+
+        [TestMethod]
+        public void Delete_SetsReason_WhenListenerIsPurged()
+        {
+            var listener = new Listener
+            {
+                MemStickPlayer = true
+            };
+
+            listener.Delete("Delete reason");
+
+            Assert.AreEqual("Delete reason", listener.StatusInfo);
+        }
+
+        [TestMethod]
+        public void Restore_SetsStatusToActive_WhenListenerIsDeleted()
+        {
+            var listener = new Listener
+            {
+                Status = ListenerStates.DELETED
+            };
+
+            listener.Restore();
+
+            Assert.AreEqual(ListenerStates.ACTIVE, listener.Status);
+        }
+
+        [TestMethod]
+        public void Restore_ClearsStatusInfo()
+        {
+            var listener = new Listener
+            {
+                Status = ListenerStates.DELETED,
+                StatusInfo = "Deleted"
+            };
+
+            listener.Restore();
+
+            Assert.AreEqual("", listener.StatusInfo);
+        }
+
+        [TestMethod]
+        public void Restore_ClearsDeletedDate()
+        {
+            var listener = new Listener
+            {
+                Status = ListenerStates.DELETED,
+                DeletedDate = DateTime.UtcNow
+            };
+
+            listener.Restore();
+
+            Assert.IsNull(listener.DeletedDate);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ListenerStateChangeException))]
+        public void Restore_ThrowsSatusChangeException_WhenListenerIsPurged()
+        {
+            var listener = new Listener
+            {
+                Status = ListenerStates.PURGED
+            };
+
+            listener.Restore();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ListenerStateChangeException))]
+        public void Restore_ThrowsSatusChangeException_WhenListenerIsActive()
+        {
+            var listener = new Listener
+            {
+                Status = ListenerStates.ACTIVE
+            };
+
+            listener.Restore();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ListenerStateChangeException))]
+        public void Restore_ThrowsSatusChangeException_WhenListenerIsPaused()
+        {
+            var listener = new Listener
+            {
+                Status = ListenerStates.PAUSED
+            };
+
+            listener.Restore();
         }
 
         [TestMethod]
@@ -419,6 +535,35 @@ namespace TNBase.Objects.Test
             var listener = new Listener { MagazineStock = 0, Magazine = false };
 
             Assert.AreEqual(0, listener.SentMagazineWallets);
+        }
+
+        [TestMethod]
+        public void Scan_PurgesListener_WhenDeletedListenerLastNewsWalletIsReturned()
+        {
+            var listener = new Listener
+            {
+                Stock = 2,
+                Status = ListenerStates.DELETED
+            };
+
+            listener.Scan(ScanTypes.IN, WalletTypes.News);
+
+            Assert.AreEqual(ListenerStates.PURGED, listener.Status);
+        }
+
+        [TestMethod]
+        public void Scan_PurgesListener_WhenDeletedListenerLastMagazineWalletIsReturned()
+        {
+            var listener = new Listener
+            {
+                Magazine = true,
+                MagazineStock = 0,
+                Status = ListenerStates.DELETED
+            };
+
+            listener.Scan(ScanTypes.IN, WalletTypes.Magazine);
+
+            Assert.AreEqual(ListenerStates.PURGED, listener.Status);
         }
     }
 }

@@ -259,14 +259,13 @@ namespace TNBase
 
         private void btnRestore_Click(object sender, EventArgs e)
         {
+            myListener.Restore();
+
             lblStatus.ForeColor = Color.Green;
             lblExtra.Text = "";
             lblExtraContent.Text = "";
             lblStatus.Text = ListenerStates.ACTIVE.ToString();
             btnRestore.Visible = false;
-
-            myListener.Status = ListenerStates.ACTIVE;
-            myListener.StatusInfo = "";
 
             restored = true;
         }

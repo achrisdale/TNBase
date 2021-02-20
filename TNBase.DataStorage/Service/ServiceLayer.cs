@@ -141,7 +141,7 @@ namespace TNBase.DataStorage
 
             foreach (var listener in listeners)
             {
-                if(listener.HasPausePeriodElapsed())
+                if(listener.HasPausePeriodElapsed)
                 {
                     listener.Resume();
                     UpdateListener(listener);

@@ -21,7 +21,7 @@ namespace TNBase
         private Listener selectedListener;
         int pageSize = 15;
         int page = 0;
-        private bool showRemoved = false;
+        private bool showDeleted = false;
 
         private void btnDone_Click(object sender, EventArgs e)
         {
@@ -149,7 +149,7 @@ namespace TNBase
         {
             if (selectedListener != null)
             {
-                if (selectedListener.CanPause())
+                if (!showDeleted && selectedListener.CanPause)
                 {
                     var form = FormStopSending.Create(selectedListener);
                     if (form.ShowDialog() == DialogResult.OK)
@@ -157,13 +157,19 @@ namespace TNBase
                         UpdateListeners();
                     }
                 }
-                else if (selectedListener.CanResume())
+                else if (!showDeleted && selectedListener.CanResume)
                 {
                     selectedListener.Resume();
 
                     serviceLayer.UpdateListener(selectedListener);
                     Interaction.MsgBox("Succesfully updated listener.");
                     log.Info("Resumed and updated listener with WalletId: " + selectedListener.Wallet);
+                    UpdateListeners();
+                }
+                else if (showDeleted && selectedListener.CanPurge)
+                {
+                    selectedListener.Purge();
+                    serviceLayer.UpdateListener(selectedListener);
                     UpdateListeners();
                 }
             }
@@ -173,10 +179,27 @@ namespace TNBase
         {
             if (selectedListener != null)
             {
-                var form = FormDelete.Create(selectedListener);
-                if (form.ShowDialog() == DialogResult.OK)
+                if (selectedListener.CanDelete)
                 {
-                    UpdateListeners();
+                    var form = FormDelete.Create(selectedListener);
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        UpdateListeners();
+                        return;
+                    }
+                }
+
+                if (selectedListener.CanRestore)
+                {
+                    DialogResult result = MessageBox.Show("Are you sure you wish to make this listener active?", ModuleGeneric.getAppShortName(), MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+                        selectedListener.Restore();
+                        serviceLayer.UpdateListener(selectedListener);
+                        UpdateListeners();
+                        return;
+                    }
+
                 }
             }
         }
@@ -230,8 +253,8 @@ namespace TNBase
         private void UpdateListeners()
         {
             listeners = serviceLayer.GetListeners()
-                .Where(x => (showRemoved && x.Status == ListenerStates.DELETED) ||
-                            (!showRemoved && (x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED)))
+                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED) ||
+                            (!showDeleted && (x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED)))
                 .ToList();
             RefreshList();
         }
@@ -281,8 +304,9 @@ namespace TNBase
 
         private void filterButton_Click(object sender, EventArgs e)
         {
-            showRemoved = !showRemoved;
-            filterButton.Text = showRemoved ? "Show active listeners" : "Show marked for deletion";
+            showDeleted = !showDeleted;
+            filterButton.Text = showDeleted ? "Show active listeners" : "Show marked for deletion";
+            lblTitle.Text = showDeleted ? "Deleted Listeners" : "Active Listeners";
             page = 0;
             UpdateListeners();
         }
@@ -297,17 +321,32 @@ namespace TNBase
             }
             else
             {
-                btnEdit.Visible = selectedListener.CanEdit();
-                btnRemove.Visible = selectedListener.CanDelete();
+                btnEdit.Visible = selectedListener.CanEdit;
 
-                if (selectedListener.CanPause())
+                if (selectedListener.CanDelete)
+                {
+                    btnRemove.Text = "Delete";
+                    btnRemove.Visible = true;
+                }
+                else if (selectedListener.CanRestore)
+                {
+                    btnRemove.Text = "Restore";
+                    btnRemove.Visible = true;
+                }
+
+                if (!showDeleted && selectedListener.CanPause)
                 {
                     btnStopSending.Text = "Stop sending";
                     btnStopSending.Visible = true;
                 }
-                else if (selectedListener.CanResume())
+                else if (!showDeleted && selectedListener.CanResume)
                 {
                     btnStopSending.Text = "Cancel a stop";
+                    btnStopSending.Visible = true;
+                }
+                else if (showDeleted && selectedListener.CanPurge)
+                {
+                    btnStopSending.Text = "Purge";
                     btnStopSending.Visible = true;
                 }
             }

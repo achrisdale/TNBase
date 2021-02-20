@@ -25,6 +25,7 @@ namespace TNBase.Objects
 
         [Key]
         public int Wallet { get; set; }
+
         public string Title { get; set; }
         public string Forename { get; set; }
         public string Surname { get; set; }
@@ -38,7 +39,6 @@ namespace TNBase.Objects
         public bool Magazine { get; set; }
         public int? BirthdayDay { get; set; }
         public int? BirthdayMonth { get; set; }
-
 
         [NotMapped]
         public bool HasBirthday => BirthdayDay.HasValue && BirthdayMonth.HasValue;
@@ -59,8 +59,8 @@ namespace TNBase.Objects
                 var now = DateTime.Now;
                 var isNextYear = BirthdayMonth.Value < now.Month || (BirthdayDay < now.Day && BirthdayMonth == now.Month);
                 var year = isNextYear ? now.Year + 1 : now.Year;
-                
-                if(!DateTime.IsLeapYear(year) && BirthdayDay == 29 && BirthdayMonth == 2)
+
+                if (!DateTime.IsLeapYear(year) && BirthdayDay == 29 && BirthdayMonth == 2)
                 {
                     return new DateTime(year, 3, 1); // move birthday forward by a day if not leap year
                 }
@@ -71,9 +71,12 @@ namespace TNBase.Objects
 
         [XmlIgnore]
         public DateTime? Joined { get; set; }
+
         public string Info { get; set; }
+
         [Column("Status")]
         public string State { get; set; }
+
         [NotMapped]
         public ListenerStates Status
         {
@@ -87,9 +90,12 @@ namespace TNBase.Objects
                 State = value.ToString();
             }
         }
+
         public string StatusInfo { get; set; }
+
         [Required]
         public virtual InOutRecords inOutRecords { get; set; }
+
         public DateTime? DeletedDate { get; set; }
         public int Stock { get; set; }
         public DateTime? LastIn { get; set; }
@@ -98,6 +104,15 @@ namespace TNBase.Objects
 
         public int SentNewsWallets => 3 - Stock;
         public int SentMagazineWallets => Magazine ? 1 - MagazineStock : 0;
+        public bool OwnsWalletsOrEquipment => MemStickPlayer || SentNewsWallets != 0 || SentMagazineWallets != 0;
+
+        public bool CanEdit => Status == ListenerStates.ACTIVE || Status == ListenerStates.PAUSED || Status == ListenerStates.DELETED;
+        public bool CanPause => Status == ListenerStates.ACTIVE;
+        public bool CanResume => Status == ListenerStates.PAUSED;
+        public bool CanDelete => Status != ListenerStates.DELETED && Status != ListenerStates.PURGED;
+        public bool CanRestore => Status == ListenerStates.DELETED;
+        public bool CanPurge => Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment;
+
         public string GetDebugString()
         {
             return "Wallet: " + this.Wallet + Environment.NewLine + "Name: " + GetNiceName() + Environment.NewLine + "Addr1: " + this.Addr1 + Environment.NewLine + "Addr2: " + this.Addr2 + Environment.NewLine + "Town: " + this.Town + Environment.NewLine + "County: " + this.County + Environment.NewLine + "Postcode: " + this.Postcode + Environment.NewLine + "Birthday: " + this.BirthdayDay + "/" + this.BirthdayMonth + Environment.NewLine + "Info: " + this.Info + Environment.NewLine + "Joined: " + this.Joined + Environment.NewLine + "LastIn: " + this.LastIn + Environment.NewLine + "LastOut: " + this.LastOut + Environment.NewLine + "Stock: " + this.Stock + Environment.NewLine + "DeletedDate: " + this.DeletedDate + Environment.NewLine + "Telephone: " + this.Telephone + Environment.NewLine + "StatusInfo: " + this.StatusInfo + Environment.NewLine + "Status: " + this.Status + Environment.NewLine + "MemStickPlayer: " + this.MemStickPlayer + Environment.NewLine + "Magazine: " + this.Magazine + Environment.NewLine;
@@ -120,6 +135,28 @@ namespace TNBase.Objects
             return (nextBirthday - DateTime.Today).Days;
         }
 
+        public void Scan(ScanTypes scanType, WalletTypes walletType)
+        {
+            var increment = scanType == ScanTypes.OUT ? -1 : 1;
+
+            switch (walletType)
+            {
+                case WalletTypes.News:
+                    Stock += increment;
+                    break;
+                case WalletTypes.Magazine:
+                    MagazineStock += increment;
+                    break;
+                default:
+                    break;
+            }
+
+            if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
+            {
+                Purge();
+            }
+        }
+
         public DateTime GetStoppedDate()
         {
             if (Status == ListenerStates.PAUSED)
@@ -135,7 +172,7 @@ namespace TNBase.Objects
         {
             if (Status == ListenerStates.DELETED)
             {
-                throw new ListenerStateChangeException();
+                throw new ListenerStateChangeException($"Cannot pause listener {Wallet} as it's state is {Status}");
             }
 
             Status = ListenerStates.PAUSED;
@@ -144,45 +181,9 @@ namespace TNBase.Objects
             StatusInfo = startDate.ToNiceStr() + "," + myDateStr;
         }
 
-        public bool CanDelete()
-        {
-            return Status != ListenerStates.DELETED && Status != ListenerStates.PURGED;
-        }
-
-        public void Delete()
-        {
-            if (!CanDelete())
-            {
-                throw new ListenerStateChangeException($"Cannot delete listener {Wallet} as it's state is {Status}");
-            }
-
-            if (!MemStickPlayer && SentNewsWallets == 0 && SentMagazineWallets == 0)
-            {
-                Status = ListenerStates.PURGED;
-                Title = "N/A";
-                Forename = "Deleted";
-                Surname = "Deleted";
-                Addr1 = null;
-                Addr2 = null;
-                Town = null;
-                County = null;
-                Postcode = null;
-                DeletedDate = DateTime.UtcNow;
-                Telephone = null;
-                Joined = null;
-                BirthdayDay = null;
-                BirthdayMonth = null;
-                Info = null;
-            }
-            else
-            {
-                Status = ListenerStates.DELETED;
-            }
-        }
-
         public void Resume()
         {
-            if (!CanResume())
+            if (!CanResume)
             {
                 throw new ListenerStateChangeException($"Cannot resume listener {Wallet} as it's state is {Status}");
             }
@@ -209,6 +210,58 @@ namespace TNBase.Objects
         {
             var result = GetResumeDate();
             return result.HasValue ? result.Value.ToNiceStr() : NEVER_END_PAUSE_STRING;
+        }
+
+        public bool HasPausePeriodElapsed
+        {
+            get
+            {
+                var resumeDate = GetResumeDate();
+                return resumeDate.HasValue && resumeDate.Value < DateTime.Now;
+            }
+        }
+
+        public void Delete(string reason)
+        {
+            if (!CanDelete)
+            {
+                throw new ListenerStateChangeException($"Cannot delete listener {Wallet} as it's state is {Status}");
+            }
+
+            if (OwnsWalletsOrEquipment)
+            {
+                Status = ListenerStates.DELETED;
+            }
+            else
+            {
+                Purge();
+            }
+
+            DeletedDate = DateTime.UtcNow;
+            StatusInfo = reason;
+        }
+
+        public void Purge()
+        {
+            if (!CanPurge)
+            {
+                throw new ListenerStateChangeException($"Cannot purge listener {Wallet} as it's state is {Status}");
+            }
+
+            Status = ListenerStates.PURGED;
+            Title = "N/A";
+            Forename = "Deleted";
+            Surname = "Deleted";
+            Addr1 = null;
+            Addr2 = null;
+            Town = null;
+            County = null;
+            Postcode = null;
+            Telephone = null;
+            Joined = null;
+            BirthdayDay = null;
+            BirthdayMonth = null;
+            Info = null;
         }
 
         public string FormatListenerData()
@@ -255,25 +308,16 @@ namespace TNBase.Objects
             return builder.ToString();
         }
 
-        public bool HasPausePeriodElapsed()
+        public void Restore()
         {
-            var resumeDate = GetResumeDate();
-            return resumeDate.HasValue && resumeDate.Value < DateTime.Now;
-        }
+            if (!CanRestore)
+            {
+                throw new ListenerStateChangeException($"Cannot restore listener {Wallet} as it's state is {Status}");
+            }
 
-        public bool CanEdit()
-        {
-            return Status == ListenerStates.ACTIVE || Status == ListenerStates.PAUSED;
-        }
-
-        public bool CanPause()
-        {
-            return Status == ListenerStates.ACTIVE;
-        }
-
-        public bool CanResume()
-        {
-            return Status == ListenerStates.PAUSED;
+            Status = ListenerStates.ACTIVE;
+            StatusInfo = "";
+            DeletedDate = null;
         }
     }
 }

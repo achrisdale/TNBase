@@ -65,7 +65,7 @@ namespace TNBase
 
         public void addScanItem(int walletId)
         {
-            if ((walletId == lastScanned))
+            if (walletId == lastScanned)
             {
                 ModuleSounds.PlayExplode();
                 My.MyProject.Forms.formDuplicateFound.Show();
@@ -192,47 +192,50 @@ namespace TNBase
             ModuleScanning.setScannedIn(scannedIn);
 
             // Actually process the scanned items!
-            for (int i = 0; i <= (lstScanned.Items.Count - 1); i++)
+            foreach (ListViewItem item in lstScanned.Items)
             {
-                ListViewItem item = lstScanned.Items[i];
+                var wallet = int.Parse(item.SubItems[0].Text);
+                var quantity = int.Parse(item.SubItems[1].Text);
 
                 // If the item exists, just update the quantity.
-                Listener theListener = serviceLayer.GetListenerById(int.Parse(item.SubItems[0].Text));
-                if ((theListener != null))
+                var listener = serviceLayer.GetListenerById(wallet);
+                if (listener != null)
                 {
-                    theListener.inOutRecords.In8 = int.Parse(item.SubItems[1].Text);
+                    listener.inOutRecords.In8 = quantity;
 
-                    // Also adjust stock.
-                    theListener.Stock = theListener.Stock + int.Parse(item.SubItems[1].Text);
+                    for (int i = 0; i < quantity; i++)
+                    {
+                        listener.Scan(ScanTypes.IN, WalletTypes.News);
+                    }
 
                     // Are there more than 3 stock items?
-                    if (theListener.Stock > Listener.DEFAULT_STOCK)
+                    if (listener.Stock > Listener.DEFAULT_STOCK)
                     {
-                        int overStock = theListener.Stock;
-                        theListener.Stock = 3;
-                        MessageBox.Show("Listener with Wallet: " + theListener.Wallet + ", Name: " + theListener.GetNiceName() + " would have " + overStock + " stock after scanning in these wallets. " + Environment.NewLine + Environment.NewLine +
+                        int overStock = listener.Stock;
+                        listener.Stock = 3;
+                        MessageBox.Show("Listener with Wallet: " + listener.Wallet + ", Name: " + listener.GetNiceName() + " would have " + overStock + " stock after scanning in these wallets. " + Environment.NewLine + Environment.NewLine +
                                          "Please look for any old wallets and remove the labels before clicking OK to continue.");
-                        log.Warn("Listner " + theListener.GetNiceName() + " would have " + overStock + " stock after the scanning in. Limiting to " + Listener.DEFAULT_STOCK + " and displaying warning.");
+                        log.Warn("Listner " + listener.GetNiceName() + " would have " + overStock + " stock after the scanning in. Limiting to " + Listener.DEFAULT_STOCK + " and displaying warning.");
                     }
 
                     // If the listener is active, we will be also sending it out
-                    if (theListener.Status.Equals(ListenerStates.ACTIVE))
+                    if (listener.Status.Equals(ListenerStates.ACTIVE))
                     {
-                        theListener.Stock = theListener.Stock - 1;
+                        listener.Scan(ScanTypes.OUT, WalletTypes.News);
 
                         // Increment scanned out count
                         ModuleScanning.setScannedOut(ModuleScanning.getScannedOut() + 1);
 
                         // Also update the last out time (as we will be updating this listener in a minute with out8 = 1).
-                        theListener.LastOut = DateTime.Now;
+                        listener.LastOut = DateTime.Now;
                     }
 
-                    theListener.LastIn = DateTime.Now;
+                    listener.LastIn = DateTime.Now;
 
-                    serviceLayer.UpdateListener(theListener);
+                    serviceLayer.UpdateListener(listener);
                     log.Debug("Updated listener information.");
 
-                    serviceLayer.RecordScan(theListener.Wallet, ScanTypes.IN);
+                    serviceLayer.RecordScan(listener.Wallet, ScanTypes.IN);
                 }
             }
 

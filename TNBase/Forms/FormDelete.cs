@@ -74,7 +74,7 @@ namespace TNBase.Forms
                 listener.MemStickPlayer = false;
             }
 
-            listener.Delete();
+            listener.Delete(tbxReason.Text);
             serviceLayer.UpdateListener(listener);
 
             if (listener.MemStickPlayer)
