@@ -241,19 +241,6 @@ namespace TNBase.Objects.Test
         }
 
         [TestMethod]
-        public void Delete_SetsStatusToPurged_WhenNoWaletsOrEquipmentOwn()
-        {
-            var listener = new Listener
-            {
-                Status = ListenerStates.ACTIVE
-            };
-
-            listener.Delete("");
-
-            Assert.AreEqual(ListenerStates.PURGED, listener.Status);
-        }
-
-        [TestMethod]
         public void Delete_SetStatusToDeleted_WhenPlayerIsNotReturned()
         {
             var listener = new Listener
@@ -305,10 +292,10 @@ namespace TNBase.Objects.Test
                 County = "County",
                 Postcode = "Postcode",
                 Telephone = "123456789",
-                Joined = DateTime.UtcNow,
                 BirthdayDay = 5,
                 BirthdayMonth = 12,
-                Info = "Test Info"
+                Info = "Test Info",
+                StatusInfo = "Test Status Info"
             };
 
             listener.Delete("");
@@ -322,10 +309,10 @@ namespace TNBase.Objects.Test
             Assert.IsNull(listener.County);
             Assert.IsNull(listener.Postcode);
             Assert.IsNull(listener.Telephone);
-            Assert.IsNull(listener.Joined);
             Assert.IsNull(listener.BirthdayDay);
             Assert.IsNull(listener.BirthdayMonth);
             Assert.IsNull(listener.Info);
+            Assert.IsNull(listener.StatusInfo);
         }
 
         [TestMethod]
@@ -400,7 +387,10 @@ namespace TNBase.Objects.Test
         [TestMethod]
         public void Delete_SetsReason_WhenListenerIsDeleted()
         {
-            var listener = new Listener();
+            var listener = new Listener
+            {
+                MemStickPlayer = true
+            };
 
             listener.Delete("Delete reason");
 
@@ -459,18 +449,6 @@ namespace TNBase.Objects.Test
             listener.Restore();
 
             Assert.IsNull(listener.DeletedDate);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ListenerStateChangeException))]
-        public void Restore_ThrowsSatusChangeException_WhenListenerIsPurged()
-        {
-            var listener = new Listener
-            {
-                Status = ListenerStates.PURGED
-            };
-
-            listener.Restore();
         }
 
         [TestMethod]
@@ -542,13 +520,14 @@ namespace TNBase.Objects.Test
         {
             var listener = new Listener
             {
+                Forename = "Listener",
                 Stock = 2,
                 Status = ListenerStates.DELETED
             };
 
             listener.Scan(ScanTypes.IN, WalletTypes.News);
 
-            Assert.AreEqual(ListenerStates.PURGED, listener.Status);
+            Assert.IsTrue(listener.IsPurged);
         }
 
         [TestMethod]
@@ -556,6 +535,7 @@ namespace TNBase.Objects.Test
         {
             var listener = new Listener
             {
+                Forename = "Listener",
                 Magazine = true,
                 MagazineStock = 0,
                 Status = ListenerStates.DELETED
@@ -563,7 +543,7 @@ namespace TNBase.Objects.Test
 
             listener.Scan(ScanTypes.IN, WalletTypes.Magazine);
 
-            Assert.AreEqual(ListenerStates.PURGED, listener.Status);
+            Assert.IsTrue(listener.IsPurged);
         }
     }
 }

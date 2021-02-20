@@ -253,7 +253,7 @@ namespace TNBase
         private void UpdateListeners()
         {
             listeners = serviceLayer.GetListeners()
-                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED) ||
+                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED && !x.IsPurged) ||
                             (!showDeleted && (x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED)))
                 .ToList();
             RefreshList();

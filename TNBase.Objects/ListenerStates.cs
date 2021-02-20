@@ -4,7 +4,6 @@
     {
         ACTIVE,
         DELETED,
-        PAUSED,
-        PURGED
+        PAUSED
     }
 }

@@ -22,11 +22,10 @@ namespace TNBase.DataStorage.Migrations
                                             County=null,
                                             Postcode=null,
                                             Telephone=null,
-                                            Joined=null,
                                             BirthdayDay=null,
                                             BirthdayMonth=null,
                                             Info=null,
-                                            Status='PURGED'
+                                            StatusInfo=null
                                         WHERE Status='DELETED' AND 
                                             MemStickPlayer=false AND 
                                             Stock=3 AND 

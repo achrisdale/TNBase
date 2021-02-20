@@ -109,9 +109,10 @@ namespace TNBase.Objects
         public bool CanEdit => Status == ListenerStates.ACTIVE || Status == ListenerStates.PAUSED || Status == ListenerStates.DELETED;
         public bool CanPause => Status == ListenerStates.ACTIVE;
         public bool CanResume => Status == ListenerStates.PAUSED;
-        public bool CanDelete => Status != ListenerStates.DELETED && Status != ListenerStates.PURGED;
+        public bool CanDelete => Status != ListenerStates.DELETED;
         public bool CanRestore => Status == ListenerStates.DELETED;
         public bool CanPurge => Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment;
+        public bool IsPurged => Forename == "Deleted" && Surname == "Deleted";
 
         public string GetDebugString()
         {
@@ -228,17 +229,14 @@ namespace TNBase.Objects
                 throw new ListenerStateChangeException($"Cannot delete listener {Wallet} as it's state is {Status}");
             }
 
-            if (OwnsWalletsOrEquipment)
-            {
-                Status = ListenerStates.DELETED;
-            }
-            else
+            Status = ListenerStates.DELETED;
+            DeletedDate = DateTime.UtcNow;
+            StatusInfo = reason;
+
+            if (!OwnsWalletsOrEquipment)
             {
                 Purge();
             }
-
-            DeletedDate = DateTime.UtcNow;
-            StatusInfo = reason;
         }
 
         public void Purge()
@@ -248,7 +246,6 @@ namespace TNBase.Objects
                 throw new ListenerStateChangeException($"Cannot purge listener {Wallet} as it's state is {Status}");
             }
 
-            Status = ListenerStates.PURGED;
             Title = "N/A";
             Forename = "Deleted";
             Surname = "Deleted";
@@ -258,10 +255,10 @@ namespace TNBase.Objects
             County = null;
             Postcode = null;
             Telephone = null;
-            Joined = null;
             BirthdayDay = null;
             BirthdayMonth = null;
             Info = null;
+            StatusInfo = null;
         }
 
         public string FormatListenerData()
