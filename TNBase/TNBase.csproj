@@ -716,9 +716,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\TNBase.DataStorage\TNBase.DataStorage.csproj">
       <Project>{1b25649f-1ce3-4764-92de-73e2efce8789}</Project>
       <Name>TNBase.DataStorage</Name>
