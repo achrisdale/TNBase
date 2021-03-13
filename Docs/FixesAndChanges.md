@@ -12,9 +12,9 @@ Weekly listeners as of today: 190
 
 **C2.** Make the number of News wallets allocated to each listener configurable**. Default = 3.
 
-**C3.** Delete permanently all names and all contact details after a listener is deleted and all wallets returned (or delete manually if necessary), but reserve/keep the wallet numbers for a year, as now. Also remove the  'Restore Deleted Listeners' in the maintenance menu.*
+Done **C3.** Delete permanently all names and all contact details after a listener is deleted and all wallets returned (or delete manually if necessary), but reserve/keep the wallet numbers for a year, as now. Also remove the  'Restore Deleted Listeners' in the maintenance menu.*
 
-**C4.** A new report to list 'Magazine only listeners'. (List only Wallet numbers and names)
+Done **C4.** A new report to list 'Magazine only listeners'. (List only Wallet numbers and names)
 
 **C5.** Replace the present old system of week numbers with a more widely used system of week numbers or Saturday dates. Provide a method for migrating to the new week numbering system.
 
