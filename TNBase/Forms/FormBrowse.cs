@@ -313,13 +313,11 @@ namespace TNBase
 
         private void UpdateFormControls()
         {
-            if (selectedListener == null)
-            {
-                btnEdit.Visible = false;
-                btnRemove.Visible = false;
-                btnStopSending.Visible = false;
-            }
-            else
+            btnEdit.Visible = false;
+            btnRemove.Visible = false;
+            btnStopSending.Visible = false;
+
+            if (selectedListener != null)
             {
                 btnEdit.Visible = selectedListener.CanEdit;
 
