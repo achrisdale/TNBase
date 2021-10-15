@@ -606,7 +606,7 @@ namespace TNBase.DataStorage
 
         public int GetAveragePausedWallets(int year)
         {
-            DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null;
+            DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
             DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
             int defaultRet = 0;
