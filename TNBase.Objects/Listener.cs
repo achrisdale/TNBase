@@ -180,7 +180,7 @@ namespace TNBase.Objects
                 string resumeDate = StatusInfo.Substring(StatusInfo.IndexOf(",") + 1);
                 if (resumeDate != NEVER_END_PAUSE_STRING)
                 {
-                    return DateTime.Parse(resumeDate);
+                    return DateTime.ParseExact(resumeDate, "dd/MM/yyyy", null);
                 }
             }
 
