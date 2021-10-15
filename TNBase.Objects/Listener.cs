@@ -143,7 +143,7 @@ namespace TNBase.Objects
             if (Status == ListenerStates.PAUSED)
             {
                 var stoppedDate = StatusInfo.Substring(0, StatusInfo.IndexOf(","));
-                return DateTime.Parse(stoppedDate);
+                return DateTime.ParseExact(stoppedDate, "dd/MM/yyyy", null);
             }
 
             return DateTime.Now;
