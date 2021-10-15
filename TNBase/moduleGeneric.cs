@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using TNBase.DataStorage;
+using TNBase.Infrastructure.Helpers;
 using TNBase.Objects;
 
 namespace TNBase
@@ -86,7 +87,7 @@ namespace TNBase
         // Get a nice format date.
         public static string getUKFormatDate(string dateString)
         {
-            return DateTime.Parse(dateString).ToString(DATE_FORMAT);
+            return DateTime.ParseExact(dateString, DateHelpers.DEFAULT_DATE_FORMAT, null).ToString(DATE_FORMAT);
         }
 
         /// <summary>

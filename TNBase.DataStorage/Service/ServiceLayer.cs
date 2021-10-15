@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TNBase.Infrastructure.Extensions;
 using System.Data.Entity;
+using TNBase.Infrastructure.Helpers;
 
 namespace TNBase.DataStorage
 {
@@ -48,8 +49,8 @@ namespace TNBase.DataStorage
 
         public List<WeeklyStats> GetWeeklyStatsForYear(int year)
         {
-            DateTime yearStart = DateTime.Parse("01/01/" + year);
-            DateTime yearEnd = DateTime.Parse("31/12/" + year);
+            DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
+            DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
             return context.WeeklyStats.Where(x => x.WeekDate >= yearStart && x.WeekDate <= yearEnd).ToList();
         }
@@ -546,16 +547,16 @@ namespace TNBase.DataStorage
 
         public int GetNewListenersForYear(int year)
         {
-            DateTime yearStart = DateTime.Parse("01/01/" + year);
-            DateTime yearEnd = DateTime.Parse("31/12/" + year);
+            DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
+            DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
             return context.Listeners.ToList().Where(x => x.Joined >= yearStart && x.Joined <= yearEnd && x.Status != ListenerStates.DELETED).Count();
         }
 
         public int GetLostListenersForYear(int year)
         {
-            DateTime yearStart = DateTime.Parse("01/01/" + year);
-            DateTime yearEnd = DateTime.Parse("31/12/" + year);
+            DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
+            DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
             return context.Listeners.ToList().Where(x => x.Status == ListenerStates.DELETED && x.DeletedDate >= yearStart && x.DeletedDate <= yearEnd).Count();
         }
@@ -567,8 +568,8 @@ namespace TNBase.DataStorage
 
         public int GetAverageListenersForYear(int year)
         {
-            DateTime yearStart = DateTime.Parse("01/01/" + year);
-            DateTime yearEnd = DateTime.Parse("31/12/" + year);
+            DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
+            DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
             int defaultRet = 0;
             try
@@ -584,8 +585,8 @@ namespace TNBase.DataStorage
 
         public int GetAverageDispatchedWallets(int year)
         {
-            DateTime yearStart = DateTime.Parse("01/01/" + year);
-            DateTime yearEnd = DateTime.Parse("31/12/" + year);
+            DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
+            DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
             int defaultRet = 0;
             try
@@ -605,8 +606,8 @@ namespace TNBase.DataStorage
 
         public int GetAveragePausedWallets(int year)
         {
-            DateTime yearStart = DateTime.Parse("01/01/" + year);
-            DateTime yearEnd = DateTime.Parse("31/12/" + year);
+            DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null;
+            DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
             int defaultRet = 0;
             try
@@ -622,8 +623,8 @@ namespace TNBase.DataStorage
 
         public int GetWalletsDispatchedForYear(int year)
         {
-            DateTime yearStart = DateTime.Parse("01/01/" + year);
-            DateTime yearEnd = DateTime.Parse("31/12/" + year);
+            DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
+            DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
             return (int)context.WeeklyStats.Where(x => x.WeekDate >= yearStart && x.WeekDate <= yearEnd).Sum(x => x.ScannedOut + x.ScannedIn);
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using TNBase.Infrastructure.Helpers;
 
 namespace TNBase.Objects.Test
 {
@@ -23,10 +24,10 @@ namespace TNBase.Objects.Test
             listener.MemStickPlayer = true;
             listener.LastIn = DateTime.Now;
             listener.LastOut = null;
-            listener.Joined = DateTime.Parse("01/01/2015");
+            listener.Joined = DateTime.ParseExact("01/01/2015", DateHelpers.DEFAULT_DATE_FORMAT, null);
             listener.Magazine = false;
             listener.Status = ListenerStates.ACTIVE;
-            listener.DeletedDate = DateTime.Parse("01/01/2015");
+            listener.DeletedDate = DateTime.ParseExact("01/01/2015", DateHelpers.DEFAULT_DATE_FORMAT, null);
             listener.Telephone = "01234567890";
             listener.Town = "London";
             listener.Wallet = 0;

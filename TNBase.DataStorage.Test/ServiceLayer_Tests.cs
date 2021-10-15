@@ -3,6 +3,7 @@ using TNBase.Objects;
 using System;
 using FluentAssertions;
 using TNBase.Repository;
+using TNBase.Infrastructure.Helpers;
 
 namespace TNBase.DataStorage.Test
 {
@@ -43,9 +44,9 @@ namespace TNBase.DataStorage.Test
         private void InsertWeeklyStats()
         {
             // Add past stats
-            WeeklyStats p1 = new WeeklyStats() { WeekNumber = 1, PausedCount = 4, ScannedIn = 4, ScannedOut = 4, TotalListeners = 4, WeekDate = DateTime.Parse("01/01/2009") };
+            WeeklyStats p1 = new WeeklyStats() { WeekNumber = 1, PausedCount = 4, ScannedIn = 4, ScannedOut = 4, TotalListeners = 4, WeekDate = DateTime.ParseExact("01/01/2009", DateHelpers.DEFAULT_DATE_FORMAT, null) };
             serviceLayer.SaveWeekStats(p1);
-            WeeklyStats p2 = new WeeklyStats() { WeekNumber = 2, PausedCount = 5, ScannedIn = 5, ScannedOut = 4, TotalListeners = 5, WeekDate = DateTime.Parse("12/12/2009") };
+            WeeklyStats p2 = new WeeklyStats() { WeekNumber = 2, PausedCount = 5, ScannedIn = 5, ScannedOut = 4, TotalListeners = 5, WeekDate = DateTime.ParseExact("12/12/2009", DateHelpers.DEFAULT_DATE_FORMAT, null) };
             serviceLayer.SaveWeekStats(p2);
 
             // Add some stats
@@ -310,9 +311,9 @@ namespace TNBase.DataStorage.Test
                 Status = ListenerStates.ACTIVE,
                 StatusInfo = "",
                 Wallet = 55,
-                DeletedDate = DateTime.Parse("01/01/1000"),
-                LastIn = DateTime.Parse("01/01/1000"),
-                LastOut = DateTime.Parse("01/01/1000")
+                DeletedDate = DateTime.ParseExact("01/01/1000", DateHelpers.DEFAULT_DATE_FORMAT, null),
+                LastIn = DateTime.ParseExact("01/01/1000", DateHelpers.DEFAULT_DATE_FORMAT, null),
+                LastOut = DateTime.ParseExact("01/01/1000", DateHelpers.DEFAULT_DATE_FORMAT, null)
             };
             Collector c4 = serviceLayer.GetCollectorForListener(l4);
             Assert.AreEqual("Unknown", c4.Forename);
