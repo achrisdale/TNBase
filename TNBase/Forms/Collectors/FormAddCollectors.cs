@@ -3,7 +3,6 @@ using System;
 using TNBase.Objects;
 using NLog;
 using TNBase.DataStorage;
-using TNBase.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace TNBase

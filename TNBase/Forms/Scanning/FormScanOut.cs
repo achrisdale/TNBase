@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using TNBase.Objects;
 using TNBase.DataStorage;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
+using TNBase.Infrastructure;
 
 namespace TNBase
 {
@@ -90,9 +92,8 @@ namespace TNBase
             txtScannerInput.Focus();
 
             // Process and play a second beep.
-            ModuleGeneric.Sleep(100);
-            Listener theListener = default(Listener);
-            theListener = serviceLayer.GetListenerById(walletId);
+            Task.Delay(100).Wait();
+            var theListener = serviceLayer.GetListenerById(walletId);
             if (((theListener == null)))
             {
                 ModuleSounds.PlayNotInUse();

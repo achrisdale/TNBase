@@ -234,23 +234,6 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="M:TNBase.ModuleGeneric.GetDatabasePath">
-            <summary>
-            Get the database path.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:TNBase.ModuleGeneric.GetLogFilePath">
-            <summary>
-            Get the log file path!
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:TNBase.ModuleGeneric.UpdateStatsWeek(TNBase.DataStorage.IServiceLayer,System.Boolean)">
-            <summary>
-            Update weekly stats
-            </summary>
-        </member>
         <member name="T:TNBase.My.Resources.Resources">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.

@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Forms;
 using NLog;
 
 namespace TNBase
@@ -30,7 +31,7 @@ namespace TNBase
 		private void FormAbout_Load(object sender, EventArgs e)
 		{
 			log.Trace("Loading form.");
-			lblVersion.Text = ModuleGeneric.getVersionString();
+			lblVersion.Text = $"V{Application.ProductVersion}";
             lblDotNetVer.Text = ".Net " + Environment.Version;
             Label1.Text = Settings.Default.AssociationName;
 		}

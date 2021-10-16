@@ -1,4 +1,4 @@
-namespace TNBase
+namespace TNBase.Infrastructure
 {
     public static class ModuleScanning
 	{

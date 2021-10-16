@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 
 namespace TNBase.Repository.UnitTests.TestMigrations
 {

@@ -4,6 +4,7 @@ using System;
 using System.Speech.Synthesis;
 using System.Windows.Forms;
 using TNBase.DataStorage;
+using TNBase.Infrastructure;
 using TNBase.Objects;
 
 namespace TNBase

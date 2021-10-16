@@ -1,20 +1,15 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using TNBase.DataStorage;
+using TNBase.Infrastructure;
 using TNBase.Infrastructure.Helpers;
 using TNBase.Objects;
 
-namespace TNBase
+namespace TNBase.DataStorage
 {
     public static class ModuleGeneric
     {
         // This is the path to the database!
         public static string DATABASE_NAME = "Listeners.s3db";
         public static string DATABASE_PATH = "Resource\\" + DATABASE_NAME;
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        public static extern void Sleep(int Milliseconds);
 
         // Formatting consts and defaults.
         public const string DATE_FORMAT = "dd/MM/yyyy";
@@ -62,11 +57,11 @@ namespace TNBase
             return endTime.ToString(TIME_FORMAT);
         }
 
-        // Get version number printable string.
-        public static string getVersionString()
-        {
-            return "V " + Application.ProductVersion;
-        }
+        //// Get version number printable string.
+        //public static string getVersionString()
+        //{
+        //    return "V " + Application.ProductVersion;
+        //}
 
 
         // Get the application path.
@@ -82,12 +77,6 @@ namespace TNBase
         public static string GetDatabasePath()
         {
             return getStartPath() + "\\" + DATABASE_PATH;
-        }
-
-        // Get a nice format date.
-        public static string getUKFormatDate(string dateString)
-        {
-            return DateTime.ParseExact(dateString, DateHelpers.DEFAULT_DATE_FORMAT, null).ToString(DATE_FORMAT);
         }
 
         /// <summary>
