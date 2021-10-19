@@ -234,41 +234,9 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="T:TNBase.My.Resources.Resources">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:TNBase.My.Resources.Resources.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:TNBase.My.Resources.Resources.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
-        </member>
         <member name="M:TNBase.Program.Main">
             <summary>
              The main entry point for the application.
-            </summary>
-        </member>
-        <member name="T:TNBase.Properties.Resources">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:TNBase.Properties.Resources.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:TNBase.Properties.Resources.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
             </summary>
         </member>
         <member name="M:TNBase.RichTextBoxExtensions.MyAppendText(System.Windows.Forms.RichTextBox,System.String,System.Drawing.Color,System.Drawing.Color)">
