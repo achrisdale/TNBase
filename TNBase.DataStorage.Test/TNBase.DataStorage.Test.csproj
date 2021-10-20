@@ -9,6 +9,10 @@
     <ProjectReference Include="..\TNBase.Repository\TNBase.Repository.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Listeners.s3db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
