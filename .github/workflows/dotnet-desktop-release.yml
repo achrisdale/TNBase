@@ -28,6 +28,9 @@ jobs:
       
     - name: Set env
       run: echo this is $env.GITHUB_REF tag
+      env:
+        GITHUB_REF: ${{ github.ref }}
+        
     - name: Test
       run: |
         echo $RELEASE_VERSION
