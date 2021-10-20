@@ -5,33 +5,36 @@ on:
     tags:
       - "v*"
       
-jobs:
+#jobs:
 
-  release:
-    runs-on: windows-latest  # For a list of available runner types, refer to
+ # release:
+    #runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-
-    env:
-      Solution_Name: TNBase.sln
-
+jobs:
+  one:
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-        
-    - name: Get the version 
-      id: get_version 
-      run: echo ::set-output name=VERSION::$GITHUB_REF
-      env:
-        GITHUB_REF: ${{ github.ref }}
-      
-    - name: Set env
-      run: echo "$GITHUB.REPOSITORY"
-      env:
-        GITHUB_REF: ${{ github.ref }}
-        
-    - name: Test
-      run: |
-        echo $RELEASE_VERSION
-        echo "${{ steps.get_version.outputs.VERSION }}"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
