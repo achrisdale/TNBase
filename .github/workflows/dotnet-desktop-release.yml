@@ -27,42 +27,8 @@ jobs:
         GITHUB_REF: ${{ github.ref }}
       
     - name: Set env
-      run: echo $GITHUB_REF
+      run: echo this is $GITHUB_REF tag
     - name: Test
       run: |
         echo $RELEASE_VERSION
         echo "${{ steps.get_version.outputs.VERSION }}"
-
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
-
-    # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test
-
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=Release
-      env:
-        Configuration: Release
-
-    # Create the app package by building and packaging the Windows Application Packaging project
-    - name: Create the app package
-      run: msbuild $env:Solution_Name /target:publish /p:Platform="Any CPU" /p:Configuration=Release /p:PublishProfile=ClickOnceProfile /p:PublishDir=bin/Publish /p:Version=1.7.10 /p:ApplicationVersion=1.7.10.*
-
-    # Upload the package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: $env:FileName
-        path: TNBase\bin\Publish
-      env:
-        FileName: TNBase_${{ github.event.release.tag_name }}
-
