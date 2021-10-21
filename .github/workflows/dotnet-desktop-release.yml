@@ -20,18 +20,8 @@ jobs:
       with:
         fetch-depth: 0
         
-    - name: Get the version 
-      id: get_version 
-      run: echo ::set-output name=VERSION::$GITHUB_REF
-      env:
-        GITHUB_REF: ${{ github.ref }}
-      
-    - name: Set env
-      run: echo $GITHUB_REF
-    - name: Test
-      run: |
-        echo $RELEASE_VERSION
-        echo "${{ steps.get_version.outputs.VERSION }}"
+    - name: Set release version
+      run: echo ("RELEASE_VERSION=" + $env:GITHUB_REF.replace('refs/tags/v', '')) >> $env:GITHUB_ENV
 
     # Install the .NET Core workload
     - name: Install .NET Core
@@ -55,14 +45,13 @@ jobs:
 
     # Create the app package by building and packaging the Windows Application Packaging project
     - name: Create the app package
-      run: msbuild $env:Solution_Name /target:publish /p:Platform="Any CPU" /p:Configuration=Release /p:PublishProfile=ClickOnceProfile /p:PublishDir=bin/Publish /p:Version=1.7.10 /p:ApplicationVersion=1.7.10.*
+      run: msbuild $env:Solution_Name /target:publish /p:Platform="Any CPU" /p:Configuration=Release /p:PublishProfile=ClickOnceProfile /p:PublishDir=bin/Publish /p:Version=${{ env.RELEASE_VERSION }} /p:ApplicationVersion=${{ env.RELEASE_VERSION }}
 
     # Upload the package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
+    - name: Upload release artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: $env:FileName
+        name: "TNBase_v${{ env.RELEASE_VERSION }}"
         path: TNBase\bin\Publish
-      env:
-        FileName: TNBase_${{ github.event.release.tag_name }}
+
 
