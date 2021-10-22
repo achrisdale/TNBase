@@ -82,6 +82,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -163,6 +171,17 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_6AE718F8E74B42F0887D094739234DB4"
+            {
+            "Name" = "8:#1918"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:PersonalFolder"
+                "Folders"
+                {
+                }
+            }
             "{1525181F-901A-416C-8A58-119130FE478E}:_A59603BC94614590A8E7E551F570841C"
             {
             "Name" = "8:#1916"
@@ -190,15 +209,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TNBase"
-        "ProductCode" = "8:{75146693-14C4-4568-92D6-3CFB54B6E3FD}"
-        "PackageCode" = "8:{92C115CF-0841-4A56-9DAA-96B1A6D2AFF0}"
+        "ProductCode" = "8:{1B0587F4-9705-4EDD-ACB5-41038F247806}"
+        "PackageCode" = "8:{BB5DDED7-847F-4294-975C-16554B18BD47}"
         "UpgradeCode" = "8:{D2FEE0CA-1E47-4F06-88E9-AAEE2CF75024}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.10"
+        "ProductVersion" = "8:1.5.1"
         "Manufacturer" = "8:Talking Newspapers"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
