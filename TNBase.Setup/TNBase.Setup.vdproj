@@ -19,6 +19,12 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_B465B133D54A4CB39BB9477344150B3B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -27,7 +33,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\TNBase.Setup.msi"
+        "OutputFilename" = "8:Debug\\TNBase.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -70,10 +76,40 @@
         {
             "LaunchCondition"
             {
+                "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_6AA4F9E6698D416EBC6D0147643E3664"
+                {
+                "Name" = "8:.NET Core"
+                "Message" = "8:[VSDNETCOREMSG]"
+                "AllowLaterVersions" = "11:FALSE"
+                "InstallUrl" = "8:https://dotnet.microsoft.com/download/dotnet-core/[NetCoreVerMajorDotMinor]"
+                "IsNETCore" = "11:TRUE"
+                "Architecture" = "2:0"
+                "Runtime" = "2:0"
+                }
             }
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B465B133D54A4CB39BB9477344150B3B"
+            {
+            "SourcePath" = "8:..\\TNBase\\Resource\\Iconshock-Real-Vista-Data-Database.ico"
+            "TargetName" = "8:Iconshock-Real-Vista-Data-Database.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -82,9 +118,9 @@
         {
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_2722D3E86DAD474996D20EA2FF2049FD"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
-            "AlwaysCreate" = "11:FALSE"
+            "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Property" = "8:TARGETDIR"
@@ -129,30 +165,30 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:TNBase.Setup"
+        "ProductName" = "8:TNBase"
         "ProductCode" = "8:{E03F6210-2429-4311-BB62-34135D4CCB92}"
-        "PackageCode" = "8:{A414BC83-8D75-4EC2-86F0-00BDCA3AF9C9}"
+        "PackageCode" = "8:{C7973973-B566-4829-A723-0F4338F1DF3E}"
         "UpgradeCode" = "8:{D2FEE0CA-1E47-4F06-88E9-AAEE2CF75024}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:FALSE"
+        "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:Talking Newspapers"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:TNBase.Setup"
+        "Title" = "8:TNBase"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:Talking Newspapers"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
+        "ARPCOMMENTS" = "8:Listener and their recordings management system"
         "ARPURLINFOABOUT" = "8:"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
-        "TargetPlatform" = "3:0"
+        "TargetPlatform" = "3:1"
         "PreBuildEvent" = "8:"
         "PostBuildEvent" = "8:"
         "RunPostBuildEvent" = "3:0"
@@ -251,6 +287,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2AEF3BC83D5A44DFBD25519FABAE8922"
+            {
+            "Name" = "8:TNBase"
+            "Arguments" = "8:"
+            "Description" = "8:TNBase Application"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
+            "Folder" = "8:_377829BCC02C448AAE534D810FD1A6C5"
+            "WorkingFolder" = "8:_377829BCC02C448AAE534D810FD1A6C5"
+            "Icon" = "8:_B465B133D54A4CB39BB9477344150B3B"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FABB248EF55A4A71AB6F99F78210D118"
+            {
+            "Name" = "8:TNBase"
+            "Arguments" = "8:"
+            "Description" = "8:TNBase Application"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
+            "Folder" = "8:_A59603BC94614590A8E7E551F570841C"
+            "WorkingFolder" = "8:_A59603BC94614590A8E7E551F570841C"
+            "Icon" = "8:_B465B133D54A4CB39BB9477344150B3B"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -652,7 +716,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1C917F09BC0E4542BF1958BC51AAF1C4"
             {
-            "SourcePath" = "8:..\\TNBase\\obj\\Debug\\net5.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\TNBase\\bin\\Release\\net5.0-windows\\publish\\TNBase.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
