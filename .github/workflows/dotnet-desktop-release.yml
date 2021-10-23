@@ -12,6 +12,7 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
     env:
       Solution_Name: TNBase.sln
+      Application_Project: TNBase\TNBase.csproj
       Setup_Project: TNBase.Setup\TNBase.Setup.vdproj
       Configuration: Release
 
@@ -35,6 +36,19 @@ jobs:
 
     - name: Execute unit tests
       run: dotnet test
+      
+    - name: Apply version number
+      run: |
+        $project = Get-Content $env:Setup_Project
+        $project = $project.Replace('"ProductVersion" = "8:1.0.0.0"', '"ProductVersion" = "8:' + $env.RELEASE_VERSION + '"')
+        $productCode = '"ProductCode" = "8:{' + [guid]::NewGuid().toString().ToUpper()
+        $project = $project -replace '"ProductCode" = "8:{[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}', $productCode
+        $packageCode = '"PackageCode" = "8:{' + [guid]::NewGuid().toString().ToUpper()
+        $project = $project -replace '"PackageCode" = "8:{[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}', $packageCode
+        Set-Content $env:Setup_Project -Value $project
+        $project = Get-Content $env:Application_Project
+        $project = $project.Replace("<Version>1.0.0.0</Version>", "<Version>$env.RELEASE_VERSION</Version>")
+        Set-Content $env:Application_Project -Value $project
       
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
