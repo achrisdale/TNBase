@@ -37,7 +37,7 @@ jobs:
     - name: Apply version number
       run: |
         $project = Get-Content $env:Setup_Project
-        $project = $project.Replace('"ProductVersion" = "8:1.0.0.0"', '"ProductVersion" = "8:' + $env.RELEASE_VERSION + '"')
+        $project = $project.Replace('"ProductVersion" = "8:1.0.0.0"', '"ProductVersion" = "8:' + ${{ env.RELEASE_VERSION }} + '"')
         $productCode = '"ProductCode" = "8:{' + [guid]::NewGuid().toString().ToUpper()
         $project = $project -replace '"ProductCode" = "8:{[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}', $productCode
         $packageCode = '"PackageCode" = "8:{' + [guid]::NewGuid().toString().ToUpper()
@@ -45,11 +45,9 @@ jobs:
         Set-Content $env:Setup_Project -Value $project
         write-host $project
         $project = Get-Content $env:Application_Project
-        $project = $project.Replace("<Version>1.0.0.0</Version>", "<Version>$($env.RELEASE_VERSION)</Version>")
+        $project = $project.Replace("<Version>1.0.0.0</Version>", "<Version>${{ env.RELEASE_VERSION }}</Version>")
         Set-Content $env:Application_Project -Value $project
         write-host $project
-      env:
-        RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
           
 #    - name: Restore the application
 #      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
