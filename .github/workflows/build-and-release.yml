@@ -87,5 +87,5 @@ jobs:
         with:
           body: ${{steps.build_changelog.outputs.changelog}}
           files: |
-            "TNBase.Setup/Release/TNBase-v${{ env.RELEASE_VERSION }}-win-x64.msi"
-            "Release Notes.txt"
+            TNBase.Setup/Release/TNBase-v${{ env.RELEASE_VERSION }}-win-x64.msi
+            Release Notes.txt
