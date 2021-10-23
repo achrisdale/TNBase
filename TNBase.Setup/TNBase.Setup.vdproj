@@ -209,15 +209,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TNBase"
-        "ProductCode" = "8:{79155E8E-4606-427F-B820-03544D4E000A}"
-        "PackageCode" = "8:{8C5382C2-429A-44FA-AC7E-8C76D4DDCCA5}"
+        "ProductCode" = "8:{5637FA96-6DC9-4B81-A9DB-3BF90DE2CF28}"
+        "PackageCode" = "8:{1A7CD045-42D5-47EC-AD20-E42C7D79B735}"
         "UpgradeCode" = "8:{D2FEE0CA-1E47-4F06-88E9-AAEE2CF75024}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0.0"
+        "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Talking Newspapers"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -759,7 +759,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1C917F09BC0E4542BF1958BC51AAF1C4"
             {
-            "SourcePath" = "8:..\\TNBase\\obj\\Debug\\net5.0-windows\\win-x64\\apphost.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
