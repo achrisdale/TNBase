@@ -50,8 +50,8 @@ jobs:
         $project = $project.Replace("<Version>1.0.0.0</Version>", "<Version>$env.RELEASE_VERSION</Version>")
         Set-Content $env:Application_Project -Value $project
       
-   # - name: Restore the application
-   #   run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+    - name: Restore the application
+      run: msbuild $env:Solution_Name /Restore /p:Configuration=$env:Configuration
 
     - name: Create installation package
       run: devenv $env:Solution_Name /build $env:Configuration  /Project $env:Setup_Project
