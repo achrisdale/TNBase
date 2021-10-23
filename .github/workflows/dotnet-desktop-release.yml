@@ -58,14 +58,11 @@ jobs:
 
       - name: Create installation package
         run: devenv $env:Solution_Name /build $env:Configuration  /Project $env:Setup_Project
-
-#      - name: Upload release artifacts
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: "TNBase_v${{ env.RELEASE_VERSION }}"
-#          path: TNBase.Setup\Release
           
+      - name: Rename setup file
+        run: Rename-Item -Path "TNBase.Setup\Release\TNBase.Setup.msi" -NewName "TNBase_${{ env.RELEASE_VERSION }}_win-x64.msi"
+        
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: TNBase.Setup\Release
+          files: "TNBase_${{ env.RELEASE_VERSION }}_win-x64.msi"
