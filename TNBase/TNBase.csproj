@@ -3,7 +3,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Company>Talking Newspapers</Company>
+    <Product>TNBase</Product>
     <Version>1.0.0</Version>
+    <Description>TNBase is a database application used to keep the records of listeners and the postal pouches for talking newspapers.</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\TNBase.DataStorage\TNBase.DataStorage.csproj" />
@@ -20,9 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="Resource\Iconshock-Real-Vista-Data-Database.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resource\Listeners.s3db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resource\sound\beep-invalid.wav">
