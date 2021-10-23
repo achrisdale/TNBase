@@ -30,15 +30,15 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-     
+        
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
+      
     - name: Setup VS Dev Environment
       uses: seanmiddleditch/gha-setup-vsdevenv@v3
 
     - name: Execute unit tests
       run: dotnet test
-      
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
 
     - name: Apply version number
       run: |
@@ -52,7 +52,10 @@ jobs:
         $project = Get-Content $env:Application_Project
         $project = $project.Replace("<Version>1.0.0.0</Version>", "<Version>$env.RELEASE_VERSION</Version>")
         Set-Content $env:Application_Project -Value $project
-      
+          
+    - name: Restore the application
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+
     - name: Create installation package
       run: devenv $env:Solution_Name /build $env:Configuration  /Project $env:Setup_Project
 
