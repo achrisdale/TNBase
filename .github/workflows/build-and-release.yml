@@ -1,4 +1,4 @@
-name: Create TNBase Application Release
+name: Build and release TNBase Application
 
 on:
   push:
