@@ -36,9 +36,12 @@ jobs:
       
     - name: Setup VS Dev Environment
       uses: seanmiddleditch/gha-setup-vsdevenv@v3
-
+          
+    - name: Restore and build the application
+      run: dotnet build -c $env:Configuration
+      
     - name: Execute unit tests
-      run: dotnet test
+      run: dotnet test --no-build -c $env:Configuration
 
     - name: Apply version number
       run: |
@@ -53,8 +56,8 @@ jobs:
         $project = $project.Replace("<Version>1.0.0.0</Version>", "<Version>$env.RELEASE_VERSION</Version>")
         Set-Content $env:Application_Project -Value $project
           
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+    #- name: Restore the application
+      #run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
 
     - name: Create installation package
       run: devenv $env:Solution_Name /build $env:Configuration  /Project $env:Setup_Project
