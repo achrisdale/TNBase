@@ -37,7 +37,7 @@ jobs:
         
   release:
     needs: build
-    if: startsWith(github.ref, 'refs/tags/v') && github.event.base_ref=='refs/heads/master'
+    if: startsWith(github.ref, 'refs/tags/v') #&& github.event.base_ref=='refs/heads/master'
     runs-on: windows-latest 
     steps:
       - name: Checkout
@@ -76,7 +76,16 @@ jobs:
       - name: Rename setup file
         run: Rename-Item -Path "TNBase.Setup\Release\TNBase.Setup.msi" -NewName "TNBase-v${{ env.RELEASE_VERSION }}-win-x64.msi"
         
+      - name: Release Changelog Builder
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v2.5.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: "TNBase.Setup/Release/TNBase-v${{ env.RELEASE_VERSION }}-win-x64.msi"
+          body: ${{steps.build_changelog.outputs.changelog}}
+          files: |
+            "TNBase.Setup/Release/TNBase-v${{ env.RELEASE_VERSION }}-win-x64.msi"
+            "Release Notes.txt"
