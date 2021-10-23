@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    if: github.event.base_ref=='refs/heads/master
+    #if: github.event.base_ref=='refs/heads/master
     runs-on:
       windows-latest # For a list of available runner types, refer to
       # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -59,8 +59,13 @@ jobs:
       - name: Create installation package
         run: devenv $env:Solution_Name /build $env:Configuration  /Project $env:Setup_Project
 
-      - name: Upload release artifacts
-        uses: actions/upload-artifact@v2
+#      - name: Upload release artifacts
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: "TNBase_v${{ env.RELEASE_VERSION }}"
+#          path: TNBase.Setup\Release
+          
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: "TNBase_v${{ env.RELEASE_VERSION }}"
-          path: TNBase.Setup\Release
+          files: TNBase.Setup\Release
