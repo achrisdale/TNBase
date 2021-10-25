@@ -103,8 +103,8 @@ namespace TNBase
             this.txtScannerInput.Name = "txtScannerInput";
             this.txtScannerInput.Size = new System.Drawing.Size(314, 40);
             this.txtScannerInput.TabIndex = 1;
-            this.txtScannerInput.TextChanged += new System.EventHandler(this.txtScannerInput_TextChanged);
-            this.txtScannerInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtScannerInput_KeyDown);
+            this.txtScannerInput.TextChanged += new System.EventHandler(this.TxtScannerInput_TextChanged);
+            this.txtScannerInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtScannerInput_KeyDown);
             // 
             // Label3
             // 
@@ -127,7 +127,7 @@ namespace TNBase
             this.btnFinished.TabStop = false;
             this.btnFinished.Text = "Finished";
             this.btnFinished.UseVisualStyleBackColor = false;
-            this.btnFinished.Click += new System.EventHandler(this.btnFinished_Click);
+            this.btnFinished.Click += new System.EventHandler(this.BtnFinished_Click);
             // 
             // FormScanIn
             // 
@@ -161,7 +161,7 @@ namespace TNBase
 
 		public FormScanIn()
 		{
-			FormClosing += formScanIn_FormClosing;
+			FormClosing += FormScanIn_FormClosing;
 			InitializeComponent();
 		}
 	}
