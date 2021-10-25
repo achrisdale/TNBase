@@ -89,14 +89,16 @@ namespace TNBase
                 else if (listener.Status == ListenerStates.DELETED)
                 {
                     ModuleSounds.PlayNotInUse();
-                    MessageBox.Show("This listener has been deleted. Please remove the label and place wallet into the stock of unused wallets.");
+                    lblInfo.Text = $"Listener {walletId} has been deleted. Please remove the label and place wallet into the stock of unused wallets.";
                 }
                 else
                 {
                     if (listener.WarnOfAddressChange)
                     {
+                        lblInfo.Text = $"Listener's address has changed\nNew address is: \n{listener.FormatListenerData()}";
+                        Refresh();
                         ModuleSounds.PlayAddressChanged();
-                        Thread.Sleep(2000);
+                        Thread.Sleep(1500);
                     }
 
                     if (newQuantity == 2)
@@ -115,7 +117,7 @@ namespace TNBase
 
             // Clear text.
             txtScannerInput.Text = string.Empty;
-            scannedIn = scannedIn + 1;
+            scannedIn++;
 
             FocusScannedItem(item);
         }
@@ -229,11 +231,21 @@ namespace TNBase
 
         private void TxtScannerInput_TextChanged(object sender, EventArgs e)
         {
+            if (txtScannerInput.Text.Length > 0)
+            {
+                lblInfo.Text = "";
+            }
+
             // The barcodes are in a 6 digit format (e.g. 000001)
             if (txtScannerInput.Text.Length == 6)
             {
                 DoScanAction();
             }
+        }
+
+        private void FormScanIn_Load(object sender, EventArgs e)
+        {
+            lblInfo.Text = "";
         }
     }
 }
