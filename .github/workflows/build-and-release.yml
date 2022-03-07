@@ -65,6 +65,9 @@ jobs:
       - name: Setup VS Dev Environment
         uses: seanmiddleditch/gha-setup-vsdevenv@v4
 
+      - name: Update configuration
+        run: devenv /updateconfiguration
+
       - name: Create installation package
         run: devenv $env:Solution_Name /build $env:Configuration  /Project $env:Setup_Project
           
