@@ -1,6 +1,11 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using TNBase.DataStorage;
@@ -35,6 +40,7 @@ namespace TNBase
 #endif
 
             var services = new ServiceCollection();
+            ConfigureLogging();
             ConfigureServices(services);
             ServiceProvider = services.BuildServiceProvider();
 
@@ -72,6 +78,29 @@ namespace TNBase
             services.AddScoped<DatabaseManager>();
 
             services.AddScoped<FormMain>();
+        }
+
+        private static void ConfigureLogging()
+        {
+            var fileTarget = new FileTarget
+            {
+                FileName = ModuleGeneric.GetLogFilePath(),
+                Layout = @"${longdate} - ${level:uppercase=true}: ${message}${onexception:${newline}EXCEPTION\: ${exception:format=ToString}}",
+                KeepFileOpen = false,
+                ArchiveFileName = ModuleGeneric.GetLogFilePath().Replace(".log", "_{#}.log"),
+                ArchiveDateFormat = "yyyy-MM-dd",
+                ArchiveNumbering = ArchiveNumberingMode.DateAndSequence,
+                ArchiveEvery = FileArchivePeriod.Day,
+                MaxArchiveFiles = 5
+            };
+
+            var config = new LoggingConfiguration();
+            config.AddTarget("file", fileTarget);
+
+            var logLevel = LogLevel.AllLevels.Where(x => x.Name == Properties.Settings.Default.LogLevel).FirstOrDefault();
+            config.LoggingRules.Add(new LoggingRule("*", logLevel, fileTarget));
+
+            LogManager.Configuration = config;
         }
     }
 }

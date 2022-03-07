@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_1C917F09BC0E4542BF1958BC51AAF1C4"
+        "MsmKey" = "8:_30859E5E13054C86ABABDA47FA61166F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -331,7 +331,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0DE5BE35ABA14684A21981A3203DF006"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3D4A7681DD5549E1BB994ACA3FCD98F4"
             {
             "Name" = "8:TNBase"
             "Arguments" = "8:"
@@ -339,13 +339,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_1C917F09BC0E4542BF1958BC51AAF1C4"
-            "Folder" = "8:_377829BCC02C448AAE534D810FD1A6C5"
+            "Target" = "8:_30859E5E13054C86ABABDA47FA61166F"
+            "Folder" = "8:_A59603BC94614590A8E7E551F570841C"
             "WorkingFolder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
             "Icon" = "8:_3FD1C062BB03467E949DA0ADBFA36ACB"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_55E0FF6E4AB942C7B6AF6997AFC38B27"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6945BCDC2C6443FC8C9BA4797F55AE01"
             {
             "Name" = "8:TNBase"
             "Arguments" = "8:"
@@ -353,8 +353,8 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_1C917F09BC0E4542BF1958BC51AAF1C4"
-            "Folder" = "8:_A59603BC94614590A8E7E551F570841C"
+            "Target" = "8:_30859E5E13054C86ABABDA47FA61166F"
+            "Folder" = "8:_377829BCC02C448AAE534D810FD1A6C5"
             "WorkingFolder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
             "Icon" = "8:_3FD1C062BB03467E949DA0ADBFA36ACB"
             "Feature" = "8:"
@@ -758,9 +758,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1C917F09BC0E4542BF1958BC51AAF1C4"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_30859E5E13054C86ABABDA47FA61166F"
             {
-            "SourcePath" = "8:..\\TNBase\\obj\\Release\\net5.0-windows\\win-x64\\apphost.exe"
+            "SourcePath" = "8:..\\TNBase\\obj\\Release\\net6.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
@@ -782,7 +782,6 @@
             "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{CAA1C567-2970-437F-9CF2-A50677AA2F21}"
             "ShowKeyOutput" = "11:TRUE"
-            "PublishProfilePath" = "8:Properties\\PublishProfiles\\FolderProfile.pubxml"
                 "ExcludeFilters"
                 {
                 }
