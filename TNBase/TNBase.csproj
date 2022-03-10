@@ -16,8 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BarcodeLib" Version="2.4.0" />
-    <PackageReference Include="NLog" Version="4.7.14" />
-    <PackageReference Include="NLog.Config" Version="4.7.14" />
+    <PackageReference Include="NLog.Config" Version="4.7.11" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
@@ -30,9 +29,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Update="nlog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

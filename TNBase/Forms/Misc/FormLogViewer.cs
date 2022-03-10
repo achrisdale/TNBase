@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -10,7 +9,6 @@ namespace TNBase
     public partial class FormLogViewer : Form
     {
         private string lastUpdate = "";
-        private string logFilePath;
 
         public FormLogViewer()
         {
@@ -74,10 +72,11 @@ namespace TNBase
         private void logUpdater_Tick(object sender, EventArgs e)
         {
             // Get the log
-            if (File.Exists(logFilePath))
+            string logPath = ModuleGeneric.GetLogFilePath();
+            if (File.Exists(logPath))
             {
                 // Only update if its changed
-                string newContent = File.ReadAllText(logFilePath);
+                string newContent = File.ReadAllText(logPath);
                 if (!lastUpdate.Equals(newContent))
                 {
                     lastUpdate = newContent;
@@ -87,7 +86,7 @@ namespace TNBase
             else
             {
                 txtLog.Clear();
-                txtLog.Text = "Couldn't load log file, does it exist at: '" + logFilePath + "' ? "; 
+                txtLog.Text = "Couldn't load log file, does it exist at: '" + logPath + "' ? "; 
             }
         }
 
@@ -98,13 +97,7 @@ namespace TNBase
         /// <param name="e"></param>
         private void formLogViewer_Load(object sender, EventArgs e)
         {
-            logFilePath = ModuleGeneric.GetLogFilePath();
-            LogFileLocationLink.Text = Path.GetDirectoryName(logFilePath);
-        }
-
-        private void LogFileLocationLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("explorer.exe", Path.GetDirectoryName(logFilePath));
+            this.TopMost = true;
         }
     }
 }
