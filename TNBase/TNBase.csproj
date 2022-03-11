@@ -9,6 +9,9 @@
     <Description>TNBase is a database application used to keep the records of listeners and the postal pouches for talking newspapers.</Description>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="C:\Users\Audri\.nuget\packages\nlog.config\4.7.14\contentFiles\any\any\NLog.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TNBase.DataStorage\TNBase.DataStorage.csproj" />
     <ProjectReference Include="..\TNBase.Infrastructure\TNBase.Infrastructure.csproj" />
     <ProjectReference Include="..\TNBase.Objects\TNBase.Objects.csproj" />
