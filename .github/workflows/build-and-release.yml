@@ -60,7 +60,7 @@ jobs:
                     $notes += "$line `n"
                 }
             }
-            $newVersion = $version -eq ${{ steps.previoustag.outputs.tag }}
+            $newVersion = $version -eq '${{ steps.previoustag.outputs.tag }}'
             Write-Output "::set-output name=require::v$newVersion"
             Write-Output "::set-output name=version::v$version"
             Write-Output "::set-output name=notes::$notes"
