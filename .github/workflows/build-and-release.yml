@@ -69,7 +69,7 @@ jobs:
 
   release:
     needs: build
-    if: needs.build.outputs.require_release
+    if: needs.build.outputs.require_release == 'true'
     runs-on: windows-2019 
     steps:
       - name: Checkout
