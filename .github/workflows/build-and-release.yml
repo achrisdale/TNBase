@@ -115,6 +115,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: 'v${{ needs.build.outputs.release_version }}'
           body: ${{ needs.build.outputs.release_notes }}
           files: |
             TNBase.Setup/Release/TNBase-v${{ needs.build.outputs.release_version }}${{ env.SUFFIX }}-win-x64.msi
