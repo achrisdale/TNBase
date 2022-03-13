@@ -112,7 +112,7 @@ jobs:
       - name: Rename setup file
         run: Rename-Item -Path "TNBase.Setup\Release\TNBase.Setup.msi" -NewName "${{ env.FILE_NAME }}"
 
-      - name: Publish prerelease artefacts
+      - name: Publish prerelease artefact
         uses: actions/upload-artifact@v3
         if: github.ref != 'refs/heads/master'
         with:
