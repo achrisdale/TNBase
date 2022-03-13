@@ -68,7 +68,7 @@ jobs:
           failOnStandardError: true
 
       - name: echo
-        run: echo '${{ needs.build.outputs.require }}'
+        run: echo '${{ steps.release.outputs.require }}'
 
   release:
     needs: build
