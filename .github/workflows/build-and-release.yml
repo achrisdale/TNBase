@@ -67,6 +67,9 @@ jobs:
           azPSVersion: "latest"
           failOnStandardError: true
 
+      - name: echo
+        run: echo '${{ needs.build.outputs.require_release }}'
+
   release:
     needs: build
     if: needs.build.outputs.require_release == 'True'
