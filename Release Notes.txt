@@ -1,3 +1,6 @@
+1.7.5
+- Release using Release Notes file
+
 1.7.4
 - Fixed application log output file is missing
 - Added a link to log output form the Log Viewer

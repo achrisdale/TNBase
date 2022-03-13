@@ -71,6 +71,10 @@ jobs:
     needs: build
     if: needs.build.outputs.require_release == 'true'
     runs-on: windows-2019 
+
+    env:
+        SUFFIX: "${{ github.ref == 'refs/heads/master' && '' || '-prerelease' }}"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -103,12 +107,12 @@ jobs:
         run: devenv $env:Solution_Name /build $env:Configuration  /Project $env:Setup_Project
           
       - name: Rename setup file
-        run: Rename-Item -Path "TNBase.Setup\Release\TNBase.Setup.msi" -NewName "TNBase-v${{ needs.build.outputs.release_version }}-win-x64.msi"
+        run: Rename-Item -Path "TNBase.Setup\Release\TNBase.Setup.msi" -NewName "TNBase-v${{ needs.build.outputs.release_version }}${{ env.SUFFIX }}-win-x64.msi"
     
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           body: ${{ needs.build.outputs.release_notes }}
           files: |
-            TNBase.Setup/Release/TNBase-v${{ needs.build.outputs.release_version }}-win-x64.msi
+            TNBase.Setup/Release/TNBase-v${{ needs.build.outputs.release_version }}${{ env.SUFFIX }}-win-x64.msi
             Release Notes.txt
