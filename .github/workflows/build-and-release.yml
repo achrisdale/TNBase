@@ -60,9 +60,9 @@ jobs:
                     $notes += "$line `n"
                 }
             }
-            $newVersion = $version -ne '${{ steps.previoustag.outputs.tag }}'
+            $newVersion = "v$version" -ne '${{ steps.previoustag.outputs.tag }}'
             Write-Output "::set-output name=require::$newVersion"
-            Write-Output "::set-output name=version::v$version"
+            Write-Output "::set-output name=version::$version"
             Write-Output "::set-output name=notes::$notes"
           azPSVersion: "latest"
           failOnStandardError: true
