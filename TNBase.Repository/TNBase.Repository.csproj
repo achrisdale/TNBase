@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TNBase.DataStorage\TNBase.DataStorage.csproj" />
+    <ProjectReference Include="..\TNBase.DataStorage\TNBase.Data.csproj" />
     <ProjectReference Include="..\TNBase.Objects\TNBase.Objects.csproj" />
   </ItemGroup>
 

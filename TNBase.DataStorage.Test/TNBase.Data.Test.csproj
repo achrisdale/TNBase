@@ -4,7 +4,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TNBase.DataStorage\TNBase.DataStorage.csproj" />
+    <ProjectReference Include="..\TNBase.DataStorage\TNBase.Data.csproj" />
     <ProjectReference Include="..\TNBase.Objects\TNBase.Objects.csproj" />
     <ProjectReference Include="..\TNBase.Repository\TNBase.Repository.csproj" />
   </ItemGroup>

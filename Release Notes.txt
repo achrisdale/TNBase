@@ -1,3 +1,6 @@
+1.7.5
+- Fixed closing form not showing data
+
 1.7.4
 - Fixed application log output file is missing
 - Added a link to log output form the Log Viewer

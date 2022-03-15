@@ -34,15 +34,10 @@ This will trigger an automated build pipeline to ensure that the application bui
 
 ### Release
 
-The release of TNBase application is fully automated using GitHub Actions. To trigger a new release creation process,
-create a new version tag directly on the `master` branch using the following command:
+The release of TNBase application is fully automated using GitHub Actions.
+Simply add release notes to the `Release Notes.txt` file following the existig format. 
+Any new version in the release notes will automatically trigger the release process as follows:
 
-`git tag v*.*.*`
+- Adds a new git tag and creates a new release under https://github.com/achrisdale/TNBase/releases when built on master branch, or
+- Uploads installation file as a build artefact when built on any other branch, i.e. pull request
 
-Here the value `v*.*.*` represents new version using semantic versioning pattern of `major.minor.path`, for example `v1.5.0` or `v2.0.0`.
-
-Once the tag is create it has to be pushed to the origin using the following command:
-
-`git push origin --tags`
-
-This will trigger the pipeline that can be observed in Actions tab on GitHub. After the successful run a new Release should be available at https://github.com/achrisdale/TNBase/releases
