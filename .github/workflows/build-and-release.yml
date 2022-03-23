@@ -111,7 +111,7 @@ jobs:
           inlineScript: |
             $suffix = ''
             if('pull_request' -eq '${{ github.event_name }}') {
-              #$suffix = '-prerelease'
+              $suffix = '-prerelease'
             }
             Write-Output "::set-output name=name::TNBase-v${{ needs.build.outputs.release_version }}$suffix-win-x64.msi"
           azPSVersion: "latest"
@@ -122,17 +122,14 @@ jobs:
 
       - name: Publish prerelease artefact
         uses: actions/upload-artifact@v3
-        if: github.ref == 'refs/heads/master'
+        if: github.ref != 'refs/heads/master'
         with:
           name: '${{ steps.file.outputs.name }}'
           path: 'TNBase.Setup/Release/${{ steps.file.outputs.name }}'
 
-      - name: echo
-        run: echo '${{ needs.build.outputs.release_notes }}'  
-
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: github.ref != 'refs/heads/master'
+        if: github.ref == 'refs/heads/master'
         with:
           tag_name: 'v${{ needs.build.outputs.release_version }}'
           body: '${{ needs.build.outputs.release_notes }}'
