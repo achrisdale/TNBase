@@ -56,13 +56,13 @@ jobs:
                     $version = $line
                 }
                 elseif($line.Trim() -ne ''){
-                    $notes += "$line `n"
+                    $notes += "$line %0A"
                 }
             }
             $newVersion = "v$version" -ne '${{ steps.previoustag.outputs.tag }}'
             Write-Output "::set-output name=require::$newVersion"
             Write-Output "::set-output name=version::$version"
-            Write-Output "::set-output name=notes::'$notes'"
+            Write-Output "::set-output name=notes::$notes"
           azPSVersion: "latest"
           failOnStandardError: true
 
