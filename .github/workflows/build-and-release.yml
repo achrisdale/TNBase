@@ -138,4 +138,4 @@ jobs:
           body: '${{ needs.build.outputs.release_notes }}'
           files: |
             'TNBase.Setup/Release/${{ steps.file.outputs.name }}'
-            Release Notes.txt
+            'Release Notes.txt'
