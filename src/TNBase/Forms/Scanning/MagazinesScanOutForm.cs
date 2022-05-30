@@ -17,7 +17,7 @@ namespace TNBase.Forms.Scanning
 
         private List<Scan> scans = new List<Scan>();
         private List<int> walletsToScan;
-        private IEnumerable<int> stoppedListeners;
+        private IEnumerable<int> stoppedWallets;
         private WalletTypes walletType;
 
         public IEnumerable<Scan> Scans => scans;
@@ -77,7 +77,7 @@ namespace TNBase.Forms.Scanning
                         ModuleSounds.DoubleBeep();
                         SetStatusMessage($"Duplicate! Wallet {wallet} already scanned.", ScanStatus.Error);
                     }
-                    else if (stoppedListeners.Contains(wallet))
+                    else if (stoppedWallets.Contains(wallet))
                     {
                         ModuleSounds.PlayStopped();
                         SetStatusMessage($"Wallet {wallet} is paused.", ScanStatus.Error);
@@ -146,11 +146,11 @@ namespace TNBase.Forms.Scanning
             }
         }
 
-        public void Setup(string title, WalletTypes walletType, IEnumerable<int> walletsToScan, IEnumerable<int> scanned, IEnumerable<int> stoppedListeners)
+        public void Setup(string title, WalletTypes walletType, IEnumerable<int> walletsToScan, IEnumerable<int> scanned, IEnumerable<int> stoppedWallets)
         {
             this.walletType = walletType;
             this.walletsToScan = walletsToScan.ToList();
-            this.stoppedListeners = stoppedListeners;
+            this.stoppedWallets = stoppedWallets;
 
             Text = title;
             ScanInputLabel.Text = $"Please scan out a {walletType.ToString().ToLower()} wallet:";
