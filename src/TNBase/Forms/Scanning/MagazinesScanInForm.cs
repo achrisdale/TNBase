@@ -19,6 +19,7 @@ namespace TNBase.Forms.Scanning
         private ScanTypes scanType;
         private WalletTypes walletType;
         private IEnumerable<int> validWallets;
+        private IEnumerable<int> stoppedListeners;
 
         public IEnumerable<Scan> Scans => scans;
         public bool ShouldScanOut { get; private set; }
@@ -102,6 +103,11 @@ namespace TNBase.Forms.Scanning
                         SetStatusMessage($"Last scanned {wallet}.", ScanStatus.Ok);
                     }
                 }
+                else if (stoppedListeners.Contains(wallet))
+                {
+                    ModuleSounds.PlayStopped();
+                    SetStatusMessage($"Wallet {wallet} is paused.", ScanStatus.Error);
+                }
                 else
                 {
                     ModuleSounds.PlayNotInUse();
@@ -149,11 +155,12 @@ namespace TNBase.Forms.Scanning
             }
         }
 
-        public void Setup(string title, ScanTypes scanType, WalletTypes walletType, IEnumerable<int> validWallets)
+        public void Setup(string title, ScanTypes scanType, WalletTypes walletType, IEnumerable<int> validWallets, IEnumerable<int> stoppedListeners)
         {
             this.scanType = scanType;
             this.walletType = walletType;
             this.validWallets = validWallets;
+            this.stoppedListeners = stoppedListeners;
 
             Text = title;
             ListLabel.Text = $"Scanned {walletType.ToString().ToLower()} wallets:";
