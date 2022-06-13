@@ -56,8 +56,9 @@ namespace TNBase
                 Town = txtTown.Text,
                 County = txtCounty.Text,
                 Postcode = txtPostcode.Text,
-                MemStickPlayer = chkTape.Checked,
-                Magazine = chkMagazine.Checked,
+                MemStickPlayer = chkTape.Checked && !chkOnlineOnly.Checked,
+                Magazine = chkMagazine.Checked && !chkOnlineOnly.Checked,
+                OnlineOnly = chkOnlineOnly.Checked,
                 Info = txtInformation.Text,
                 Telephone = string.IsNullOrEmpty(txtTelephone.Text) ? "0" : txtTelephone.Text,
                 Status = ListenerStates.ACTIVE,
@@ -221,6 +222,12 @@ namespace TNBase
                 }
             }
             return true;
+        }
+
+        private void chkOnlineOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            chkTape.Enabled = !chkOnlineOnly.Checked;
+            chkMagazine.Enabled = !chkOnlineOnly.Checked;
         }
     }
 }

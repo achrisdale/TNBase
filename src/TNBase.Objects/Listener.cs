@@ -35,6 +35,7 @@ namespace TNBase.Objects
         public string Postcode { get; set; }
         public bool WarnOfAddressChange { get; set; }
         public string Telephone { get; set; }
+        public bool OnlineOnly { get; set; }
         public bool MemStickPlayer { get; set; }
         public bool Magazine { get; set; }
         public int? BirthdayDay { get; set; }

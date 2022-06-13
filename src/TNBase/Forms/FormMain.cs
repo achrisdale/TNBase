@@ -130,12 +130,12 @@ namespace TNBase
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            new FormAddMini().ShowDialog();
+            new FormAddFull().ShowDialog();
         }
 
         private void AddToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new FormAddMini().ShowDialog();
+            new FormAddFull().ShowDialog();
         }
 
         private void BtnRemove_Click(object sender, EventArgs e)

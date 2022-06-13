@@ -41,6 +41,7 @@ namespace TNBase
                 txtTelephone.Text = listener.Telephone;
                 txtStock.Text = listener.Stock.ToString();
                 chkMagazine.Checked = listener.Magazine;
+                chkOnlineOnly.Checked = listener.OnlineOnly;
                 txtMagazineStock.Enabled = chkMagazine.Checked;
                 chkMemStickPlayer.Checked = listener.MemStickPlayer;
                 listenerWalletNo = listener.Wallet;
@@ -212,12 +213,13 @@ namespace TNBase
                 myListener.County = txtCounty.Text;
                 myListener.Postcode = txtPostcode.Text;
                 myListener.WarnOfAddressChange = chkWarnOfAddressChange.Checked;
+                myListener.OnlineOnly = chkOnlineOnly.Checked;
                 myListener.MemStickPlayer = chkMemStickPlayer.Checked;
                 myListener.Magazine = chkMagazine.Checked;
                 myListener.Info = txtInformation.Text;
-                if ((!string.IsNullOrEmpty(txtTelephone.Text)))
+                if (!string.IsNullOrEmpty(txtTelephone.Text))
                 {
-                    myListener.Telephone = (txtTelephone.Text);
+                    myListener.Telephone = txtTelephone.Text;
                 }
                 else
                 {
@@ -330,6 +332,7 @@ namespace TNBase
                     !txtTelephone.Text.Equals(myListener.Telephone) ||
                     !chkMagazine.Checked.Equals(myListener.Magazine) ||
                     !chkMemStickPlayer.Checked.Equals(myListener.MemStickPlayer) ||
+                    !chkOnlineOnly.Checked.Equals(myListener.OnlineOnly) ||
                     restored ||
                     !int.Parse(txtStock.Text).Equals(myListener.Stock) ||
                     !int.Parse(txtMagazineStock.Text).Equals(myListener.MagazineStock) ||
@@ -406,6 +409,11 @@ namespace TNBase
                 }
             }
             return true;
+        }
+
+        private void chkOnlineOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            stockGroup.Enabled = !chkOnlineOnly.Checked;
         }
     }
 }
