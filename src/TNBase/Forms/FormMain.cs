@@ -597,5 +597,11 @@ namespace TNBase
                 scanService.AddScans(scans);
             }
         }
+
+        private void onlineonlyListenersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormPrintOnlineOnly();
+            form.Show();
+        }
     }
 }

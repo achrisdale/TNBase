@@ -60,6 +60,11 @@ namespace TNBase.DataStorage
             return context.Listeners.Where(x => !x.Status.Equals(ListenerStates.DELETED)).OrderBy(x => x.Surname).ToList();
         }
 
+        public List<Listener> GetOnlineOnlyListenersOrderedBySurname()
+        {
+            return context.Listeners.Where(x => !x.Status.Equals(ListenerStates.DELETED) && x.OnlineOnly).OrderBy(x => x.Surname).ToList();
+        }
+
         public List<Listener> GetNextWeekBirthdays()
         {
             var list = context.Listeners.ToList().Where(x =>
@@ -148,10 +153,10 @@ namespace TNBase.DataStorage
 
         public List<Listener> GetActiveListenersNotScannedIn()
         {
-            return context.Listeners.ToList().Where(x => 
-                x.Status.Equals(ListenerStates.ACTIVE) && 
+            return context.Listeners.ToList().Where(x =>
+                x.Status.Equals(ListenerStates.ACTIVE) &&
                 !x.OnlineOnly &&
-                x.InOutRecords.In7.Equals(0) && 
+                x.InOutRecords.In7.Equals(0) &&
                 x.Stock > 0).ToList();
         }
 

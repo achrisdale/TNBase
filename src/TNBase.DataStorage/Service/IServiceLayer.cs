@@ -25,6 +25,7 @@ namespace TNBase.DataStorage
         Listener GetPreviousListener(Listener current);
         List<Listener> GetListeners();
         List<Listener> GetAlphabeticList();
+        List<Listener> GetOnlineOnlyListenersOrderedBySurname();
         List<Listener> GetInactiveListeners();
         List<Listener> GetRecentlyAddedListeners();
         List<Listener> GetRecentlyDeletedListeners();
