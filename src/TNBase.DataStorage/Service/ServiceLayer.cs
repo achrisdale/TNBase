@@ -148,7 +148,11 @@ namespace TNBase.DataStorage
 
         public List<Listener> GetActiveListenersNotScannedIn()
         {
-            return context.Listeners.ToList().Where(x => x.Status.Equals(ListenerStates.ACTIVE) && x.InOutRecords.In7.Equals(0) && x.Stock > 0).ToList();
+            return context.Listeners.ToList().Where(x => 
+                x.Status.Equals(ListenerStates.ACTIVE) && 
+                !x.OnlineOnly &&
+                x.InOutRecords.In7.Equals(0) && 
+                x.Stock > 0).ToList();
         }
 
         public bool AddCollector(Collector collector)

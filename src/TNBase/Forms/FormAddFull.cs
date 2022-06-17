@@ -87,8 +87,11 @@ namespace TNBase
 
                 var newListenerWithWalletNo = serviceLayer.GetListenerById(result);
 
-                PrintLabels(newListenerWithWalletNo);
-                PrintMemoryStickForm(newListenerWithWalletNo);
+                if (!newListener.OnlineOnly)
+                {
+                    PrintLabels(newListenerWithWalletNo);
+                    PrintMemoryStickForm(newListenerWithWalletNo);
+                }
             }
             else
             {
