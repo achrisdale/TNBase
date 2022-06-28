@@ -89,7 +89,7 @@ namespace TNBase.Objects
         public bool OwnsWalletsOrEquipment => MemStickPlayer || SentNewsWallets != 0 || SentMagazineWallets != 0;
 
         public bool CanEdit => Status == ListenerStates.ACTIVE || Status == ListenerStates.PAUSED || Status == ListenerStates.DELETED;
-        public bool CanPause => Status == ListenerStates.ACTIVE;
+        public bool CanPause => Status == ListenerStates.ACTIVE && !OnlineOnly;
         public bool CanResume => Status == ListenerStates.PAUSED;
         public bool CanDelete => Status != ListenerStates.DELETED;
         public bool CanRestore => Status == ListenerStates.DELETED;

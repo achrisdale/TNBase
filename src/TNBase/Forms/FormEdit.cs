@@ -246,6 +246,11 @@ namespace TNBase
                     myListener.BirthdayMonth = cbBirthdayMonth.SelectedIndex + 1;
                 }
 
+                if (chkOnlineOnly.Checked && myListener.Status == ListenerStates.PAUSED)
+                {
+                    myListener.Resume();
+                }
+
                 serviceLayer.UpdateListener(myListener);
                 Interaction.MsgBox("The listener has successfully been updated.");
 
@@ -414,6 +419,16 @@ namespace TNBase
         private void chkOnlineOnly_CheckedChanged(object sender, EventArgs e)
         {
             stockGroup.Enabled = !chkOnlineOnly.Checked;
+            if (chkOnlineOnly.Checked && myListener?.Status == ListenerStates.PAUSED)
+            {
+                MessageBox.Show("Listener is stopped. Making this listener online-only will cancel the stop.");
+
+                lblStatus.ForeColor = Color.Green;
+                lblExtra.Text = "";
+                lblExtraContent.Text = "";
+                btnRestore.Visible = false;
+                lblStatus.Text = ListenerStates.ACTIVE.ToString();
+            }
         }
     }
 }
