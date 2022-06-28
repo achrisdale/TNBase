@@ -293,6 +293,11 @@ namespace TNBase.DataStorage
             return context.Listeners.ToList().Where(x => x.Status.Equals(status)).ToList();
         }
 
+        public List<Listener> GetPostListenersByStatus(ListenerStates status)
+        {
+            return context.Listeners.ToList().Where(x => x.Status.Equals(status) && !x.OnlineOnly).ToList();
+        }
+
         public List<WeeklyStats> GetAllWeeklyStats()
         {
             return context.WeeklyStats.ToList();

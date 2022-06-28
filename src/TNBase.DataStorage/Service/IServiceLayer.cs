@@ -38,6 +38,7 @@ namespace TNBase.DataStorage
         List<Listener> GetNextWeekBirthdays();
         List<Listener> GetListenersByName(string forename, string surname, string title = null);
         List<Listener> GetListenersByStatus(ListenerStates status);
+        List<Listener> GetPostListenersByStatus(ListenerStates status);
         List<Listener> GetOrderedListeners(OrderVar ordering);
         int AddListener(Listener listener);
         void UpdateListener(Listener listener);
