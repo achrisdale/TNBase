@@ -534,7 +534,12 @@ namespace TNBase.DataStorage
 
         public int Get3MonthInactiveListeners()
         {
-            return context.Listeners.Where(x => !x.Status.Equals(ListenerStates.DELETED) && x.LastOut.HasValue && x.LastOut < DateTime.Now.AddMonths(-3)).Count();
+            return context.Listeners.Where(x =>
+                !x.Status.Equals(ListenerStates.DELETED) &&
+                !x.OnlineOnly &&
+                x.LastOut.HasValue &&
+                x.LastOut < DateTime.Now.AddMonths(-3)
+            ).Count();
         }
 
         public List<Listener> Get1MonthDormantListeners()
@@ -566,7 +571,7 @@ namespace TNBase.DataStorage
 
         public int GetInactiveWalletNumbers()
         {
-            return context.Listeners.ToList().Where(x => x.Status.Equals(ListenerStates.DELETED)).Count();
+            return context.Listeners.ToList().Where(x => x.Status.Equals(ListenerStates.DELETED) && !x.OnlineOnly).Count();
         }
 
         public int GetNewListenersForYear(int year)
