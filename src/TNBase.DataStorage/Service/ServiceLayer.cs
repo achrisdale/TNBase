@@ -148,7 +148,7 @@ namespace TNBase.DataStorage
 
         public List<Listener> GetUnreturnedSpeakerListeners()
         {
-            return context.Listeners.Where(x => x.Status.Equals(ListenerStates.DELETED) && x.MemStickPlayer).ToList();
+            return context.Listeners.Where(x => (x.Status.Equals(ListenerStates.DELETED) || x.OnlineOnly) && x.MemStickPlayer).ToList();
         }
 
         public List<Listener> GetActiveListenersNotScannedIn()
