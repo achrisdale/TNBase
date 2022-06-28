@@ -236,6 +236,11 @@ namespace TNBase.DataStorage
             return context.Listeners.ToList();
         }
 
+        public List<Listener> GetPostListeners()
+        {
+            return context.Listeners.Where(x => !x.OnlineOnly).ToList();
+        }
+
         public bool DeleteCollector(Collector collector)
         {
             context.Collectors.Remove(collector);

@@ -508,7 +508,7 @@ namespace TNBase
         private void WalletsStockToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FormPrintWalletStock();
-            var stock = serviceLayer.GetListeners()
+            var stock = serviceLayer.GetPostListeners()
                 .Select(x => new StockItem
                 {
                     Wallet = x.Wallet,
@@ -524,7 +524,7 @@ namespace TNBase
         private void MagazineWalletStockToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FormPrintWalletStock();
-            var stock = serviceLayer.GetListeners()
+            var stock = serviceLayer.GetPostListeners()
                 .Select(x => new StockItem
                 {
                     Wallet = x.Wallet,
