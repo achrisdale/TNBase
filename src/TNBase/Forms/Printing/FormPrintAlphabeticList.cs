@@ -49,15 +49,17 @@ namespace TNBase
             {
                 Listener theListener = theListeners[0];
 
+                var star = theListener.OnlineOnly ? "*" : "";
                 g.DrawString(theListener.Wallet + ". ", reportFontSmall, Brushes.Black, 100, start + (gap * value));
-                g.DrawString(theListener.Title + " " + theListener.Forename + " " + theListener.Surname, reportFontSmall, Brushes.Black, 160, start + (gap * value));
+                g.DrawString($"{theListener.Title} {theListener.Forename} {theListener.Surname}{star}", reportFontSmall, Brushes.Black, 160, start + (gap * value));
 
                 theListeners.RemoveAt(0);
             }
 
-            g.DrawString("Number of Listeners: " + totalCount, reportFontSmallBold, Brushes.Black, 100, 980);
-            g.DrawString("Printed on " + DateTime.Now.ToString(ModuleGeneric.DATE_FORMAT), reportFontSmallBold, Brushes.Black, 550, 980);
-            g.DrawString("Page " + currentPageNumber + "/" + totalPages, reportFontSmallBold, Brushes.Black, 380, 1000);
+            g.DrawString("*online-only listener", reportFontSmall, Brushes.Black, 100, 950);
+            g.DrawString("Number of Listeners: " + totalCount, reportFontSmallBold, Brushes.Black, 100, 1000);
+            g.DrawString("Printed on " + DateTime.Now.ToString(ModuleGeneric.DATE_FORMAT), reportFontSmallBold, Brushes.Black, 550, 1000);
+            g.DrawString("Page " + currentPageNumber + "/" + totalPages, reportFontSmallBold, Brushes.Black, 380, 1020);
 
             // VB is stupid.... have to reset this so its back when you actually print it!
             if (!e.HasMorePages)
