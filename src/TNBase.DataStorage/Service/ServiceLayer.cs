@@ -529,7 +529,12 @@ namespace TNBase.DataStorage
 
         public List<Listener> Get1MonthDormantListeners()
         {
-            return context.Listeners.Where(x => x.Status.Equals(ListenerStates.ACTIVE) && x.LastOut.HasValue && x.LastOut < DateTime.Now.AddMonths(-1)).ToList();
+            return context.Listeners.Where(x =>
+                x.Status.Equals(ListenerStates.ACTIVE) &&
+                !x.OnlineOnly &&
+                x.LastOut.HasValue &&
+                x.LastOut < DateTime.Now.AddMonths(-1)
+            ).ToList();
         }
 
         public int GetListenersAtYearStart(int year)
