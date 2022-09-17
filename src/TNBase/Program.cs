@@ -68,6 +68,9 @@ namespace TNBase
             services.AddScoped<IServiceLayer, ServiceLayer>();
             services.AddScoped<ScanService>();
 
+            var resourceDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resource");
+            services.AddSingleton(s => new ResourceManager(resourceDirectory));
+
             services.AddSingleton(s => new DatabaseManagerOptions { DatabasePath = databasePath });
             services.AddScoped<DatabaseManager>();
 

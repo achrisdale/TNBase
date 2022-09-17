@@ -14,6 +14,7 @@ using TNBase.Model;
 using Microsoft.Extensions.DependencyInjection;
 using TNBase.Repository;
 using System.Globalization;
+using TNBase.Forms;
 
 namespace TNBase
 {
@@ -602,6 +603,12 @@ namespace TNBase
         {
             var form = new FormPrintOnlineOnly();
             form.Show();
+        }
+
+        private void dataImportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormDataImport();
+            form.ShowDialog();
         }
     }
 }
