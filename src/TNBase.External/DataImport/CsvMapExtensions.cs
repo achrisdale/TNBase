@@ -1,5 +1,4 @@
 ﻿using CsvHelper.Configuration;
-using System;
 
 namespace TNBase.External.DataImport
 {
