@@ -354,5 +354,20 @@ namespace TNBase.External.Tests.DataImport
                 new ("", listeners[3].StatusInfo)
             }, pair => Assert.Equal(pair.Item1, pair.Item2));
         }
+
+        [Fact]
+        public void ImportListeners_ShouldIncludeHeaderStringInResult()
+        {
+            using var context = new TNBaseContext("Data Source=:memory:");
+            context.UpdateDatabase();
+            var service = new CsvImportService(context);
+
+            var importData = @"Wallet,Forename,Surname
+1,Bob,Baker";
+
+            var result = service.ImportListeners(importData);
+
+            Assert.Equal("Wallet,Forename,Surname", result.RawHeader);
+        }
     }
 }

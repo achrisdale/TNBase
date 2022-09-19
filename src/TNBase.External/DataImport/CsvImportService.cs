@@ -58,6 +58,7 @@ namespace TNBase.External.DataImport
             csv.Read();
             csv.ReadHeader();
             csv.ValidateHeader<Listener>();
+            var rawHeader = csv.Parser.RawRecord.Replace(System.Environment.NewLine, "");
 
             //progress?.Report(new ImportExportProgressReport("header is valid"));
 
@@ -89,7 +90,7 @@ namespace TNBase.External.DataImport
                 context.SaveChanges();
             }
 
-            return new ImportResult { Records = resultItems.Values };
+            return new ImportResult { Records = resultItems.Values, RawHeader = rawHeader };
         }
     }
 }

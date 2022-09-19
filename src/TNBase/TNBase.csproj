@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\src\TNBase.Infrastructure\TNBase.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Objects\TNBase.Objects.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Repository\TNBase.Repository.csproj" />
+    <ProjectReference Include="..\TNBase.External\TNBase.External.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BarcodeLib" Version="2.4.0" />
