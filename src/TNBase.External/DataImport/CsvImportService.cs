@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
+using NLog;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -12,6 +13,7 @@ namespace TNBase.External.DataImport
 {
     public class CsvImportService
     {
+        private readonly Logger log = LogManager.GetCurrentClassLogger();
         private readonly ITNBaseContext context;
 
         public CsvImportService(ITNBaseContext context)
