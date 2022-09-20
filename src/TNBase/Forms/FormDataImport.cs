@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NLog;
 using System;
 using System.IO;
 using System.Text;
@@ -9,6 +10,8 @@ namespace TNBase.Forms
 {
     public partial class FormDataImport : Form
     {
+        private readonly Logger log = LogManager.GetCurrentClassLogger();
+
         public FormDataImport()
         {
             InitializeComponent();
@@ -24,18 +27,21 @@ namespace TNBase.Forms
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
+                log.Info($"Importing listeners from {dialog.FileName}");
                 var content = File.ReadAllText(dialog.FileName, Encoding.UTF8);
                 var importService = Program.ServiceProvider.GetService<CsvImportService>();
 
                 try
                 {
                     var result = importService.ImportListeners(content);
+                    log.Info("Import listeners complete. Showing result.");
                     var reportForm = new FormDataImportReport(result);
                     reportForm.ShowDialog();
                     Close();
                 }
                 catch (InvalidImportDataException ex)
                 {
+                    log.Error($"Importing listeners failed: {ex.Message}", ex);
                     MessageBox.Show(ex.Message, "Listener Import Error");
                 }
             }
@@ -55,6 +61,7 @@ namespace TNBase.Forms
 
             if (!string.IsNullOrWhiteSpace(dialog.FileName))
             {
+                log.Info($"Saving Listeners Import Template to {dialog.FileName}");
                 var resourceManager = Program.ServiceProvider.GetService<ResourceManager>();
                 File.Copy(resourceManager.ListenersImportTemplatePath, dialog.FileName, true);
             }

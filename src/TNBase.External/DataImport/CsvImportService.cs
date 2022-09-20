@@ -23,9 +23,11 @@ namespace TNBase.External.DataImport
 
         public ImportResult ImportListeners(string importData)
         {
+            log.Debug("Listener Import: started");
             if (string.IsNullOrWhiteSpace(importData))
             {
-                throw new InvalidImportDataException("Header is missing");
+                log.Debug($"Listener Import: {nameof(importData)} parameter is null or empty");
+                throw new InvalidImportDataException("No records found");
             }
 
             var resultItems = new Dictionary<int, ImportResultItem>();
@@ -36,15 +38,18 @@ namespace TNBase.External.DataImport
             {
                 ReadingExceptionOccurred = c =>
                 {
+                    log.Debug($"Listener Import: ReadingExceptionOccured for line {c.Exception.Context.Parser.Row}", c.Exception);
                     if (c.Exception is MissingFieldException missingFieldException)
                     {
                         var message = missingFieldException.Message.Split('.')[0];
+                        log.Warn($"Listener Import: MissingFieldException - '{message}'");
                         throw new InvalidImportDataException(message);
                     }
 
                     var resultItem = resultItems[c.Exception.Context.Parser.Row];
                     if (c.Exception.InnerException is FieldValidationException validationException)
                     {
+                        log.Warn($"Listener Import: FieldValidationException - '{validationException.Message}'");
                         resultItem.SetError(validationException.FieldName, validationException.Message, c.Exception.Context.Parser.RawRecord);
                     }
                     return false;
@@ -56,24 +61,26 @@ namespace TNBase.External.DataImport
             csv.Context.RegisterClassMap<ListenerCsvMap>();
             csv.Context.TypeConverterCache.AddConverter<ListenerStates>(new EnumConverter(typeof(ListenerStates)));
             csv.Context.TypeConverterOptionsCache.GetOptions<ListenerStates>().EnumIgnoreCase = true;
+            log.Debug("Listener Import: configuration complete");
 
             csv.Read();
             csv.ReadHeader();
             csv.ValidateHeader<Listener>();
             var rawHeader = csv.Parser.RawRecord.Replace(System.Environment.NewLine, "");
-
-            //progress?.Report(new ImportExportProgressReport("header is valid"));
+            log.Debug("Listener Import: header validated");
 
             while (csv.Read())
             {
+                log.Debug($"Listener Import: reading line {csv.Parser.Row}");
                 resultItems.Add(csv.Parser.Row, new ImportResultItem(csv.Parser.Row));
-                //progress?.Report(new ImportExportProgressReport($"line {csv.Context.Row}: {csv.Context.RawRecord.Replace(Environment.NewLine, "")}"));
                 var listener = csv.GetRecord<Listener>();
                 if (listener != null)
                 {
+                    log.Debug($"Listener Import: listener parsed");
                     var existingListener = context.Listeners.SingleOrDefault(x => x.Wallet == listener.Wallet);
                     if (existingListener != null)
                     {
+                        log.Warn($"Listener Import: listener with wallet number {listener.Wallet} already exists");
                         var resultItem = resultItems[csv.Context.Parser.Row];
                         resultItem.SetError("Wallet", $"Listener with wallet number {listener.Wallet} already exists", csv.Context.Parser.RawRecord);
                     }
@@ -81,17 +88,21 @@ namespace TNBase.External.DataImport
                     {
                         context.Listeners.Add(listener);
                         isDirty = true;
+                        log.Debug($"Listener Import: listener with wallet number {csv.Parser.Row} has been imported");
                     }
-
                 }
-                //progress?.Report(new ImportExportProgressReport($"entry found: Name '{record.Name}' ComponentIdentifier '{record.ComponentIdentifier}' PosX '{record.PosX}' PosY '{record.Posy}' Rotation '{record.Rotation}'"));
             }
 
             if (isDirty)
             {
+                log.Debug("Listener Import: saving changes");
                 context.SaveChanges();
             }
 
+            var succeeded = resultItems.Count(x => !x.Value.HasError);
+            var failed = resultItems.Count(x => x.Value.HasError);
+            var total = resultItems.Count();
+            log.Debug($"Listener Import: complete. Succeeded: {succeeded}, failed: {failed}, total: {total}.");
             return new ImportResult { Records = resultItems.Values, RawHeader = rawHeader };
         }
     }
