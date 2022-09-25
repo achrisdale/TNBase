@@ -55,6 +55,7 @@ namespace TNBase
             this.logViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.adjustStockLevelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataImportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PrintingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UpcomingBirthdaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentlyAddedListenersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,7 +80,9 @@ namespace TNBase
             this.CollectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddCollectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BrowseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.lblDate = new System.Windows.Forms.Label();
             this.lblTime = new System.Windows.Forms.Label();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
@@ -106,7 +109,7 @@ namespace TNBase
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnMagScanOut = new System.Windows.Forms.Button();
             this.btnMagScanIn = new System.Windows.Forms.Button();
-            this.dataImportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.menuTop.SuspendLayout();
             this.GroupBox1.SuspendLayout();
             this.GroupBox2.SuspendLayout();
@@ -136,7 +139,7 @@ namespace TNBase
             this.StatisticsHistoryToolStripMenuItem,
             this.ScanningToolStripMenuItem,
             this.CollectorsToolStripMenuItem,
-            this.AboutToolStripMenuItem});
+            this.helpToolStripMenuItem});
             this.menuTop.Location = new System.Drawing.Point(0, 0);
             this.menuTop.Name = "menuTop";
             this.menuTop.Padding = new System.Windows.Forms.Padding(13, 4, 0, 4);
@@ -256,6 +259,13 @@ namespace TNBase
             this.adjustStockLevelsToolStripMenuItem.Size = new System.Drawing.Size(459, 50);
             this.adjustStockLevelsToolStripMenuItem.Text = "Adjust Stock Levels";
             this.adjustStockLevelsToolStripMenuItem.Click += new System.EventHandler(this.AdjustStockLevelsToolStripMenuItem_Click);
+            // 
+            // dataImportToolStripMenuItem
+            // 
+            this.dataImportToolStripMenuItem.Name = "dataImportToolStripMenuItem";
+            this.dataImportToolStripMenuItem.Size = new System.Drawing.Size(459, 50);
+            this.dataImportToolStripMenuItem.Text = "Data Import";
+            this.dataImportToolStripMenuItem.Click += new System.EventHandler(this.dataImportToolStripMenuItem_Click);
             // 
             // PrintingToolStripMenuItem
             // 
@@ -446,12 +456,29 @@ namespace TNBase
             this.BrowseToolStripMenuItem1.Text = "Browse";
             this.BrowseToolStripMenuItem1.Click += new System.EventHandler(this.BrowseToolStripMenuItem1_Click);
             // 
-            // AboutToolStripMenuItem
+            // helpToolStripMenuItem
             // 
-            this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(120, 45);
-            this.AboutToolStripMenuItem.Text = "Abo&ut";
-            this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewHelpToolStripMenuItem,
+            this.aboutToolStripMenuItem1});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(100, 45);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // viewHelpToolStripMenuItem
+            // 
+            this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
+            this.viewHelpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(359, 50);
+            this.viewHelpToolStripMenuItem.Text = "&View Help";
+            this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem1
+            // 
+            this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(359, 50);
+            this.aboutToolStripMenuItem1.Text = "Abo&ut";
+            this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
             // lblDate
             // 
@@ -754,12 +781,9 @@ namespace TNBase
             this.btnMagScanIn.UseVisualStyleBackColor = false;
             this.btnMagScanIn.Click += new System.EventHandler(this.BtnMagScanIn_Click);
             // 
-            // dataImportToolStripMenuItem
+            // helpProvider
             // 
-            this.dataImportToolStripMenuItem.Name = "dataImportToolStripMenuItem";
-            this.dataImportToolStripMenuItem.Size = new System.Drawing.Size(459, 50);
-            this.dataImportToolStripMenuItem.Text = "Data Import";
-            this.dataImportToolStripMenuItem.Click += new System.EventHandler(this.dataImportToolStripMenuItem_Click);
+            this.helpProvider.HelpNamespace = "Resource\\TNBase.chm";
             // 
             // FormMain
             // 
@@ -782,11 +806,14 @@ namespace TNBase
             this.Controls.Add(this.menuTop);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.helpProvider.SetHelpKeyword(this, "0");
+            this.helpProvider.SetHelpNavigator(this, System.Windows.Forms.HelpNavigator.TopicId);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuTop;
             this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.MaximizeBox = false;
             this.Name = "FormMain";
+            this.helpProvider.SetShowHelp(this, true);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.formMain_Load);
             this.menuTop.ResumeLayout(false);
@@ -807,7 +834,6 @@ namespace TNBase
 		internal System.Windows.Forms.ToolStripMenuItem MaintenenceToolStripMenuItem;
 		internal System.Windows.Forms.ToolStripMenuItem PrintingToolStripMenuItem;
 		internal System.Windows.Forms.ToolStripMenuItem StatisticsHistoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
 		internal System.Windows.Forms.Label lblDate;
 		internal System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Timer timerUpdate;
@@ -878,5 +904,9 @@ namespace TNBase
         private ToolStripMenuItem magazineWalletStockToolStripMenuItem;
         private ToolStripMenuItem onlineonlyListenersToolStripMenuItem;
         private ToolStripMenuItem dataImportToolStripMenuItem;
+        private ToolStripMenuItem helpToolStripMenuItem;
+        private ToolStripMenuItem viewHelpToolStripMenuItem;
+        private ToolStripMenuItem aboutToolStripMenuItem1;
+        private HelpProvider helpProvider;
     }
 }

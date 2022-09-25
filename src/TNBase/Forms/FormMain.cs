@@ -231,11 +231,6 @@ namespace TNBase
             ShowBackup();
         }
 
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            My.MyProject.Forms.formAbout.Show();
-        }
-
         private void BtnFinished_Click(object sender, EventArgs e)
         {
             // Show a load of forms automatically.!
@@ -603,6 +598,17 @@ namespace TNBase
         {
             var form = new FormPrintOnlineOnly();
             form.Show();
+        }
+
+        private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            My.MyProject.Forms.formAbout.Show();
+        }
+
+        private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var resourceManager = Program.ServiceProvider.GetService<ResourceManager>();
+            Help.ShowHelp(this, resourceManager.HelpFilePath, HelpNavigator.TableOfContents);
         }
 
         private void dataImportToolStripMenuItem_Click(object sender, EventArgs e)
