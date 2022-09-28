@@ -1,4 +1,4 @@
-1.7.8
+1.7.9
 - Fixed #88 - Magazine stock not set to 0 when magazine option is unchecked
 - Closed #95 - Option to import listeners from CSV file
 
