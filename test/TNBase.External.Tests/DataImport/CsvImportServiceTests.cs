@@ -113,6 +113,32 @@ namespace TNBase.External.Tests.DataImport
         }
 
         [Fact]
+        public void ImportListeners_ShouldAddListenerWithNewWalletNumbers_WhenWalletFieldNotSpecified()
+        {
+            using var context = new TNBaseContext("Data Source=:memory:");
+            context.UpdateDatabase();
+            context.Listeners.Add(new Listener
+            {
+                Wallet = 1,
+                Forename = "Jason",
+                Surname = "Bourne",
+                InOutRecords = new InOutRecords { Wallet = 1 }
+            });
+            context.SaveChanges();
+
+            var service = new CsvImportService(context);
+
+            var importData = @"Forename,Surname
+Bob,Baker
+Tom,Shaw";
+
+            var result = service.ImportListeners(importData);
+
+            Assert.Equal(2, context.Listeners.Single(x => x.Forename == "Bob").Wallet);
+            Assert.Equal(3, context.Listeners.Single(x => x.Forename == "Tom").Wallet);
+        }
+
+        [Fact]
         public void ImportListeners_ShouldNotReplaceExistingListener_WhenListenerWithSpecifiedWalletExists()
         {
             using var context = new TNBaseContext("Data Source=:memory:");
@@ -122,7 +148,7 @@ namespace TNBase.External.Tests.DataImport
                 Wallet = 2,
                 Forename = "Jason",
                 Surname = "Bourne",
-                InOutRecords = new InOutRecords {  Wallet = 2 }
+                InOutRecords = new InOutRecords { Wallet = 2 }
             });
             context.SaveChanges();
 
@@ -241,6 +267,38 @@ namespace TNBase.External.Tests.DataImport
         }
 
         [Fact]
+        public void ImportListeners_ShouldSaveListenerWithDefaultDetails_WhenValuesNotSet()
+        {
+            using var context = new TNBaseContext("Data Source=:memory:");
+            context.UpdateDatabase();
+            var service = new CsvImportService(context);
+
+            var importData = @"Wallet,Title,Forename,Surname,Addr1,Addr2,Town,County,Postcode,Telephone,BirthdayDay,BirthdayMonth,Information
+,,Tom,Baker,,,,,,,,,";
+
+            service.ImportListeners(importData);
+
+            var listener = context.Listeners.First();
+
+            Assert.All(new List<Tuple<object, object>>
+            {
+                new (1, listener.Wallet),
+                new ("", listener.Title),
+                new ("Tom", listener.Forename),
+                new ("Baker", listener.Surname),
+                new ("", listener.Addr1),
+                new ("", listener.Addr2),
+                new ("", listener.Town),
+                new ("", listener.County),
+                new ("", listener.Postcode),
+                new ("", listener.Telephone),
+                new (null, listener.BirthdayDay),
+                new (null, listener.BirthdayMonth),
+                new ("", listener.Info),
+            }, pair => Assert.Equal(pair.Item1, pair.Item2));
+        }
+
+        [Fact]
         public void ImportListeners_ShouldSaveListenerWithCorrectSettings()
         {
             using var context = new TNBaseContext("Data Source=:memory:");
@@ -288,6 +346,33 @@ namespace TNBase.External.Tests.DataImport
         }
 
         [Fact]
+        public void ImportListeners_ShouldSaveListenerWithDefaultSettings_WhenValuesNotSet()
+        {
+            using var context = new TNBaseContext("Data Source=:memory:");
+            context.UpdateDatabase();
+            var service = new CsvImportService(context);
+
+            var importData = @"Wallet,Forename,Surname,OnlineOnly,ReceivesMagazine,HasPlayerIssued,NumberOfNewsIssued,NewsStock,NumberOfMagazinesIssued,MagazineStock
+,Tom,Baker,,,,,,,,";
+
+            service.ImportListeners(importData);
+
+            var listener = context.Listeners.First();
+
+            Assert.All(new List<Tuple<object, object>>
+            {
+                new (1, listener.Wallet),
+                new (false, listener.OnlineOnly),
+                new (false, listener.Magazine),
+                new (false, listener.MemStickPlayer),
+                new (0, listener.NewsWalletsIssued),
+                new (0, listener.Stock),
+                new (0, listener.MagazineWalletsIssued),
+                new (0, listener.MagazineStock),
+            }, pair => Assert.Equal(pair.Item1, pair.Item2));
+        }
+
+        [Fact]
         public void ImportListeners_ShouldSaveListenerWithCorrectJoinedDate()
         {
             using var context = new TNBaseContext("Data Source=:memory:");
@@ -313,6 +398,27 @@ namespace TNBase.External.Tests.DataImport
 
                 new (3, listeners[2].Wallet),
                 new (new DateTime(2021, 10, 18), listeners[2].Joined)
+            }, pair => Assert.Equal(pair.Item1, pair.Item2));
+        }
+
+        [Fact]
+        public void ImportListeners_ShouldSaveListenerWithDefaultJoinedDate_WhenValuesNotSet()
+        {
+            using var context = new TNBaseContext("Data Source=:memory:");
+            context.UpdateDatabase();
+            var service = new CsvImportService(context);
+
+            var importData = @"Wallet,Forename,Surname,JoinedDate
+,Tom,Baker,";
+
+            service.ImportListeners(importData);
+
+            var listener = context.Listeners.First();
+
+            Assert.All(new List<Tuple<object, object>>
+            {
+                new (1, listener.Wallet),
+                new (null, listener.Joined),
             }, pair => Assert.Equal(pair.Item1, pair.Item2));
         }
 
@@ -352,6 +458,28 @@ namespace TNBase.External.Tests.DataImport
                 new (4, listeners[3].Wallet),
                 new (ListenerStates.ACTIVE, listeners[3].Status),
                 new ("", listeners[3].StatusInfo)
+            }, pair => Assert.Equal(pair.Item1, pair.Item2));
+        }
+
+        [Fact]
+        public void ImportListeners_ShouldSaveListenerWithDefaultStatus_WhenValueNotSet()
+        {
+            using var context = new TNBaseContext("Data Source=:memory:");
+            context.UpdateDatabase();
+            var service = new CsvImportService(context);
+
+            var importData = @"Wallet,Forename,Surname,Status,PauseStartDate,PauseEndDate
+,Tom,Baker,,,";
+
+            service.ImportListeners(importData);
+
+            var listener = context.Listeners.First();
+
+            Assert.All(new List<Tuple<object, object>>
+            {
+                new (1, listener.Wallet),
+                new (ListenerStates.ACTIVE, listener.Status),
+                new ("", listener.StatusInfo),
             }, pair => Assert.Equal(pair.Item1, pair.Item2));
         }
 

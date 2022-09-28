@@ -27,21 +27,21 @@ namespace TNBase.Forms
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                log.Info($"Importing listeners from {dialog.FileName}");
-                var content = File.ReadAllText(dialog.FileName, Encoding.UTF8);
-                var importService = Program.ServiceProvider.GetService<CsvImportService>();
-
                 try
                 {
+                    log.Info($"Importing listeners from {dialog.FileName}");
+                    var content = File.ReadAllText(dialog.FileName, Encoding.UTF8);
+                    var importService = Program.ServiceProvider.GetService<CsvImportService>();
+
                     var result = importService.ImportListeners(content);
                     log.Info("Import listeners complete. Showing result.");
                     var reportForm = new FormDataImportReport(result);
                     reportForm.ShowDialog();
                     Close();
                 }
-                catch (InvalidImportDataException ex)
+                catch (Exception ex)
                 {
-                    log.Error($"Importing listeners failed: {ex.Message}", ex);
+                    log.Error(ex, $"Importing listeners failed: {ex.Message}");
                     MessageBox.Show(ex.Message, "Listener Import Error");
                 }
             }
