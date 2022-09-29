@@ -68,6 +68,7 @@ namespace TNBase.External.DataImport
             csv.ValidateHeader<Listener>();
             var rawHeader = csv.Parser.RawRecord.Replace(System.Environment.NewLine, "");
             log.Debug("Listener Import: header validated");
+            var wallets = new Dictionary<int, int>();
 
             while (csv.Read())
             {
@@ -86,6 +87,19 @@ namespace TNBase.External.DataImport
                     }
                     else
                     {
+                        if (listener.Wallet > 0)
+                        {
+                            if (wallets.ContainsKey(listener.Wallet))
+                            {
+                                var resultItem = resultItems[csv.Context.Parser.Row];
+                                resultItem.SetError("Wallet", 
+                                    $"Duplicate wallet number. Wallet '{listener.Wallet}' was imported at row number '{wallets[listener.Wallet]}'", 
+                                    csv.Context.Parser.RawRecord);
+                                continue;
+                            }
+                            wallets.Add(listener.Wallet, csv.Parser.Row);
+                        }
+
                         context.Listeners.Add(listener);
                         isDirty = true;
                         log.Debug($"Listener Import: listener with wallet number {csv.Parser.Row} has been imported");

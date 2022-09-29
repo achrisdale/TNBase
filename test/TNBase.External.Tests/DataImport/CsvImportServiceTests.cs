@@ -201,6 +201,28 @@ Tom,Shaw";
         }
 
         [Fact]
+        public void ImportListeners_ShouldReturnErrorForRecord_WhenListenerWithSameWalletWasAlreadyAdded()
+        {
+            using var context = new TNBaseContext("Data Source=:memory:");
+            context.UpdateDatabase();
+
+            var service = new CsvImportService(context);
+
+            var importData = @"Wallet,Forename,Surname
+1,Bob,Baker
+2,Tom,Shaw
+1,Fred,Gray";
+
+            var result = service.ImportListeners(importData);
+
+            var faildedRecords = result.Records.Where(x => x.HasError).ToList();
+            Assert.Single(faildedRecords);
+            Assert.Equal(4, faildedRecords.First().Row);
+            Assert.Equal("Wallet", faildedRecords.First().Error.FieldName);
+            Assert.Equal("Duplicate wallet number. Wallet '1' was imported at row number '2'", faildedRecords.First().Error.ErrorMessage);
+        }
+
+        [Fact]
         public void ImportListeners_ShouldFail_WhenRequiredColumnIsMissing()
         {
             using var context = new TNBaseContext("Data Source=:memory:");
