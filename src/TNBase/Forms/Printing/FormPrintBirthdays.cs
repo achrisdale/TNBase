@@ -107,7 +107,7 @@ namespace TNBase
 
         private void SetInitial()
         {
-            theListeners = serviceLayer.GetNextWeekBirthdays();
+            theListeners = serviceLayer.GetUpcomingBirthdays(dtpFrom.Value, dtpTo.Value);
             SortListeners();
             totalCount = theListeners.Count;
             currentPageNumber = 0;
@@ -140,13 +140,38 @@ namespace TNBase
 
         private void formPrintBirthdays_Load(object sender, EventArgs e)
         {
-            printBirthdaysForm();
-            this.Close();
+            DateTime fromDate;
+            DateTime toDate;
+
+            serviceLayer.GetUpcomingBirthdayDates(out fromDate, out toDate);
+
+            dtpFrom.Value = fromDate;
+            dtpTo.Value = toDate;
         }
 
         public FormPrintBirthdays()
         {
             InitializeComponent();
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            pnlParams.Visible = false;
+            lblPrinting.Text = string.Format(lblPrinting.Text, dtpFrom.Text, dtpTo.Text);
+            pnlPrinting.Visible = true;
+            Refresh();
+            printBirthdaysForm();
+            this.Close();
+        }
+
+        private void btnCancel2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void dtpFrom_ValueChanged(object sender, EventArgs e)
+        {
+            dtpTo.Value = dtpFrom.Value.AddDays(13);
         }
     }
 }
