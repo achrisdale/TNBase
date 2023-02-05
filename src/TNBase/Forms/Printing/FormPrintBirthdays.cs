@@ -29,27 +29,7 @@ namespace TNBase
 
             g.DrawString("Upcoming Birthdays", reportFont, Brushes.Black, 280, 80, StringFormat.GenericTypographic);
 
-            string nowDate;
-            string weekDate;
-
-            // Also duplicated in the service layer!!!!
-            if (DateTime.Now.Month == 12 & DateTime.Now.Day >= 8 & DateTime.Now.Day <= 14)
-            {
-                nowDate = DateTime.Now.AddDays(9).ToString(ModuleGeneric.DATE_FORMAT);
-                weekDate = DateTime.Now.AddDays(29).ToString(ModuleGeneric.DATE_FORMAT);
-            }
-            else if (DateTime.Now.Month == 12 & DateTime.Now.Day >= 15 & DateTime.Now.Day <= 25)
-            {
-                nowDate = DateTime.Now.AddDays(23).ToString(ModuleGeneric.DATE_FORMAT);
-                weekDate = DateTime.Now.AddDays(29).ToString(ModuleGeneric.DATE_FORMAT);
-            }
-            else
-            {
-                nowDate = DateTime.Now.AddDays(9).ToString(ModuleGeneric.DATE_FORMAT);
-                weekDate = DateTime.Now.AddDays(15).ToString(ModuleGeneric.DATE_FORMAT);
-            }
-
-            g.DrawString("Producers list of birthdays from " + nowDate + " to " + weekDate + ".", reportFontSmall, Brushes.Black, 100, 140);
+            g.DrawString("Producers list of birthdays from " + dtpFrom.Value.ToShortDateString() + " to " + dtpTo.Value.ToShortDateString() + ".", reportFontSmall, Brushes.Black, 100, 140);
 
             g.DrawString("NAME", reportFontSmallBoldTitles, Brushes.Black, 100, 200);
             g.DrawString("BIRTHDAY", reportFontSmallBoldTitles, Brushes.Black, 440, 200);
@@ -107,7 +87,7 @@ namespace TNBase
 
         private void SetInitial()
         {
-            theListeners = serviceLayer.GetUpcomingBirthdays(dtpFrom.Value, dtpTo.Value);
+            theListeners = serviceLayer.GetUpcomingBirthdays(new DateRange() { from = dtpFrom.Value, to = dtpTo.Value });
             SortListeners();
             totalCount = theListeners.Count;
             currentPageNumber = 0;
@@ -140,13 +120,10 @@ namespace TNBase
 
         private void formPrintBirthdays_Load(object sender, EventArgs e)
         {
-            DateTime fromDate;
-            DateTime toDate;
+            DateRange dateRange = serviceLayer.GetUpcomingBirthdayDates();
 
-            serviceLayer.GetUpcomingBirthdayDates(out fromDate, out toDate);
-
-            dtpFrom.Value = fromDate;
-            dtpTo.Value = toDate;
+            dtpFrom.Value = dateRange.from;
+            dtpTo.Value = dateRange.to;
         }
 
         public FormPrintBirthdays()

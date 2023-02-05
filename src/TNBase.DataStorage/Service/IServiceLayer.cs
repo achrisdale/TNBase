@@ -37,8 +37,8 @@ namespace TNBase.DataStorage
         List<Listener> GetUnreturnedSpeakerListeners();
         List<Listener> GetActiveListenersNotScannedIn();
         List<Listener> Get1MonthDormantListeners();
-        List<Listener> GetUpcomingBirthdays(DateTime fromDate, DateTime toDate);
-        void GetUpcomingBirthdayDates(out DateTime fromDate, out DateTime toDate);
+        List<Listener> GetUpcomingBirthdays(DateRange dateRange);
+        DateRange GetUpcomingBirthdayDates();
         List<Listener> GetListenersByName(string forename, string surname, string title = null);
         List<Listener> GetListenersByStatus(ListenerStates status);
         List<Listener> GetPostListenersByStatus(ListenerStates status);

@@ -65,7 +65,7 @@ namespace TNBase.DataStorage
             return context.Listeners.Where(x => !x.Status.Equals(ListenerStates.DELETED) && x.OnlineOnly).OrderBy(x => x.Surname).ToList();
         }
 
-        public List<Listener> GetUpcomingBirthdays(DateTime fromDate, DateTime toDate)
+        public List<Listener> GetUpcomingBirthdays(DateRange dateRange)
         {
             var list = context.Listeners.ToList().Where(x =>
                 x.HasBirthday &&
@@ -76,29 +76,39 @@ namespace TNBase.DataStorage
             return list.Where(x =>
             {
                 var nextBirthdate = x.NextBirthdayDate;
-                return nextBirthdate >= fromDate && nextBirthdate <= toDate;
+                return nextBirthdate >= dateRange.from && nextBirthdate <= dateRange.to;
             }).ToList();
         }
 
-        public void GetUpcomingBirthdayDates(out DateTime fromDate, out DateTime toDate)
+        public DateRange GetUpcomingBirthdayDates()
         {
-            fromDate = DateTime.Now.Date;
-            toDate = fromDate;
-            if (DateTime.Now.Month == 12 & DateTime.Now.Day >= 8 & DateTime.Now.Day <= 14)
+            return GetUpcomingBirthdayDates(DateTime.Today);
+        }
+
+        public DateRange GetUpcomingBirthdayDates(DateTime today)
+        { 
+            DateRange result = new DateRange
             {
-                fromDate = fromDate.AddDays(9);
-                toDate = toDate.AddDays(29);
+                from = today
+            };
+            result.to = result.from;
+            if (today.Month == 12 & today.Day >= 8 & today.Day <= 14)
+            {
+                result.from = result.from.AddDays(9);
+                result.to = result.to.AddDays(29);
             }
-            else if (DateTime.Now.Month == 12 & DateTime.Now.Day >= 15 & DateTime.Now.Day <= 25)
+            else if (today.Month == 12 & today.Day >= 15 & today.Day <= 25)
             {
-                fromDate = fromDate.AddDays(23);
-                toDate = toDate.AddDays(29);
+                result.from = result.from.AddDays(23);
+                result.to = result.to.AddDays(29);
             }
             else
             {
-                fromDate = fromDate.AddDays(9);
-                toDate = toDate.AddDays(15);
+                result.from = result.from.AddDays(9);
+                result.to = result.to.AddDays(15);
             }
+
+            return result;
         }
 
         private int GetLastRecordingWeekOfYear()
