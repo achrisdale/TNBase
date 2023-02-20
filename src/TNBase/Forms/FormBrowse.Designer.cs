@@ -47,6 +47,7 @@ namespace TNBase
             this.Town = new System.Windows.Forms.ColumnHeader();
             this.County = new System.Windows.Forms.ColumnHeader();
             this.Postcode = new System.Windows.Forms.ColumnHeader();
+            this.onlineOnly = new System.Windows.Forms.ColumnHeader();
             this.Magazine = new System.Windows.Forms.ColumnHeader();
             this.Player = new System.Windows.Forms.ColumnHeader();
             this.Telephone = new System.Windows.Forms.ColumnHeader();
@@ -73,7 +74,7 @@ namespace TNBase
             this.lstFreeze = new System.Windows.Forms.ListView();
             this.walletFreeze = new System.Windows.Forms.ColumnHeader();
             this.filterButton = new System.Windows.Forms.Button();
-            this.onlineOnly = new System.Windows.Forms.ColumnHeader();
+            this.ExportButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lstBrowse
@@ -154,6 +155,10 @@ namespace TNBase
             // 
             this.Postcode.Text = "Postcode";
             this.Postcode.Width = 80;
+            // 
+            // onlineOnly
+            // 
+            this.onlineOnly.Text = "Online";
             // 
             // Magazine
             // 
@@ -332,7 +337,7 @@ namespace TNBase
             this.cmbOrder.Items.AddRange(new object[] {
             "Wallet",
             "Surname"});
-            this.cmbOrder.Location = new System.Drawing.Point(1076, 545);
+            this.cmbOrder.Location = new System.Drawing.Point(946, 545);
             this.cmbOrder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbOrder.Name = "cmbOrder";
             this.cmbOrder.Size = new System.Drawing.Size(192, 39);
@@ -343,7 +348,7 @@ namespace TNBase
             // 
             this.Label1.AutoSize = true;
             this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label1.Location = new System.Drawing.Point(909, 545);
+            this.Label1.Location = new System.Drawing.Point(779, 545);
             this.Label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(127, 31);
@@ -386,9 +391,16 @@ namespace TNBase
             this.filterButton.UseVisualStyleBackColor = true;
             this.filterButton.Click += new System.EventHandler(this.filterButton_Click);
             // 
-            // onlineOnly
+            // ExportButton
             // 
-            this.onlineOnly.Text = "Online";
+            this.ExportButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ExportButton.Location = new System.Drawing.Point(1160, 545);
+            this.ExportButton.Name = "ExportButton";
+            this.ExportButton.Size = new System.Drawing.Size(108, 39);
+            this.ExportButton.TabIndex = 66;
+            this.ExportButton.Text = "Export";
+            this.ExportButton.UseVisualStyleBackColor = true;
+            this.ExportButton.Click += new System.EventHandler(this.ExportButton_Click);
             // 
             // FormBrowse
             // 
@@ -396,6 +408,7 @@ namespace TNBase
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1288, 732);
+            this.Controls.Add(this.ExportButton);
             this.Controls.Add(this.filterButton);
             this.Controls.Add(this.lstFreeze);
             this.Controls.Add(this.Label1);
@@ -457,5 +470,6 @@ namespace TNBase
         internal ColumnHeader walletFreeze;
         private Button filterButton;
         private ColumnHeader onlineOnly;
+        private Button ExportButton;
     }
 }
