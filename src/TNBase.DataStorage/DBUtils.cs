@@ -25,7 +25,7 @@ namespace TNBase.DataStorage
             System.IO.File.Copy(oldPath, newPath, true);
 
             // Check the copied file exists.
-            return (System.IO.File.Exists(newPath));
+            return System.IO.File.Exists(newPath);
         }
 
         /// <summary>

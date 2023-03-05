@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 using System.Linq;
 using TNBase.DataStorage;
 using TNBase.Objects;
@@ -14,8 +16,63 @@ namespace TNBase.Repository
 
         public TNBaseContext(string connectionString)
         {
-            connection = new SqliteConnection(connectionString);
-            connection.Open();
+        }
+        //    var m = new SqliteConnectionStringBuilder(connectionString)
+        //    {
+        //        Mode = SqliteOpenMode.ReadWriteCreate,
+        //        Password = "password"
+        //    };
+
+        //    connection = new SqliteConnection(m.ToString());
+        //    try
+        //    {
+        //        connection.Open();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        m = new SqliteConnectionStringBuilder(connectionString)
+        //        {
+        //            Mode = SqliteOpenMode.ReadWriteCreate
+        //        };
+
+        //        connection = new SqliteConnection(m.ToString());
+        //        connection.Open();
+
+        //        var commands = connection.CreateCommand();
+        //        commands.CommandText = "ATTACH DATABASE 'encrypted.db' AS encrypted KEY 'newkey';";
+        //        commands.ExecuteNonQuery();
+        //        commands.CommandText = "SELECT sqlcipher_export('encrypted');";
+        //        commands.ExecuteNonQuery();
+        //        commands.CommandText = "DETACH DATABASE encrypted";
+        //        commands.ExecuteNonQuery();
+
+        //        connection.Close();
+        //        connection.Dispose();
+
+        //        m = new SqliteConnectionStringBuilder($"Data Source=encrypted.db")
+        //        {
+        //            Mode = SqliteOpenMode.ReadWriteCreate,
+        //                 Password = "newkey"
+        //        };
+
+        //        connection = new SqliteConnection(m.ToString());
+        //        connection.Open();
+        //    }
+
+        //    //var command = connection.CreateCommand();
+        //    //command.CommandText = "SELECT quote($newPassword);";
+        //    //command.Parameters.AddWithValue("$newPassword", "password");
+        //    //var quotedNewPassword = (string)command.ExecuteScalar();
+
+        //    //command.CommandText = "PRAGMA rekey = " + quotedNewPassword;
+        //    //command.Parameters.Clear();
+        //    //command.ExecuteNonQuery();
+        //}
+
+        public TNBaseContext(SqliteConnection connection)
+        {
+            this.connection = connection;
         }
 
         public virtual DbSet<Collector> Collectors { get; set; }

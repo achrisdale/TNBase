@@ -168,32 +168,12 @@ namespace TNBase
             ShowBackup();
         }
 
-        // Show backup dialog.
         public void ShowBackup()
         {
-            backupDialog.FileName = ModuleGeneric.DATABASE_NAME;
-            backupDialog.Title = "Backup Listener Database";
-            backupDialog.Filter = "SQLite Database Files|*.s3db";
-            backupDialog.CheckPathExists = true;
-            backupDialog.InitialDirectory = "A:\\";
-            backupDialog.OverwritePrompt = Properties.Settings.Default.OverwritePrompt;
-
-            // If successful, backup the database.
-            if (backupDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                var databaseOptions = Program.ServiceProvider.GetService<DatabaseManagerOptions>();
-                if (DBUtils.CopyDatabase(databaseOptions.DatabasePath, backupDialog.FileName))
-                {
-                    Interaction.MsgBox("Database backup successful, please restart app!");
-                }
-                else
-                {
-                    Interaction.MsgBox("Error: Database was not copied correctly!");
-                }
-            }
+            var form = new FormBackupDialogue();
+            form.ShowDialog();
         }
 
-        // Show restore dialog.
         public void ShowRestore()
         {
             DialogResult result = MessageBox.Show("You should backup the existing database before restoring as restoring will overwrite the current database." + Environment.NewLine + Environment.NewLine + "Overwriting the current database is irreversible, are you sure you want to continue?", ModuleGeneric.getAppShortName(), MessageBoxButtons.OKCancel);
@@ -208,16 +188,12 @@ namespace TNBase
             restoreDialog.CheckPathExists = true;
             restoreDialog.InitialDirectory = "A:\\";
 
-            // If successful, backup the database.
-            if (restoreDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (restoreDialog.ShowDialog() == DialogResult.OK)
             {
-                var databaseOptions = Program.ServiceProvider.GetService<DatabaseManagerOptions>();
-                if (DBUtils.RestoreDatabase(restoreDialog.FileName, databaseOptions.DatabasePath))
+                var databaseManager = Program.ServiceProvider.GetService<DatabaseManager>();
+                if (databaseManager.RestoreDatabase(restoreDialog.FileName))
                 {
-                    Program.NewScope();
-                    var context = (TNBaseContext)Program.ServiceProvider.GetService<ITNBaseContext>();
-                    context.UpdateDatabase();
-                    Interaction.MsgBox("Database restore successful.");
+                    Interaction.MsgBox("Database restored successfully.");
                 }
                 else
                 {
@@ -615,6 +591,12 @@ namespace TNBase
         private void dataImportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FormDataImport();
+            form.ShowDialog();
+        }
+
+        private void updateDatabaseEncruptionKeyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormDatabaseEncryption();
             form.ShowDialog();
         }
     }

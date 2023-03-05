@@ -110,6 +110,7 @@ namespace TNBase
             this.btnMagScanOut = new System.Windows.Forms.Button();
             this.btnMagScanIn = new System.Windows.Forms.Button();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.updateDatabaseEncruptionKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTop.SuspendLayout();
             this.GroupBox1.SuspendLayout();
             this.GroupBox2.SuspendLayout();
@@ -143,7 +144,7 @@ namespace TNBase
             this.menuTop.Location = new System.Drawing.Point(0, 0);
             this.menuTop.Name = "menuTop";
             this.menuTop.Padding = new System.Windows.Forms.Padding(13, 4, 0, 4);
-            this.menuTop.Size = new System.Drawing.Size(2277, 53);
+            this.menuTop.Size = new System.Drawing.Size(2260, 53);
             this.menuTop.TabIndex = 1;
             this.menuTop.Text = "MenuStrip1";
             // 
@@ -213,7 +214,8 @@ namespace TNBase
             this.logViewToolStripMenuItem,
             this.openLogDirectoryToolStripMenuItem,
             this.adjustStockLevelsToolStripMenuItem,
-            this.dataImportToolStripMenuItem});
+            this.dataImportToolStripMenuItem,
+            this.updateDatabaseEncruptionKeyToolStripMenuItem});
             this.MaintenenceToolStripMenuItem.Name = "MaintenenceToolStripMenuItem";
             this.MaintenenceToolStripMenuItem.Size = new System.Drawing.Size(210, 45);
             this.MaintenenceToolStripMenuItem.Text = "&Maintenence";
@@ -469,14 +471,14 @@ namespace TNBase
             // 
             this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
             this.viewHelpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(359, 50);
+            this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(338, 50);
             this.viewHelpToolStripMenuItem.Text = "&View Help";
             this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(359, 50);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(338, 50);
             this.aboutToolStripMenuItem1.Text = "Abo&ut";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
@@ -680,10 +682,10 @@ namespace TNBase
             this.StatusStrip1.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblHints});
-            this.StatusStrip1.Location = new System.Drawing.Point(0, 1492);
+            this.StatusStrip1.Location = new System.Drawing.Point(0, 1462);
             this.StatusStrip1.Name = "StatusStrip1";
             this.StatusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 30, 0);
-            this.StatusStrip1.Size = new System.Drawing.Size(2277, 42);
+            this.StatusStrip1.Size = new System.Drawing.Size(2260, 42);
             this.StatusStrip1.TabIndex = 14;
             this.StatusStrip1.Text = "StatusStrip1";
             // 
@@ -785,13 +787,20 @@ namespace TNBase
             // 
             this.helpProvider.HelpNamespace = "Resource\\TNBase.chm";
             // 
+            // updateDatabaseEncruptionKeyToolStripMenuItem
+            // 
+            this.updateDatabaseEncruptionKeyToolStripMenuItem.Name = "updateDatabaseEncruptionKeyToolStripMenuItem";
+            this.updateDatabaseEncruptionKeyToolStripMenuItem.Size = new System.Drawing.Size(459, 50);
+            this.updateDatabaseEncruptionKeyToolStripMenuItem.Text = "Database Encryption";
+            this.updateDatabaseEncruptionKeyToolStripMenuItem.Click += new System.EventHandler(this.updateDatabaseEncruptionKeyToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(2277, 1534);
+            this.ClientSize = new System.Drawing.Size(2260, 1504);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.lblWeekNumber);
             this.Controls.Add(this.lblVersion);
@@ -908,5 +917,6 @@ namespace TNBase
         private ToolStripMenuItem viewHelpToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem1;
         private HelpProvider helpProvider;
+        private ToolStripMenuItem updateDatabaseEncruptionKeyToolStripMenuItem;
     }
 }
