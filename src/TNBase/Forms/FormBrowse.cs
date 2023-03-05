@@ -11,10 +11,6 @@ using NLog;
 using TNBase.Objects;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
-using System.Text;
-using TNBase.External.DataImport;
-using System.IO;
-using TNBase.External.DataExport;
 
 namespace TNBase
 {
@@ -359,33 +355,6 @@ namespace TNBase
                 {
                     btnStopSending.Text = "Purge";
                     btnStopSending.Visible = true;
-                }
-            }
-        }
-
-        private void ExportButton_Click(object sender, EventArgs e)
-        {
-            var dialog = new SaveFileDialog
-            {
-                Filter = "CSV Text|*.csv",
-                Title = "Name File to Export Listeners",
-            };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    log.Info($"Exporting listeners to {dialog.FileName}");
-                    var exportService = Program.ServiceProvider.GetService<CsvExportService>();
-                    string content = exportService.ExportListeners(listeners);
-                    File.WriteAllText(dialog.FileName, content, Encoding.UTF8);
-
-                    log.Info("Export listeners complete");
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex, $"Exporting listeners failed: {ex.Message}");
-                    MessageBox.Show(ex.Message, "Listener Export Error");
                 }
             }
         }

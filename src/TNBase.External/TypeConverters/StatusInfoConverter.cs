@@ -4,7 +4,7 @@ using CsvHelper.TypeConversion;
 using System;
 using TNBase.Objects;
 
-namespace TNBase.External.Helpers
+namespace TNBase.External.TypeConverters
 {
     public class StatusInfoConverter : ITypeConverter
     {

@@ -16,7 +16,7 @@ namespace TNBase.External.Tests.DataExport
     public class CsvExportServiceTests
 
     {
-        private const string Header = "Forename,Surname,Wallet,Title,Addr1,Addr2,Town,County,Postcode,ReceivesMagazine,HasPlayerIssued,Telephone,JoinedDate,BirthdayDay,BirthdayMonth,Status,PauseStartDate,PauseEndDate,NewsStock,MagazineStock,LastIn,LastOut,Information,Wallet,In1,In2,In3,In4,In5,In6,In7,In8,Out1,Out2,Out3,Out4,Out5,Out6,Out7,Out8";
+        private const string Header = "Forename,Surname,Wallet,Title,Addr1,Addr2,Town,County,Postcode,OnlineOnly,ReceivesMagazine,HasPlayerIssued,Telephone,JoinedDate,BirthdayDay,BirthdayMonth,Status,PauseStartDate,PauseEndDate,NewsStock,NumberOfNewsIssued,MagazineStock,NumberOfMagazinesIssued,Information,WarnOfAddressChange,DeletedDate,LastIn,LastOut,Wallet,In1,In2,In3,In4,In5,In6,In7,In8,Out1,Out2,Out3,Out4,Out5,Out6,Out7,Out8";
 
         private Listener CreateListener1()
         {
@@ -109,7 +109,7 @@ namespace TNBase.External.Tests.DataExport
 
             string result = service.ExportListeners(context.Listeners.Local.ToList());
 
-            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,True,01234567890,01/01/2015,1,1,ACTIVE,,,3,0,21/02/2015,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
+            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,False,True,01234567890,01/01/2015,1,1,ACTIVE,,,3,0,0,0,,False,,21/02/2015,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
         }
 
         [Fact]
@@ -124,7 +124,7 @@ namespace TNBase.External.Tests.DataExport
 
             string result = service.ExportListeners(context.Listeners.Local.ToList());
 
-            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,True,01234567890,01/01/2015,1,1,PAUSED,01/03/2016,13/09/2016,3,0,21/02/2015,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
+            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,False,True,01234567890,01/01/2015,1,1,PAUSED,01/03/2016,13/09/2016,3,0,0,0,,False,,21/02/2015,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
         }
 
         [Fact]
@@ -133,13 +133,14 @@ namespace TNBase.External.Tests.DataExport
             using var context = new TNBaseContext("Data Source=:memory:");
             var listener = CreateListener1();
             listener.Delete("not needed");
+            listener.DeletedDate = new DateTime(2023, 3, 4);
             context.Listeners.Add(listener);
             context.UpdateDatabase();
             var service = new CsvExportService();
 
             string result = service.ExportListeners(context.Listeners.Local.ToList());
 
-            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,True,01234567890,01/01/2015,1,1,DELETED,,,3,0,21/02/2015,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
+            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,False,True,01234567890,01/01/2015,1,1,DELETED,,,3,0,0,0,,False,04/03/2023,21/02/2015,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
         }
 
         [Fact]
@@ -154,7 +155,7 @@ namespace TNBase.External.Tests.DataExport
 
             string result = service.ExportListeners(context.Listeners.Local.ToList());
 
-            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,True,01234567890,01/01/2015,1,1,ACTIVE,,,2,0,21/02/2015,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
+            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,False,True,01234567890,01/01/2015,1,1,ACTIVE,,,2,0,0,0,,False,,21/02/2015,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
         }
 
         [Fact]
@@ -169,8 +170,8 @@ namespace TNBase.External.Tests.DataExport
             string result = service.ExportListeners(context.Listeners.Local.ToList());
 
             Assert.Equal(Header, result.Split(Environment.NewLine)[0]);
-            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,True,01234567890,01/01/2015,1,1,ACTIVE,,,3,0,21/02/2015,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
-            Assert.Equal("Sarah,Turner,0,Mrs,3 High Street,\"near, here\",Walsall,Shropshire,WS2 4TF,False,False,124,01/12/2019,,,ACTIVE,,,2,0,21/07/2020,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[2]);
+            Assert.Equal("Ted,Baker,0,Mr,29 Baker Street,,London,Londonshire,N193HH,False,False,True,01234567890,01/01/2015,1,1,ACTIVE,,,3,0,0,0,,False,,21/02/2015,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[1]);
+            Assert.Equal("Sarah,Turner,0,Mrs,3 High Street,\"near, here\",Walsall,Shropshire,WS2 4TF,False,False,False,124,01/12/2019,,,ACTIVE,,,2,0,0,0,,False,,21/07/2020,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", result.Split(Environment.NewLine)[2]);
         }
     }
 }
