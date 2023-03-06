@@ -1,7 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.IO;
 using System.Linq;
 using TNBase.DataStorage;
 using TNBase.Objects;

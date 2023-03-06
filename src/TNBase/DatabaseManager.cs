@@ -15,6 +15,8 @@ namespace TNBase
         private readonly DatabaseManagerOptions options;
         private readonly Logger log = LogManager.GetCurrentClassLogger();
 
+        public bool IsDatabaseEncrypted { get; internal set; }
+
         public DatabaseManager(DatabaseManagerOptions options)
         {
             this.options = options;
@@ -107,7 +109,7 @@ namespace TNBase
             {
                 log.Error(ex, "Failed to connect to database. Requesting for password.");
 
-                var form = new FormSetDatabaseEncryptionKey();
+                var form = new FormDatabasePassword();
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     SetEncryptionPassword(form.Password);
@@ -150,7 +152,7 @@ namespace TNBase
 
         private string GetEncryptionPassword()
         {
-            return "b";
+            return "";
         }
 
         public void SetEncryptionPassword(string password)

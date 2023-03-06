@@ -77,7 +77,10 @@
     <Compile Update="Forms\FormResumeSending.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\FormSetDatabaseEncryptionKey.cs">
+    <Compile Update="Forms\FormDatabasePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FormSetDatabasePassword.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\FormSplash.cs">
