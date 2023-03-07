@@ -14,6 +14,9 @@ using TNBase.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
 using TNBase.Forms;
+using System.Text;
+using TNBase.External.DataExport;
+using System.IO;
 
 namespace TNBase
 {
@@ -593,10 +596,38 @@ namespace TNBase
             form.ShowDialog();
         }
 
-        private void updateDatabaseEncruptionKeyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void updateDatabaseEncryptionKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FormDatabaseEncryption();
             form.ShowDialog();
+        }
+        
+        private void dataExportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "CSV Text|*.csv",
+                Title = "Export Listerners",
+                FileName = "Listerners.csv"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    log.Info($"Exporting listeners to {dialog.FileName}");
+                    var exportService = Program.ServiceProvider.GetService<CsvExportService>();
+                    string content = exportService.ExportListeners(serviceLayer.GetListeners());
+                    File.WriteAllText(dialog.FileName, content, Encoding.UTF8);
+
+                    log.Info("Export listeners complete");
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex, $"Exporting listeners failed: {ex.Message}");
+                    MessageBox.Show(ex.Message, "Listener Export Error");
+                }
+            }
         }
     }
 }
