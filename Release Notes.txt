@@ -1,4 +1,4 @@
-1.7.14
+1.7.15
 - Fixes #104 - Find Listener form layout is broken
 
 1.7.14
