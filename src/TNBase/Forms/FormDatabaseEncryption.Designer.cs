@@ -61,7 +61,6 @@
             // btnSetEncryption
             // 
             this.btnSetEncryption.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnSetEncryption.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnSetEncryption.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnSetEncryption.Location = new System.Drawing.Point(471, 523);
             this.btnSetEncryption.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);

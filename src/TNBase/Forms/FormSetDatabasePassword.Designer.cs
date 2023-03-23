@@ -28,16 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSetDatabasePassword));
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSetPassword = new System.Windows.Forms.Button();
             this.tbxPassword = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbxConfimPassword = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lblPasswordStrength = new System.Windows.Forms.Label();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -97,14 +100,15 @@
             this.label2.TabIndex = 41;
             this.label2.Text = "Confirm password:";
             // 
-            // textBox1
+            // tbxConfimPassword
             // 
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(432, 372);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(696, 57);
-            this.textBox1.TabIndex = 40;
-            this.textBox1.UseSystemPasswordChar = true;
+            this.tbxConfimPassword.Font = new System.Drawing.Font("Segoe UI", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbxConfimPassword.Location = new System.Drawing.Point(432, 372);
+            this.tbxConfimPassword.Name = "tbxConfimPassword";
+            this.tbxConfimPassword.Size = new System.Drawing.Size(696, 57);
+            this.tbxConfimPassword.TabIndex = 40;
+            this.tbxConfimPassword.UseSystemPasswordChar = true;
+            this.tbxConfimPassword.Validating += new System.ComponentModel.CancelEventHandler(this.tbxConfirmPassword_Validating);
             // 
             // label3
             // 
@@ -138,18 +142,24 @@
             this.lblPasswordStrength.Text = "Password strength";
             this.lblPasswordStrength.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // errorProvider
+            // 
+            this.errorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider.ContainerControl = this;
+            // 
             // FormSetDatabasePassword
             // 
             this.AcceptButton = this.btnSetPassword;
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(1182, 836);
             this.Controls.Add(this.lblPasswordStrength);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbxConfimPassword);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbxPassword);
             this.Controls.Add(this.btnSetPassword);
@@ -158,7 +168,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormSetDatabasePassword";
             this.Text = "Set Database Password";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSetDatabasePassword_FormClosing);
             this.Load += new System.EventHandler(this.FormSetDatabasePassword_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -171,9 +183,10 @@
         private System.Windows.Forms.TextBox tbxPassword;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbxConfimPassword;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblPasswordStrength;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

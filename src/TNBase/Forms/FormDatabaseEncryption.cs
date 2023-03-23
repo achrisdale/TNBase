@@ -30,7 +30,7 @@ namespace TNBase.Forms
             var form = new FormSetDatabasePassword();
             if(form.ShowDialog() == DialogResult.OK)
             {
-
+                dbManager.SetEncryptionPassword(form.Password);
             }
         }
     }
