@@ -13,6 +13,7 @@ namespace TNBase.Repository
         public TNBaseContext(string connectionString)
         {
             Connection = new SqliteConnection(connectionString);
+            Connection.Open();
         }
 
         public TNBaseContext(SqliteConnection connection, bool isDatabaseEncrypted)
