@@ -46,7 +46,7 @@ namespace TNBase
             ModuleGeneric.SaveStartTime();
 
             var context = (TNBaseContext)ServiceProvider.GetService<ITNBaseContext>();
-            if(context == null)
+            if (context == null)
             {
                 MessageBox.Show("Unable to connect to database. Application will be closed.");
                 return;
@@ -71,10 +71,9 @@ namespace TNBase
 
         private static void ConfigureServices(ServiceCollection services)
         {
-            var databasePath = Path.Combine(applicationDataDirectory, "Listeners.s3db");
-            services.AddSingleton(s => new DatabaseManagerOptions { DatabasePath = databasePath });
+            services.AddSingleton(s => new DatabaseManagerOptions { DataLocation = applicationDataDirectory });
             services.AddSingleton<DatabaseManager>();
-            services.AddScoped(s => s.GetService<DatabaseManager>().GetDatabaseContext());
+            services.AddScoped(s => s.GetService<DatabaseManager>().Database);
 
             services.AddScoped<IServiceLayer, ServiceLayer>();
             services.AddScoped<ScanService>();

@@ -10,68 +10,20 @@ namespace TNBase.Repository
 {
     public partial class TNBaseContext : DbContext, ITNBaseContext
     {
-        private readonly SqliteConnection connection;
-
         public TNBaseContext(string connectionString)
         {
+            Connection = new SqliteConnection(connectionString);
         }
-        //    var m = new SqliteConnectionStringBuilder(connectionString)
-        //    {
-        //        Mode = SqliteOpenMode.ReadWriteCreate,
-        //        Password = "password"
-        //    };
 
-        //    connection = new SqliteConnection(m.ToString());
-        //    try
-        //    {
-        //        connection.Open();
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        m = new SqliteConnectionStringBuilder(connectionString)
-        //        {
-        //            Mode = SqliteOpenMode.ReadWriteCreate
-        //        };
-
-        //        connection = new SqliteConnection(m.ToString());
-        //        connection.Open();
-
-        //        var commands = connection.CreateCommand();
-        //        commands.CommandText = "ATTACH DATABASE 'encrypted.db' AS encrypted KEY 'newkey';";
-        //        commands.ExecuteNonQuery();
-        //        commands.CommandText = "SELECT sqlcipher_export('encrypted');";
-        //        commands.ExecuteNonQuery();
-        //        commands.CommandText = "DETACH DATABASE encrypted";
-        //        commands.ExecuteNonQuery();
-
-        //        connection.Close();
-        //        connection.Dispose();
-
-        //        m = new SqliteConnectionStringBuilder($"Data Source=encrypted.db")
-        //        {
-        //            Mode = SqliteOpenMode.ReadWriteCreate,
-        //                 Password = "newkey"
-        //        };
-
-        //        connection = new SqliteConnection(m.ToString());
-        //        connection.Open();
-        //    }
-
-        //    //var command = connection.CreateCommand();
-        //    //command.CommandText = "SELECT quote($newPassword);";
-        //    //command.Parameters.AddWithValue("$newPassword", "password");
-        //    //var quotedNewPassword = (string)command.ExecuteScalar();
-
-        //    //command.CommandText = "PRAGMA rekey = " + quotedNewPassword;
-        //    //command.Parameters.Clear();
-        //    //command.ExecuteNonQuery();
-        //}
-
-        public TNBaseContext(SqliteConnection connection)
+        public TNBaseContext(SqliteConnection connection, bool isDatabaseEncrypted)
         {
-            this.connection = connection;
+            Connection = connection;
+            IsEncrypted = isDatabaseEncrypted;
         }
+
+        public SqliteConnection Connection { get; }
+
+        public bool IsEncrypted { get; }
 
         public virtual DbSet<Collector> Collectors { get; set; }
         public virtual DbSet<InOutRecords> InOutRecords { get; set; }
@@ -82,14 +34,14 @@ namespace TNBase.Repository
 
         public void UpdateDatabase()
         {
-            new DatabaseUpdater<SqlMigration>(connection).Update();
+            new DatabaseUpdater<SqlMigration>(Connection).Update();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite(connection);
+                optionsBuilder.UseSqlite(Connection);
             }
 
             optionsBuilder.UseLazyLoadingProxies();
