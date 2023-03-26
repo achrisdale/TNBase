@@ -41,7 +41,7 @@ namespace TNBase
             ServiceProvider = services.BuildServiceProvider();
 
             var databaseManager = ServiceProvider.GetRequiredService<DatabaseManager>();
-            databaseManager.BackupDatabase();
+            databaseManager.BackupDatabaseToBackupDrive();
 
             ModuleGeneric.SaveStartTime();
 

@@ -25,15 +25,8 @@ namespace TNBase
     /// </summary>
 	public partial class FormMain
     {
-        // Logging instance
         Logger log = LogManager.GetCurrentClassLogger();
 
-        // Variabless
-        private readonly IServiceLayer serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
-
-        /// <summary>
-        /// Load the correct logo!
-        /// </summary>
         private void LoadLogo()
         {
             string logo = Properties.Settings.Default.Logo;
@@ -82,6 +75,7 @@ namespace TNBase
 
         private void UpdateWeekNumber()
         {
+            var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
             var weekNumber = ISOWeek.GetWeekOfYear(DateTime.UtcNow).ToString();
 
             if (Properties.Settings.Default.ShowLegacyWeekNumber)
@@ -215,6 +209,8 @@ namespace TNBase
 
         private void BtnFinished_Click(object sender, EventArgs e)
         {
+            var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
+
             // Show a load of forms automatically.!
             if ((Properties.Settings.Default.OnlyAutoPrintOnSat &&
                 DateTime.UtcNow.DayOfWeek.Equals(DayOfWeek.Saturday)) || !Properties.Settings.Default.OnlyAutoPrintOnSat)
@@ -305,6 +301,8 @@ namespace TNBase
 
         private void BtnScanIn_Click(object sender, EventArgs e)
         {
+            var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
+
             // Check if alterations have been completed.
             DialogResult result = MessageBox.Show("Have you completed all the alterations and additions from the pending tray?" + Environment.NewLine + Environment.NewLine + "If you still have alterations or additions press Cancel and scan in after.", ModuleGeneric.getAppShortName(), MessageBoxButtons.OKCancel);
             if (result == DialogResult.OK)
@@ -491,6 +489,8 @@ namespace TNBase
 
         private void WalletsStockToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
+
             var form = new FormPrintWalletStock();
             var stock = serviceLayer.GetPostListeners()
                 .Select(x => new StockItem
@@ -507,6 +507,8 @@ namespace TNBase
 
         private void MagazineWalletStockToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
+
             var form = new FormPrintWalletStock();
             var stock = serviceLayer.GetPostListeners()
                 .Select(x => new StockItem
@@ -533,6 +535,8 @@ namespace TNBase
 
         private void ScanIn(WalletTypes walletType)
         {
+            var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
+
             var magazineWallets = serviceLayer.GetListenersByStatus(ListenerStates.ACTIVE)
                 .Where(x => x.Magazine && !x.OnlineOnly)
                 .Select(x => x.Wallet)
@@ -560,6 +564,8 @@ namespace TNBase
 
         private void ScanOut(WalletTypes walletType, IEnumerable<int> scanned = null)
         {
+            var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
+
             var listeners = serviceLayer.GetListenersByStatus(ListenerStates.ACTIVE);
             var toScan = listeners.Where(x => x.Magazine && !x.OnlineOnly && (scanned == null || !scanned.Contains(x.Wallet))).Select(x => x.Wallet);
             var stoppedListeners = serviceLayer.GetStoppedListeners().Select(x => x.Wallet);
@@ -613,6 +619,8 @@ namespace TNBase
         
         private void dataExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
+
             var dialog = new SaveFileDialog
             {
                 Filter = "CSV Text|*.csv",

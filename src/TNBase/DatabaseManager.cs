@@ -40,20 +40,20 @@ namespace TNBase
             }
         }
 
-        public void BackupDatabase()
+        public void BackupDatabaseToBackupDrive()
         {
             var drives = DriveInfo.GetDrives().ToList();
 
             bool found = false;
-            string path = "";
+            string directory = "";
             foreach (DriveInfo drive in drives)
             {
                 try
                 {
                     if (drive.VolumeLabel.Equals(Properties.Settings.Default.BackupDrive) || drive.Name.Equals(Properties.Settings.Default.BackupDrive))
                     {
-                        path = drive.RootDirectory.ToString() + Application.ProductName + "\\backups\\";
-                        Directory.CreateDirectory(path);
+                        directory = drive.RootDirectory.ToString() + Application.ProductName + "\\backups\\";
+                        Directory.CreateDirectory(directory);
 
                         if (drive.AvailableFreeSpace < (Properties.Settings.Default.BackupMBSpaceWarning * 1000000))
                         {
@@ -75,15 +75,15 @@ namespace TNBase
             {
                 try
                 {
-                    String fullbackuppath = path + Application.ProductName + "_backup_" + DateTime.Now.ToString("dd-MM-yyyy") + ".bak";
-                    if (!DBUtils.CopyDatabase(Path.Combine(options.DataLocation, DATABASE_FILE_NAME), fullbackuppath))
+                    var backupPath = Path.Combine(directory, $"{Application.ProductName}_backup_{DateTime.Now:dd-MM-yyyy}.bak");
+                    if (BackupDatabase(backupPath))
                     {
                         MessageBox.Show("Warning: Could not backup database: " + Properties.Settings.Default.BackupDrive, Application.ProductName, MessageBoxButtons.OK);
-                        log.Warn("Could not backup database: " + fullbackuppath);
+                        log.Warn("Could not backup database: " + backupPath);
                     }
                     else
                     {
-                        log.Info("Backed up database to: " + fullbackuppath);
+                        log.Info("Backed up database to: " + backupPath);
                     }
                 }
                 catch (Exception ey)
@@ -122,6 +122,10 @@ namespace TNBase
                 var connection = new SqliteConnection(connectionStringBuilder.ToString());
                 connection.Open();
 
+                var testCommand = connection.CreateCommand();
+                testCommand.CommandText = "SELECT name FROM sqlite_master WHERE type='table' AND name='faketable';";
+                using var reader = testCommand.ExecuteReader();
+
                 var hasPassword = !string.IsNullOrEmpty(password);
                 var context = new TNBaseContext(connection, hasPassword);
                 log.Info($"Connected to database successfully");
@@ -141,54 +145,13 @@ namespace TNBase
                 log.Error("'Set Database Encryption Key' dialog did not return success. Unable to connect to database.");
                 return null;
             }
-
-            //    m = new SqliteConnectionStringBuilder(connectionString)
-            //    {
-            //        Mode = SqliteOpenMode.ReadWriteCreate
-            //    };
-
-            //    connection = new SqliteConnection(m.ToString());
-            //    connection.Open();
-
-            //    var commands = connection.CreateCommand();
-            //    commands.CommandText = "ATTACH DATABASE 'encrypted.db' AS encrypted KEY 'newkey';";
-            //    commands.ExecuteNonQuery();
-            //    commands.CommandText = "SELECT sqlcipher_export('encrypted');";
-            //    commands.ExecuteNonQuery();
-            //    commands.CommandText = "DETACH DATABASE encrypted";
-            //    commands.ExecuteNonQuery();
-
-            //    connection.Close();
-            //    connection.Dispose();
-
-            //    m = new SqliteConnectionStringBuilder($"Data Source=encrypted.db")
-            //    {
-            //        Mode = SqliteOpenMode.ReadWriteCreate,
-            //        Password = "newkey"
-            //    };
-
-            //    connection = new SqliteConnection(m.ToString());
-            //    connection.Open();
-            //}
         }
 
         public void EncryptDatabase(string password)
         {
             log.Info($"Encrypting database...");
             var tempDatabase = Path.Combine(options.DataLocation, "Temp.s3db");
-            if (File.Exists(tempDatabase))
-            {
-                File.Delete(tempDatabase);
-            }
-
-            var commands = Database.Connection.CreateCommand();
-            commands.CommandText = $"ATTACH DATABASE '{tempDatabase}' AS encrypted KEY '{password}';";
-            commands.ExecuteNonQuery();
-            commands.CommandText = "SELECT sqlcipher_export('encrypted');";
-            commands.ExecuteNonQuery();
-            commands.CommandText = "DETACH DATABASE encrypted";
-            commands.ExecuteNonQuery();
-            log.Debug($"Created temporary database with new encryption.");
+            CreateDatabase(tempDatabase, password);
 
             SaveDatabasePassword(password);
             RestoreDatabase(tempDatabase);
@@ -199,6 +162,24 @@ namespace TNBase
             }
 
             log.Info($"Database encryption complete.");
+        }
+
+        public void CreateDatabase(string path, string password)
+        {
+            if (File.Exists(path))
+            {
+                // Ensure file doesn't exists so that a new database is created.
+                File.Delete(path);
+            }
+
+            var commands = Database.Connection.CreateCommand();
+            commands.CommandText = $"ATTACH DATABASE '{path}' AS encrypted KEY '{password}';";
+            commands.ExecuteNonQuery();
+            commands.CommandText = "SELECT sqlcipher_export('encrypted');";
+            commands.ExecuteNonQuery();
+            commands.CommandText = "DETACH DATABASE encrypted";
+            commands.ExecuteNonQuery();
+            log.Debug($"Created database with new encryption at '{path}'.");
         }
 
         private string GetDatabasePassword()
@@ -245,7 +226,32 @@ namespace TNBase
 
         internal bool BackupDatabase(string fileName)
         {
-            throw new NotImplementedException();
+            var databasePath = Path.Combine(options.DataLocation, DATABASE_FILE_NAME);
+            File.Copy(databasePath, fileName, true);
+
+            if (!File.Exists(fileName))
+            {
+                log.Error($"Failed to backup database to '{fileName}'");
+                return false;
+            }
+
+            log.Info($"Database backed up successfully to '{fileName}'");
+            return true;
+        }
+
+        internal bool BackupDatabase(string fileName, string password)
+        {
+            log.Debug($"Backing up database to '{fileName}'");
+            CreateDatabase(fileName, password);
+
+            if (!File.Exists(fileName))
+            {
+                log.Error($"Failed to backup database with password to '{fileName}'");
+                return false;
+            }
+
+            log.Info($"Database with password backed up successfully to '{fileName}'");
+            return true;
         }
 
         public bool RestoreDatabase(string fileName)
@@ -255,7 +261,7 @@ namespace TNBase
             File.Copy(fileName, databasePath, true);
 
             var context = (TNBaseContext)GetDatabaseContext();
-            if(context == null)
+            if (context == null)
             {
                 log.Error($"Could not load database context after database restoration. Please check password and try again.");
                 return false;
