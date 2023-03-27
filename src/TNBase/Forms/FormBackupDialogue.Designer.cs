@@ -156,7 +156,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(899, 332);
+            this.ClientSize = new System.Drawing.Size(899, 339);
             this.Controls.Add(this.btnSetPassword);
             this.Controls.Add(this.rdbNewPassword);
             this.Controls.Add(this.rdbSamePassword);
