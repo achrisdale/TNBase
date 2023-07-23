@@ -74,6 +74,9 @@
     <Compile Update="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\FormPreferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\FormResumeSending.cs">
       <SubType>Form</SubType>
     </Compile>

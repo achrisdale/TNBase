@@ -39,7 +39,7 @@ namespace TNBase
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            this.Label1 = new System.Windows.Forms.Label();
+            this.ApplicationTitleLabel = new System.Windows.Forms.Label();
             this.menuTop = new System.Windows.Forms.MenuStrip();
             this.mBtnListeners = new System.Windows.Forms.ToolStripMenuItem();
             this.AddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +58,7 @@ namespace TNBase
             this.dataImportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateDatabaseEncryptionKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PrintingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UpcomingBirthdaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentlyAddedListenersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,7 +105,7 @@ namespace TNBase
             this.lblHints = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerHints = new System.Windows.Forms.Timer(this.components);
             this.backupDialog = new System.Windows.Forms.SaveFileDialog();
-            this.PictureBox1 = new System.Windows.Forms.PictureBox();
+            this.LogoPictureBox = new System.Windows.Forms.PictureBox();
             this.restoreDialog = new System.Windows.Forms.OpenFileDialog();
             this.lblVersion = new System.Windows.Forms.Label();
             this.lblWeekNumber = new System.Windows.Forms.Label();
@@ -116,19 +117,19 @@ namespace TNBase
             this.GroupBox1.SuspendLayout();
             this.GroupBox2.SuspendLayout();
             this.StatusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // Label1
+            // ApplicationTitleLabel
             // 
-            this.Label1.AutoSize = true;
-            this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.Label1.Location = new System.Drawing.Point(145, 63);
-            this.Label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(0, 39);
-            this.Label1.TabIndex = 0;
+            this.ApplicationTitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.ApplicationTitleLabel.Location = new System.Drawing.Point(13, 63);
+            this.ApplicationTitleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ApplicationTitleLabel.Name = "ApplicationTitleLabel";
+            this.ApplicationTitleLabel.Size = new System.Drawing.Size(1142, 39);
+            this.ApplicationTitleLabel.TabIndex = 0;
+            this.ApplicationTitleLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // menuTop
             // 
@@ -217,7 +218,8 @@ namespace TNBase
             this.adjustStockLevelsToolStripMenuItem,
             this.dataImportToolStripMenuItem,
             this.dataExportToolStripMenuItem,
-            this.updateDatabaseEncryptionKeyToolStripMenuItem});
+            this.updateDatabaseEncryptionKeyToolStripMenuItem,
+            this.preferencesToolStripMenuItem});
             this.MaintenenceToolStripMenuItem.Name = "MaintenenceToolStripMenuItem";
             this.MaintenenceToolStripMenuItem.Size = new System.Drawing.Size(106, 24);
             this.MaintenenceToolStripMenuItem.Text = "&Maintenence";
@@ -284,6 +286,13 @@ namespace TNBase
             this.updateDatabaseEncryptionKeyToolStripMenuItem.Size = new System.Drawing.Size(231, 24);
             this.updateDatabaseEncryptionKeyToolStripMenuItem.Text = "Database Encryption";
             this.updateDatabaseEncryptionKeyToolStripMenuItem.Click += new System.EventHandler(this.updateDatabaseEncryptionKeyToolStripMenuItem_Click);
+            // 
+            // preferencesToolStripMenuItem
+            // 
+            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(231, 24);
+            this.preferencesToolStripMenuItem.Text = "Preferences";
+            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // PrintingToolStripMenuItem
             // 
@@ -721,16 +730,16 @@ namespace TNBase
             // 
             this.backupDialog.HelpRequest += new System.EventHandler(this.BtnAdd_Click);
             // 
-            // PictureBox1
+            // LogoPictureBox
             // 
-            this.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("PictureBox1.InitialImage")));
-            this.PictureBox1.Location = new System.Drawing.Point(422, 202);
-            this.PictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.PictureBox1.Name = "PictureBox1";
-            this.PictureBox1.Size = new System.Drawing.Size(358, 302);
-            this.PictureBox1.TabIndex = 15;
-            this.PictureBox1.TabStop = false;
+            this.LogoPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.LogoPictureBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("LogoPictureBox.InitialImage")));
+            this.LogoPictureBox.Location = new System.Drawing.Point(422, 202);
+            this.LogoPictureBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.LogoPictureBox.Name = "LogoPictureBox";
+            this.LogoPictureBox.Size = new System.Drawing.Size(358, 302);
+            this.LogoPictureBox.TabIndex = 15;
+            this.LogoPictureBox.TabStop = false;
             // 
             // restoreDialog
             // 
@@ -813,14 +822,14 @@ namespace TNBase
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.lblWeekNumber);
             this.Controls.Add(this.lblVersion);
-            this.Controls.Add(this.PictureBox1);
+            this.Controls.Add(this.LogoPictureBox);
             this.Controls.Add(this.StatusStrip1);
             this.Controls.Add(this.GroupBox2);
             this.Controls.Add(this.btnFinished);
             this.Controls.Add(this.GroupBox1);
             this.Controls.Add(this.lblTime);
             this.Controls.Add(this.lblDate);
-            this.Controls.Add(this.Label1);
+            this.Controls.Add(this.ApplicationTitleLabel);
             this.Controls.Add(this.menuTop);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -840,13 +849,13 @@ namespace TNBase
             this.GroupBox2.ResumeLayout(false);
             this.StatusStrip1.ResumeLayout(false);
             this.StatusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
 		}
-		internal System.Windows.Forms.Label Label1;
+		internal System.Windows.Forms.Label ApplicationTitleLabel;
 		internal System.Windows.Forms.MenuStrip menuTop;
 		internal System.Windows.Forms.ToolStripMenuItem mBtnListeners;
 		internal System.Windows.Forms.ToolStripMenuItem MaintenenceToolStripMenuItem;
@@ -875,7 +884,7 @@ namespace TNBase
         private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem BackupToolStripMenuItem;
 		internal System.Windows.Forms.SaveFileDialog backupDialog;
-		internal System.Windows.Forms.PictureBox PictureBox1;
+		internal System.Windows.Forms.PictureBox LogoPictureBox;
         private System.Windows.Forms.ToolStripMenuItem UpcomingBirthdaysToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem StopSendingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CancelAStopToolStripMenuItem;
@@ -907,7 +916,7 @@ namespace TNBase
 			FormClosing += formMain_FormClosing;
 			Load += formMain_Load;
 			InitializeComponent();
-            Label1.Text = Properties.Settings.Default.AssociationName;
+            ApplicationTitleLabel.Text = Properties.Settings.Default.AssociationName;
 		}
 
         private ToolStripMenuItem logViewToolStripMenuItem;
@@ -928,5 +937,6 @@ namespace TNBase
         private HelpProvider helpProvider;
         private ToolStripMenuItem updateDatabaseEncryptionKeyToolStripMenuItem;
         private ToolStripMenuItem dataExportToolStripMenuItem;
+        private ToolStripMenuItem preferencesToolStripMenuItem;
     }
 }

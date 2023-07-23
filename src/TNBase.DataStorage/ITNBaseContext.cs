@@ -15,6 +15,7 @@ namespace TNBase.DataStorage
         DbSet<WeeklyStats> WeeklyStats { get; set; }
         DbSet<YearStats> YearStats { get; set; }
         DbSet<InOutRecords> InOutRecords { get; set; }
+        DbSet<Preferences> Preferences { get; set; }
 
         int SaveChanges();
     }

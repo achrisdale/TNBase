@@ -17,6 +17,7 @@ using TNBase.Forms;
 using System.Text;
 using TNBase.External.DataExport;
 using System.IO;
+using TNBase.DataStorage.Service;
 
 namespace TNBase
 {
@@ -29,12 +30,19 @@ namespace TNBase
 
         private void LoadLogo()
         {
-            string logo = Properties.Settings.Default.Logo;
+            PreferencesService preferencesService = Program.ServiceProvider.GetRequiredService<PreferencesService>();
+            Preferences preferences;
+
+            preferences = preferencesService.GetPreferences();
+
+            ApplicationTitleLabel.Text = preferences.ApplicationTitle;
+
+            string logo = preferences.LogoFileName;
             if (!string.IsNullOrEmpty(logo))
             {
                 try
                 {
-                    PictureBox1.BackgroundImage = new Bitmap(logo); //Image.FromFile(logo);
+                    LogoPictureBox.BackgroundImage = new Bitmap(logo); //Image.FromFile(logo);
                 }
                 catch (Exception e)
                 {
@@ -616,7 +624,7 @@ namespace TNBase
             var form = new FormDatabaseEncryption();
             form.ShowDialog();
         }
-        
+
         private void dataExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
@@ -644,6 +652,15 @@ namespace TNBase
                     log.Error(ex, $"Exporting listeners failed: {ex.Message}");
                     MessageBox.Show(ex.Message, "Listener Export Error");
                 }
+            }
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormPreferences();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                LoadLogo();
             }
         }
     }
