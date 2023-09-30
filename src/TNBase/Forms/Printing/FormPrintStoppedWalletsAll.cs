@@ -22,7 +22,7 @@ namespace TNBase
 
 		private void SetInitial()
 		{
-			theListeners = serviceLayer.GetStoppedListeners();
+			theListeners = serviceLayer.GetPausedListeners();
 
 			totalCount = theListeners.Count;
 			currentPageNumber = 0;

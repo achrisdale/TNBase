@@ -149,7 +149,7 @@ namespace TNBase.App
         {
             log.Debug("Resuming paused listeners!");
 
-            var listeners = GetStoppedListeners();
+            var listeners = GetPausedListeners();
 
             foreach (var listener in listeners)
             {
@@ -161,7 +161,7 @@ namespace TNBase.App
             }
         }
 
-        public List<Listener> GetStoppedListeners()
+        public List<Listener> GetPausedListeners()
         {
             return context.Listeners.ToList().Where(x => x.Status == ListenerStates.PAUSED).ToList();
         }

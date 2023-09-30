@@ -146,7 +146,7 @@ namespace TNBase.App.Test
         [Fact]
         public void Stats_TotalStoppedWallets()
         {
-            serviceLayer.GetStoppedListeners().Count.Should().Be(1);
+            serviceLayer.GetPausedListeners().Count.Should().Be(1);
         }
 
         [Fact]

@@ -98,6 +98,93 @@ namespace TNBase
             }
         }
 
+        public void EncryptDatabase(string password)
+        {
+            log.Info($"Encrypting database...");
+            var tempDatabase = Path.Combine(options.DataLocation, "Temp.s3db");
+            CreateDatabase(tempDatabase, password);
+
+            SaveDatabasePassword(password);
+            RestoreDatabase(tempDatabase);
+
+            if (File.Exists(tempDatabase))
+            {
+                File.Delete(tempDatabase);
+            }
+
+            log.Info($"Database encryption complete.");
+        }
+
+        public void CreateDatabase(string path, string password)
+        {
+            if (File.Exists(path))
+            {
+                // Ensure file doesn't exists so that a new database is created.
+                File.Delete(path);
+            }
+
+            var commands = Database.Connection.CreateCommand();
+            commands.CommandText = $"ATTACH DATABASE '{path}' AS encrypted KEY '{password}';";
+            commands.ExecuteNonQuery();
+            commands.CommandText = "SELECT sqlcipher_export('encrypted');";
+            commands.ExecuteNonQuery();
+            commands.CommandText = "DETACH DATABASE encrypted";
+            commands.ExecuteNonQuery();
+            log.Debug($"Created database with new encryption at '{path}'.");
+        }
+
+        public bool BackupDatabase(string fileName)
+        {
+            var databasePath = Path.Combine(options.DataLocation, DATABASE_FILE_NAME);
+            File.Copy(databasePath, fileName, true);
+
+            if (!File.Exists(fileName))
+            {
+                log.Error($"Failed to backup database to '{fileName}'");
+                return false;
+            }
+
+            log.Info($"Database backed up successfully to '{fileName}'");
+            return true;
+        }
+
+        public bool BackupDatabase(string fileName, string password)
+        {
+            log.Debug($"Backing up database to '{fileName}'");
+            CreateDatabase(fileName, password);
+
+            if (!File.Exists(fileName))
+            {
+                log.Error($"Failed to backup database with password to '{fileName}'");
+                return false;
+            }
+
+            log.Info($"Database with password backed up successfully to '{fileName}'");
+            return true;
+        }
+
+        public bool RestoreDatabase(string fileName)
+        {
+            log.Debug($"Restoring database from '{fileName}'");
+            var databasePath = Path.Combine(options.DataLocation, DATABASE_FILE_NAME);
+            File.Copy(fileName, databasePath, true);
+
+            var context = (TNBaseContext)GetDatabaseContext();
+            if (context == null)
+            {
+                log.Error($"Could not load database context after database restoration. Please check password and try again.");
+                return false;
+            }
+
+            context.UpdateDatabase();
+            database = context;
+
+            Program.NewScope();
+
+            log.Info($"Database restored from '{fileName}'");
+            return true;
+        }
+
         private ITNBaseContext GetDatabaseContext()
         {
             var databaseFile = Path.Combine(options.DataLocation, DATABASE_FILE_NAME);
@@ -147,39 +234,9 @@ namespace TNBase
             }
         }
 
-        public void EncryptDatabase(string password)
+        private static byte[] GetEntropy()
         {
-            log.Info($"Encrypting database...");
-            var tempDatabase = Path.Combine(options.DataLocation, "Temp.s3db");
-            CreateDatabase(tempDatabase, password);
-
-            SaveDatabasePassword(password);
-            RestoreDatabase(tempDatabase);
-
-            if (File.Exists(tempDatabase))
-            {
-                File.Delete(tempDatabase);
-            }
-
-            log.Info($"Database encryption complete.");
-        }
-
-        public void CreateDatabase(string path, string password)
-        {
-            if (File.Exists(path))
-            {
-                // Ensure file doesn't exists so that a new database is created.
-                File.Delete(path);
-            }
-
-            var commands = Database.Connection.CreateCommand();
-            commands.CommandText = $"ATTACH DATABASE '{path}' AS encrypted KEY '{password}';";
-            commands.ExecuteNonQuery();
-            commands.CommandText = "SELECT sqlcipher_export('encrypted');";
-            commands.ExecuteNonQuery();
-            commands.CommandText = "DETACH DATABASE encrypted";
-            commands.ExecuteNonQuery();
-            log.Debug($"Created database with new encryption at '{path}'.");
+            return Encoding.ASCII.GetBytes("IntendedObscurity");
         }
 
         private string GetDatabasePassword()
@@ -217,63 +274,6 @@ namespace TNBase
             var encrypted = ProtectedData.Protect(toEncrypt, GetEntropy(), DataProtectionScope.LocalMachine);
             File.WriteAllBytes(encryptedPasswordFile, encrypted);
             log.Info($"New database password is stored.");
-        }
-
-        private static byte[] GetEntropy()
-        {
-            return Encoding.ASCII.GetBytes("IntendedObscurity");
-        }
-
-        internal bool BackupDatabase(string fileName)
-        {
-            var databasePath = Path.Combine(options.DataLocation, DATABASE_FILE_NAME);
-            File.Copy(databasePath, fileName, true);
-
-            if (!File.Exists(fileName))
-            {
-                log.Error($"Failed to backup database to '{fileName}'");
-                return false;
-            }
-
-            log.Info($"Database backed up successfully to '{fileName}'");
-            return true;
-        }
-
-        internal bool BackupDatabase(string fileName, string password)
-        {
-            log.Debug($"Backing up database to '{fileName}'");
-            CreateDatabase(fileName, password);
-
-            if (!File.Exists(fileName))
-            {
-                log.Error($"Failed to backup database with password to '{fileName}'");
-                return false;
-            }
-
-            log.Info($"Database with password backed up successfully to '{fileName}'");
-            return true;
-        }
-
-        public bool RestoreDatabase(string fileName)
-        {
-            log.Debug($"Restoring database from '{fileName}'");
-            var databasePath = Path.Combine(options.DataLocation, DATABASE_FILE_NAME);
-            File.Copy(fileName, databasePath, true);
-
-            var context = (TNBaseContext)GetDatabaseContext();
-            if (context == null)
-            {
-                log.Error($"Could not load database context after database restoration. Please check password and try again.");
-                return false;
-            }
-
-            context.UpdateDatabase();
-            database = context;
-
-            Program.NewScope();
-
-            log.Info($"Database restored from '{fileName}'");
-            return true;
         }
     }
 
