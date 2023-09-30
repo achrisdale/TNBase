@@ -1,19 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using Xunit;
 
 namespace TNBase.Domain.Test
 {
-    [TestClass]
     public class DateTimeExtensionTester
     {
-        [TestMethod]
+        [Fact]
         public void NullableDateTimeTests()
         {
             Nullable<DateTime> dateTime = null;
-            Assert.AreEqual("N/a", dateTime.ToNullableNaString());
+            Assert.Equal("N/a", dateTime.ToNullableNaString());
 
             dateTime = new DateTime(1999, 1, 2);
-            Assert.AreEqual("02/01/1999", dateTime.ToNullableNaString());
+            Assert.Equal("02/01/1999", dateTime.ToNullableNaString());
         } 
     }
 }

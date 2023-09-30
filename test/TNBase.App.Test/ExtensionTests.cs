@@ -1,19 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using TNBase.Infrastructure.Helpers;
+using Xunit;
 
 namespace TNBase.App.Test
 {
-    [TestClass]
     public class ExtensionTests
     {
-        [TestMethod]
+        [Fact]
         public void Extensions_EnsureMinDate()
         {
             DateTime original = DateTime.ParseExact("01/01/1888", DateHelpers.DEFAULT_DATE_FORMAT, null);
             DateTime second = original.EnsureMinDate();
 
-            Assert.IsTrue(second > original, "Expected the date to be uplifted");
+            Assert.True(second > original, "Expected the date to be uplifted");
         }
     }
 }

@@ -1,19 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TNBase.Domain;
+﻿using TNBase.Domain;
 using System;
 using FluentAssertions;
 using TNBase.Repository;
 using TNBase.Infrastructure.Helpers;
+using Xunit;
 
 namespace TNBase.App.Test
 {
-    [TestClass]
-    public class ServiceLayer_Tests
+    public class ServiceLayerTests
     {
-        ServiceLayer serviceLayer;
+        private readonly ServiceLayer serviceLayer;
 
-        [TestInitialize]
-        public void Setup()
+        public ServiceLayerTests()
         {
             var contex = new TNBaseContext("Data Source=:memory:");
             contex.UpdateDatabase();
@@ -87,52 +85,44 @@ namespace TNBase.App.Test
             serviceLayer.AddListener(l4);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_GetListenersAtYearStart()
         {
             serviceLayer.GetListenersAtYearStart(2010).Should().Be(5);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_WeeklyListenersToday()
         {
             serviceLayer.GetCurrentListenerCount().Should().Be(3);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_NewListenersThisYear()
         {
             // Two of the listeners joined today
             serviceLayer.GetNewListenersForYear(DateTime.Now.Year).Should().Be(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_UnsentWallets()
         {
             serviceLayer.GetUnsentListeners().Count.Should().Be(2);
         }
 
-        [Ignore]
-        [TestMethod]
-        public void Stats_InactiveWallets()
-        {
-            // TODO (L) Implement Stats_InactiveWallets
-            throw new NotImplementedException();
-        }
-
-        [TestMethod]
+        [Fact]
         public void Stats_DeletedListenersThisYear()
         {
             serviceLayer.GetLostListenersForYear(DateTime.Now.Year).Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_NetListenersThisYear()
         {
             serviceLayer.GetNetListenersForYear(DateTime.Now.Year).Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCurrentWeekNumber()
         {
             serviceLayer.GetCurrentWeekNumber().Should().Be(5);
@@ -153,61 +143,61 @@ namespace TNBase.App.Test
         //    serviceLayer.GetCurrentWeekNumber().Should().Be(6);
         //}
 
-        [TestMethod]
+        [Fact]
         public void Stats_TotalStoppedWallets()
         {
             serviceLayer.GetStoppedListeners().Count.Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_AverageStoppedWallets()
         {
             serviceLayer.GetAveragePausedWallets(DateTime.Now.Year).Should().Be(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_InactiveListeners()
         {
             serviceLayer.Get3MonthInactiveListeners().Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_MemoryStickPlayersOnLoan()
         {
             serviceLayer.GetMemorySticksOnLoan().Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_AverageWalletsSentPerWeek()
         {
             serviceLayer.GetAverageDispatchedWallets(DateTime.Now.Year).Should().Be(12);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_TotalWalletsSentForYear()
         {
             serviceLayer.GetWalletsDispatchedForYear(DateTime.Now.Year).Should().Be(81);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_AverageListenersPerWeek()
         {
             serviceLayer.GetAverageListenersForYear(DateTime.Now.Year).Should().Be(16);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_MemorySticksOnLoan()
         {
             serviceLayer.GetMemorySticksOnLoan().Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stats_CurrentListenerCount()
         {
             serviceLayer.GetCurrentListenerCount().Should().Be(3);
         }
 
-        [TestMethod]
+        [Fact]
         public void ServiceLayer_GetListenerByName()
         {
             //Listener l1 = new Listener() { Title = "Mr", Forename = "John", Surname = "Biddle", Addr1 = "1 Park Avenue", Addr2 = "", County = "London", Postcode = "N7 NDF", Town = "Camden", Telephone = "01234 423 232", Stock = 3, Info = "", Joined = DateTime.Now, MemStickPlayer = false, Magazine = true, Status = ListenerStates.ACTIVE, StatusInfo = "", LastOut = DateTime.Now.AddMonths(-2), Wallet = 5, InOutRecords = new InOutRecords() };
@@ -215,35 +205,35 @@ namespace TNBase.App.Test
             Listener l5 = new Listener() { Title = "Miss", Forename = "Other", Surname = "Jones", Addr1 = "40 Camden Road", Addr2 = "", County = "London", Postcode = "N7 8AB", Town = "Camden", Telephone = "07843434343", Stock = 3, Info = "", Joined = DateTime.Now, MemStickPlayer = true, Magazine = true, Status = ListenerStates.ACTIVE, StatusInfo = "", LastOut = DateTime.Now.AddMonths(-4), Wallet = 5, InOutRecords = new InOutRecords() };
             serviceLayer.AddListener(l5);
 
-            Assert.AreEqual(1, serviceLayer.GetListenersByName("John", "Biddle").Count);
-            Assert.AreEqual(0, serviceLayer.GetListenersByName("John", "Biddle", "Master").Count);
-            Assert.AreEqual(1, serviceLayer.GetListenersByName("Sarah", "Jones", "Miss").Count);
-            Assert.AreEqual(2, serviceLayer.GetListenersByName("*", "Jones").Count);
+            Assert.Single(serviceLayer.GetListenersByName("John", "Biddle"));
+            Assert.Empty(serviceLayer.GetListenersByName("John", "Biddle", "Master"));
+            Assert.Single(serviceLayer.GetListenersByName("Sarah", "Jones", "Miss"));
+            Assert.Equal(2, serviceLayer.GetListenersByName("*", "Jones").Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void ServiceLayer_GetUpcomingBirthdays()
         {
-            Assert.AreEqual(0, serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 3, 1), to = new DateTime(2023, 3, 31) }).Count);
-            Assert.AreEqual(2, serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 4, 1), to = new DateTime(2023, 5, 7) }).Count);
-            Assert.AreEqual(1, serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 4, 1), to = new DateTime(2023, 5, 6) }).Count);
-            Assert.AreEqual(0, serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 4, 2), to = new DateTime(2023, 5, 6) }).Count);
+            Assert.Empty(serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 3, 1), to = new DateTime(2023, 3, 31) }));
+            Assert.Equal(2, serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 4, 1), to = new DateTime(2023, 5, 7) }).Count);
+            Assert.Single(serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 4, 1), to = new DateTime(2023, 5, 6) }));
+            Assert.Empty(serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 4, 2), to = new DateTime(2023, 5, 6) }));
 
             // returns paused but not deleted listener
-            Assert.AreEqual(2, serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 5, 15), to = new DateTime(2024, 5, 6) }).Count);
+            Assert.Equal(2, serviceLayer.GetUpcomingBirthdays(new DateRange() { from = new DateTime(2023, 5, 15), to = new DateTime(2024, 5, 6) }).Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void ServiceLayer_GetUpcomingBirthdayDates()
         {
-            Assert.AreEqual(new DateRange() { from = new DateTime(2023, 3, 10), to = new DateTime(2023, 3, 16) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 3, 1)));
-            Assert.AreEqual(new DateRange() { from = new DateTime(2023, 12, 17), to = new DateTime(2024, 1, 6) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 12, 8)));
-            Assert.AreEqual(new DateRange() { from = new DateTime(2023, 12, 23), to = new DateTime(2024, 1, 12) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 12, 14)));
-            Assert.AreEqual(new DateRange() { from = new DateTime(2024, 1, 7), to = new DateTime(2024, 1, 13) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 12, 15)));
-            Assert.AreEqual(new DateRange() { from = new DateTime(2024, 1, 17), to = new DateTime(2024, 1, 23) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 12, 25)));
+            Assert.Equal(new DateRange() { from = new DateTime(2023, 3, 10), to = new DateTime(2023, 3, 16) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 3, 1)));
+            Assert.Equal(new DateRange() { from = new DateTime(2023, 12, 17), to = new DateTime(2024, 1, 6) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 12, 8)));
+            Assert.Equal(new DateRange() { from = new DateTime(2023, 12, 23), to = new DateTime(2024, 1, 12) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 12, 14)));
+            Assert.Equal(new DateRange() { from = new DateTime(2024, 1, 7), to = new DateTime(2024, 1, 13) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 12, 15)));
+            Assert.Equal(new DateRange() { from = new DateTime(2024, 1, 17), to = new DateTime(2024, 1, 23) }, serviceLayer.GetUpcomingBirthdayDates(new DateTime(2023, 12, 25)));
         }
 
-        [TestMethod]
+        [Fact]
         public void ServiceLayer_UpdateInOuts()
         {
             Listener l1 = serviceLayer.GetListenerById(1);
@@ -255,58 +245,58 @@ namespace TNBase.App.Test
             // Refresh
             l1 = serviceLayer.GetListenerById(1);
 
-            Assert.AreEqual(1, l1.InOutRecords.In8);
-            Assert.AreEqual(0, l1.InOutRecords.In7);
-            Assert.AreEqual(0, l1.InOutRecords.In6);
-            Assert.AreEqual(0, l1.InOutRecords.In5);
-            Assert.AreEqual(1, l1.InOutRecords.In4);
-            Assert.AreEqual(0, l1.InOutRecords.In3);
-            Assert.AreEqual(0, l1.InOutRecords.In2);
-            Assert.AreEqual(0, l1.InOutRecords.In1);
-            Assert.AreEqual(0, l1.InOutRecords.Out8);
-            Assert.AreEqual(0, l1.InOutRecords.Out7);
-            Assert.AreEqual(0, l1.InOutRecords.Out6);
-            Assert.AreEqual(1, l1.InOutRecords.Out5);
-            Assert.AreEqual(0, l1.InOutRecords.Out4);
-            Assert.AreEqual(0, l1.InOutRecords.Out3);
-            Assert.AreEqual(0, l1.InOutRecords.Out2);
-            Assert.AreEqual(0, l1.InOutRecords.Out1);
+            Assert.Equal(1, l1.InOutRecords.In8);
+            Assert.Equal(0, l1.InOutRecords.In7);
+            Assert.Equal(0, l1.InOutRecords.In6);
+            Assert.Equal(0, l1.InOutRecords.In5);
+            Assert.Equal(1, l1.InOutRecords.In4);
+            Assert.Equal(0, l1.InOutRecords.In3);
+            Assert.Equal(0, l1.InOutRecords.In2);
+            Assert.Equal(0, l1.InOutRecords.In1);
+            Assert.Equal(0, l1.InOutRecords.Out8);
+            Assert.Equal(0, l1.InOutRecords.Out7);
+            Assert.Equal(0, l1.InOutRecords.Out6);
+            Assert.Equal(1, l1.InOutRecords.Out5);
+            Assert.Equal(0, l1.InOutRecords.Out4);
+            Assert.Equal(0, l1.InOutRecords.Out3);
+            Assert.Equal(0, l1.InOutRecords.Out2);
+            Assert.Equal(0, l1.InOutRecords.Out1);
 
             serviceLayer.UpdateListenerInOuts();
 
             // Refresh
             l1 = serviceLayer.GetListenerById(1);
 
-            Assert.AreEqual(0, l1.InOutRecords.In8);
-            Assert.AreEqual(1, l1.InOutRecords.In7);
-            Assert.AreEqual(0, l1.InOutRecords.In6);
-            Assert.AreEqual(0, l1.InOutRecords.In5);
-            Assert.AreEqual(0, l1.InOutRecords.In4);
-            Assert.AreEqual(1, l1.InOutRecords.In3);
-            Assert.AreEqual(0, l1.InOutRecords.In2);
-            Assert.AreEqual(0, l1.InOutRecords.In1);
-            Assert.AreEqual(1, l1.InOutRecords.Out8); // Will be 1 as they are an active listener
-            Assert.AreEqual(0, l1.InOutRecords.Out7);
-            Assert.AreEqual(0, l1.InOutRecords.Out6);
-            Assert.AreEqual(0, l1.InOutRecords.Out5);
-            Assert.AreEqual(1, l1.InOutRecords.Out4);
-            Assert.AreEqual(0, l1.InOutRecords.Out3);
-            Assert.AreEqual(0, l1.InOutRecords.Out2);
-            Assert.AreEqual(0, l1.InOutRecords.Out1);
+            Assert.Equal(0, l1.InOutRecords.In8);
+            Assert.Equal(1, l1.InOutRecords.In7);
+            Assert.Equal(0, l1.InOutRecords.In6);
+            Assert.Equal(0, l1.InOutRecords.In5);
+            Assert.Equal(0, l1.InOutRecords.In4);
+            Assert.Equal(1, l1.InOutRecords.In3);
+            Assert.Equal(0, l1.InOutRecords.In2);
+            Assert.Equal(0, l1.InOutRecords.In1);
+            Assert.Equal(1, l1.InOutRecords.Out8); // Will be 1 as they are an active listener
+            Assert.Equal(0, l1.InOutRecords.Out7);
+            Assert.Equal(0, l1.InOutRecords.Out6);
+            Assert.Equal(0, l1.InOutRecords.Out5);
+            Assert.Equal(1, l1.InOutRecords.Out4);
+            Assert.Equal(0, l1.InOutRecords.Out3);
+            Assert.Equal(0, l1.InOutRecords.Out2);
+            Assert.Equal(0, l1.InOutRecords.Out1);
         }
 
-        [TestMethod]
+        [Fact]
         public void ServiceLayer_CollectorForListener()
         {
             Listener l1 = serviceLayer.GetListenerById(1);
             Listener l2 = serviceLayer.GetListenerById(2);
             Listener l3 = serviceLayer.GetListenerById(3);
             Collector c1 = serviceLayer.GetCollectorForListener(l1);
-            Assert.AreEqual("Ted", c1.Forename);
+            Assert.Equal("Ted", c1.Forename);
             Collector c2 = serviceLayer.GetCollectorForListener(l2);
-            Assert.AreEqual("Unknown", c2.Forename);
+            Assert.Equal("Unknown", c2.Forename);
             Collector c3 = serviceLayer.GetCollectorForListener(l3);
-            Assert.AreEqual("Ted", c3.Forename);
+            Assert.Equal("Ted", c3.Forename);
 
             Listener l4 = new Listener()
             {
@@ -332,28 +322,28 @@ namespace TNBase.App.Test
                 LastOut = DateTime.ParseExact("01/01/1000", DateHelpers.DEFAULT_DATE_FORMAT, null)
             };
             Collector c4 = serviceLayer.GetCollectorForListener(l4);
-            Assert.AreEqual("Unknown", c4.Forename);
+            Assert.Equal("Unknown", c4.Forename);
         }
 
-        [TestMethod]
+        [Fact]
         public void ServiceLayer_GetWeeklyStatsForNewWeek()
         {
             WeeklyStats stats = serviceLayer.GetCurrentWeekStats();
 
-            Assert.IsNotNull(stats);
+            Assert.NotNull(stats);
         }
 
-        [TestMethod]
+        [Fact]
         public void ServiceLayer_GetWeeklyStatsForWeek()
         {
             WeeklyStats stats = serviceLayer.GetCurrentWeekStats();
 
-            Assert.IsNotNull(stats);
-            Assert.AreEqual(20, stats.ScannedIn);
-            Assert.AreEqual(14, stats.ScannedOut);
-            Assert.AreEqual(17, stats.TotalListeners);
-            Assert.AreEqual(3, stats.PausedCount);
-            Assert.AreEqual(5, stats.WeekNumber);
+            Assert.NotNull(stats);
+            Assert.Equal(20, stats.ScannedIn);
+            Assert.Equal(14, stats.ScannedOut);
+            Assert.Equal(17, stats.TotalListeners);
+            Assert.Equal(3, stats.PausedCount);
+            Assert.Equal(5, stats.WeekNumber);
         }
     }
 }

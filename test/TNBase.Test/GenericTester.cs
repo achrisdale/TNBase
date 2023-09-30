@@ -1,22 +1,21 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using TNBase.App;
 using TNBase.Domain;
 using System.Collections.Generic;
+using Xunit;
 
 namespace TNBase.Test
 {
-    [TestClass]
     public class GenericTester
     {
-        [TestMethod]
+        [Fact]
         public void Generic_BasicTimeTest()
         {
             ModuleGeneric.SaveStartTime();
             ModuleGeneric.saveEndTime();
             ModuleGeneric.getStartTimeString();
             ModuleGeneric.getEndTimeString();
-            Assert.AreEqual("00:00:00", ModuleGeneric.getElapsedTimeString());
+            Assert.Equal("00:00:00", ModuleGeneric.getElapsedTimeString());
         }
 
         /// <summary>
@@ -46,13 +45,13 @@ namespace TNBase.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Generic_WeekStatSave_SaveWeekStats()
         {
             WeekStatTest_Base(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void Generic_WeekStatSave_UpdateWeeklyStats()
         {
             WeekStatTest_Base(true);

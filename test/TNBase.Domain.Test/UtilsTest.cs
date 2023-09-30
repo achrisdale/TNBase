@@ -1,52 +1,53 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace TNBase.Domain.Test
 {
-    [TestClass]
     public class UtilsTest
     {
-        [TestMethod]
+        [Fact]
         public void ValidPostcode_NoSurnameSpec()
         {
             Utils.validatePostcode("CF14");
         }
 
-        [TestMethod]
+        [Fact]
         public void ValidPostcode_SurnameSpec()
         {
             Utils.validatePostcode("CF145DD [A-H]");
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(FormatException))]
+        [Fact]
         public void InvalidPostcode()
         {
-            Utils.validatePostcode("CF4344!");
+            Assert.Throws<FormatException>(() =>
+                Utils.validatePostcode("CF4344!")
+            );
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(FormatException))]
+        [Fact]
         public void InvalidPostcode_TooLong()
         {
-            Utils.validatePostcode("CF4344d3");
+            Assert.Throws<FormatException>(() =>
+                Utils.validatePostcode("CF4344d3")
+            );
         }
 
-        [TestMethod]
+        [Fact]
         public void PostcodeValidForSurname()
         {
-            Assert.IsTrue(Utils.postcodeValidForSurname("CF14 [A-F]", "Francis"));
-            Assert.IsFalse(Utils.postcodeValidForSurname("CF14 [A-F]", "Zoric"));
-            Assert.IsTrue(Utils.postcodeValidForSurname("CJ24 4D [J-Z]", "Zoric"));
-            Assert.IsTrue(Utils.postcodeValidForSurname("CJ24 4D", "Zoric"));
+            Assert.True(Utils.postcodeValidForSurname("CF14 [A-F]", "Francis"));
+            Assert.False(Utils.postcodeValidForSurname("CF14 [A-F]", "Zoric"));
+            Assert.True(Utils.postcodeValidForSurname("CJ24 4D [J-Z]", "Zoric"));
+            Assert.True(Utils.postcodeValidForSurname("CJ24 4D", "Zoric"));
         }
 
-        [TestMethod]
+        [Fact]
         public void RemoveSurnameSpec_Multiple()
         {
-            Assert.AreEqual("CF146DD", Utils.removeSurnameSpecifier("CF14 6DD [A-H]"));
-            Assert.AreEqual("CF1", Utils.removeSurnameSpecifier("CF1 [A-H]"));
-            Assert.AreEqual("CF1CH", Utils.removeSurnameSpecifier("Cf1ch [A-H]"));
+            Assert.Equal("CF146DD", Utils.removeSurnameSpecifier("CF14 6DD [A-H]"));
+            Assert.Equal("CF1", Utils.removeSurnameSpecifier("CF1 [A-H]"));
+            Assert.Equal("CF1CH", Utils.removeSurnameSpecifier("Cf1ch [A-H]"));
         }
     }
 }
