@@ -1,8 +1,8 @@
-﻿using Moq;
-using TNBase.App;
+﻿using TNBase.App;
 using TNBase.Domain;
 using System.Collections.Generic;
 using Xunit;
+using NSubstitute;
 
 namespace TNBase.Test
 {
@@ -25,23 +25,23 @@ namespace TNBase.Test
         /// <param name="expectingInOuts">Should the in out bits be updated?</param>
         private void WeekStatTest_Base(bool newStatsWeek)
         {
-            Mock<IServiceLayer> mockServiceLayer = new Mock<IServiceLayer>();
-            mockServiceLayer.Setup(x => x.GetCurrentWeekNumber()).Returns(100);
-            mockServiceLayer.Setup(x => x.GetCurrentListenerCount()).Returns(10);
-            mockServiceLayer.Setup(x => x.GetListenersByStatus(It.IsAny<ListenerStates>())).Returns(new List<Listener>() { });
-            mockServiceLayer.Setup(x => x.WeeklyStatExistsForWeek(100)).Returns(newStatsWeek);
-            mockServiceLayer.Setup(x => x.GetCurrentWeekStats()).Returns(new WeeklyStats { WeekNumber = 100 });
+            var serviceLayer = Substitute.For<IServiceLayer>();
+            serviceLayer.GetCurrentWeekNumber().Returns(100);
+            serviceLayer.GetCurrentListenerCount().Returns(10);
+            serviceLayer.GetListenersByStatus(Arg.Any<ListenerStates>()).Returns(new List<Listener>() { });
+            serviceLayer.WeeklyStatExistsForWeek(100).Returns(newStatsWeek);
+            serviceLayer.GetCurrentWeekStats().Returns(new WeeklyStats { WeekNumber = 100 });
 
-            ModuleGeneric.UpdateStatsWeek(mockServiceLayer.Object);
+            ModuleGeneric.UpdateStatsWeek(serviceLayer);
 
             // Check we add/update the week stats
             if (newStatsWeek)
             {
-                mockServiceLayer.Verify(x => x.UpdateWeeklyStats(It.Is<WeeklyStats>(y => y.TotalListeners == 10 && y.WeekNumber == 100 && y.PausedCount == 0)), Times.Once);
+                serviceLayer.Received(1).UpdateWeeklyStats(Arg.Is<WeeklyStats>(y => y.TotalListeners == 10 && y.WeekNumber == 100 && y.PausedCount == 0));
             }
             else
             {
-                mockServiceLayer.Verify(x => x.SaveWeekStats(It.Is<WeeklyStats>(y => y.TotalListeners == 10 && y.WeekNumber == 100 && y.PausedCount == 0)), Times.Once);
+                serviceLayer.Received(1).SaveWeekStats(Arg.Is<WeeklyStats>(y => y.TotalListeners == 10 && y.WeekNumber == 100 && y.PausedCount == 0));
             }
         }
 
