@@ -60,9 +60,9 @@ jobs:
                 }
             }
             $newVersion = "v$version" -ne '${{ steps.previoustag.outputs.tag }}'
-            Write-Output "::set-output name=require::$newVersion"
-            Write-Output "::set-output name=version::$version"
-            Write-Output "::set-output name=notes::$notes"
+            Write-Output "require=$newVersion" >> $Env:GITHUB_OUTPUT
+            Write-Output "version=$version" >> $Env:GITHUB_OUTPUT
+            Write-Output "notes=$notes" >> $Env:GITHUB_OUTPUT
           azPSVersion: "latest"
           failOnStandardError: true
 
@@ -113,7 +113,7 @@ jobs:
             if('pull_request' -eq '${{ github.event_name }}') {
               $suffix = '-prerelease'
             }
-            Write-Output "::set-output name=name::TNBase-v${{ needs.build.outputs.release_version }}$suffix-win-x64.msi"
+            Write-Output "name=TNBase-v${{ needs.build.outputs.release_version }}$suffix-win-x64.msi" >> $Env:GITHUB_OUTPUT
           azPSVersion: "latest"
           failOnStandardError: true
 
