@@ -9,7 +9,7 @@
     <Description>TNBase is a database application used to keep the records of listeners and the postal pouches for talking newspapers.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\TNBase.DataStorage\TNBase.DataStorage.csproj" />
+    <ProjectReference Include="..\..\src\TNBase.App\TNBase.App.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Infrastructure\TNBase.Infrastructure.csproj" />
     <ProjectReference Include="..\TNBase.Domain\TNBase.Domain.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Repository\TNBase.Repository.csproj" />

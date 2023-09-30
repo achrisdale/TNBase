@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TNBase.DataStorage\TNBase.DataStorage.csproj" />
+    <ProjectReference Include="..\TNBase.App\TNBase.App.csproj" />
     <ProjectReference Include="..\TNBase.Domain\TNBase.Domain.csproj" />
   </ItemGroup>
 

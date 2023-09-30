@@ -2,7 +2,7 @@
 using System;
 using TNBase.Infrastructure.Helpers;
 
-namespace TNBase.DataStorage.Test
+namespace TNBase.App.Test
 {
     [TestClass]
     public class ExtensionTests

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using TNBase.DataStorage;
+using TNBase.App;
 
 namespace TNBase
 {

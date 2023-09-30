@@ -5,11 +5,11 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase", "src\TNBase\TNBase.csproj", "{CAA1C567-2970-437F-9CF2-A50677AA2F21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.DataStorage", "src\TNBase.DataStorage\TNBase.DataStorage.csproj", "{1B25649F-1CE3-4764-92DE-73E2EFCE8789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.App", "src\TNBase.App\TNBase.App.csproj", "{1B25649F-1CE3-4764-92DE-73E2EFCE8789}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.Domain", "src\TNBase.Domain\TNBase.Domain.csproj", "{3ABEC2D1-048C-4FAD-A649-C686A2E91C82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.DataStorage.Test", "test\TNBase.DataStorage.Test\TNBase.DataStorage.Test.csproj", "{A04F15CC-4CB4-4D66-97FF-5FDF0D99D16E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.App.Test", "test\TNBase.App.Test\TNBase.App.Test.csproj", "{A04F15CC-4CB4-4D66-97FF-5FDF0D99D16E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.Domain.Test", "test\TNBase.Domain.Test\TNBase.Domain.Test.csproj", "{FC7B620D-FAD7-492E-9879-6138A8E1836F}"
 EndProject

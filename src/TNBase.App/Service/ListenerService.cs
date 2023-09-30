@@ -1,4 +1,4 @@
-﻿namespace TNBase.DataStorage.Service
+﻿namespace TNBase.App.Service
 {
     class ListenerService
     {

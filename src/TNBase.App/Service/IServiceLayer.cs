@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TNBase.Domain;
 
-namespace TNBase.DataStorage
+namespace TNBase.App
 {
     public interface IServiceLayer
     {

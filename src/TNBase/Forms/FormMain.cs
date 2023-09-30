@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
-using TNBase.DataStorage;
+using TNBase.App;
 using NLog;
 using TNBase.Forms.Printing;
 using TNBase.Forms.Scanning;

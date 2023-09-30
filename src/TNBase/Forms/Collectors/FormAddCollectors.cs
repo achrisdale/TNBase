@@ -1,7 +1,7 @@
 using System;
 using TNBase.Domain;
 using NLog;
-using TNBase.DataStorage;
+using TNBase.App;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;

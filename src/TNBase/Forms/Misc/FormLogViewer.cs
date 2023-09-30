@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using TNBase.DataStorage;
+using TNBase.App;
 
 namespace TNBase
 {

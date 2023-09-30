@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TNBase.Domain;
 
-namespace TNBase.DataStorage.Test.Services
+namespace TNBase.App.Test.Services
 {
     [TestClass]
     public class ScanServiceTests

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using NLog;
-using TNBase.DataStorage;
+using TNBase.App;
 using TNBase.Domain;
 using System;
 using System.Windows.Forms;

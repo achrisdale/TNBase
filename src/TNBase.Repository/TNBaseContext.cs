@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using TNBase.DataStorage;
+using TNBase.App;
 using TNBase.Domain;
 
 #nullable disable

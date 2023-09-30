@@ -1,7 +1,7 @@
 ﻿using System;
 using TNBase.Infrastructure.Helpers;
 
-namespace TNBase.DataStorage
+namespace TNBase.App
 {
     public static class Extensions
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TNBase.Domain;
 
-namespace TNBase.DataStorage
+namespace TNBase.App
 {
     public class ScanService
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using TNBase.Domain;
-using TNBase.DataStorage;
+using TNBase.App;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace TNBase

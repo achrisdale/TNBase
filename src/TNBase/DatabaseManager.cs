@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using TNBase.DataStorage;
+using TNBase.App;
 using TNBase.Forms;
 using TNBase.Repository;
 using System.Security.Cryptography;

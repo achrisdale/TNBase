@@ -2,7 +2,7 @@ using System;
 using TNBase.Infrastructure;
 using TNBase.Domain;
 
-namespace TNBase.DataStorage
+namespace TNBase.App
 {
     public static class ModuleGeneric
     {

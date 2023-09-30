@@ -1,4 +1,4 @@
-﻿namespace TNBase.DataStorage
+﻿namespace TNBase.App
 {
     /// <summary>
     /// Options for ordering

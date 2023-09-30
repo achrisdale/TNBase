@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TNBase.DataStorage\TNBase.DataStorage.csproj" />
+    <ProjectReference Include="..\TNBase.App\TNBase.App.csproj" />
   </ItemGroup>
 
 </Project>

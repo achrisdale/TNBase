@@ -6,7 +6,7 @@ using TNBase.Infrastructure.Extensions;
 using System.Data.Entity;
 using TNBase.Infrastructure.Helpers;
 
-namespace TNBase.DataStorage
+namespace TNBase.App
 {
     public class ServiceLayer : IServiceLayer
     {

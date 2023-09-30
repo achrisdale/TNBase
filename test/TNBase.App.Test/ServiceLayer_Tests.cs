@@ -5,7 +5,7 @@ using FluentAssertions;
 using TNBase.Repository;
 using TNBase.Infrastructure.Helpers;
 
-namespace TNBase.DataStorage.Test
+namespace TNBase.App.Test
 {
     [TestClass]
     public class ServiceLayer_Tests

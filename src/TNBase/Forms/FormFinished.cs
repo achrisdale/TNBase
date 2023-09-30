@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using TNBase.DataStorage;
+using TNBase.App;
 using TNBase.Infrastructure;
 
 namespace TNBase

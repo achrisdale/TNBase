@@ -2,7 +2,7 @@ using Microsoft.VisualBasic;
 using System;
 using System.Drawing;
 using TNBase.Domain;
-using TNBase.DataStorage;
+using TNBase.App;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Forms;
 

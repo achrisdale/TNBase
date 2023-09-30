@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TNBase.Domain;
 
-namespace TNBase.DataStorage
+namespace TNBase.App
 {
     public interface ITNBaseContext
     {
