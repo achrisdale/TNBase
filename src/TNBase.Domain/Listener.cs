@@ -8,7 +8,7 @@ using System.Text;
 using System.Xml.Serialization;
 using TNBase.Infrastructure.Extensions;
 
-namespace TNBase.Objects
+namespace TNBase.Domain
 {
     public class Listener
     {

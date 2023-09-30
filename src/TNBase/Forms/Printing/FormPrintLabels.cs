@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase
 {

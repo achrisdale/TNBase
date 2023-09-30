@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TNBase.Objects
+namespace TNBase.Domain
 {
     public static class ListenerTitles
     {

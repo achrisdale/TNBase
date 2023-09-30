@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TNBase.External.DataImport;
-using TNBase.Objects;
+using TNBase.Domain;
 using TNBase.Repository;
 using Xunit;
 

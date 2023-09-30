@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\TNBase.DataStorage\TNBase.DataStorage.csproj" />
-    <ProjectReference Include="..\..\src\TNBase.Objects\TNBase.Objects.csproj" />
+    <ProjectReference Include="..\..\src\TNBase.Domain\TNBase.Domain.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Repository\TNBase.Repository.csproj" />
   </ItemGroup>
   <ItemGroup>

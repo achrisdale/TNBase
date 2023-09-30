@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using TNBase.DataStorage;
-using TNBase.Objects;
+using TNBase.Domain;
 
 #nullable disable
 

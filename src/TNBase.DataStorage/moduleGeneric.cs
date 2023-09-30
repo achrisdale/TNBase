@@ -1,6 +1,6 @@
 using System;
 using TNBase.Infrastructure;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase.DataStorage
 {

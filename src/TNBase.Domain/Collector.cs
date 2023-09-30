@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace TNBase.Objects
+namespace TNBase.Domain
 {
     public class Collector
     {

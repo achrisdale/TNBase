@@ -7,7 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using TNBase.DataStorage;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase.External.DataImport
 {

@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Forms;
-using TNBase.Objects;
+using TNBase.Domain;
 namespace TNBase
 {
     public partial class FormChoosePrintPoint

@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase", "src\TNBase\TNBase
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.DataStorage", "src\TNBase.DataStorage\TNBase.DataStorage.csproj", "{1B25649F-1CE3-4764-92DE-73E2EFCE8789}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.Objects", "src\TNBase.Objects\TNBase.Objects.csproj", "{3ABEC2D1-048C-4FAD-A649-C686A2E91C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.Domain", "src\TNBase.Domain\TNBase.Domain.csproj", "{3ABEC2D1-048C-4FAD-A649-C686A2E91C82}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.DataStorage.Test", "test\TNBase.DataStorage.Test\TNBase.DataStorage.Test.csproj", "{A04F15CC-4CB4-4D66-97FF-5FDF0D99D16E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.Objects.Test", "test\TNBase.Objects.Test\TNBase.Objects.Test.csproj", "{FC7B620D-FAD7-492E-9879-6138A8E1836F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.Domain.Test", "test\TNBase.Domain.Test\TNBase.Domain.Test.csproj", "{FC7B620D-FAD7-492E-9879-6138A8E1836F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.Test", "test\TNBase.Test\TNBase.Test.csproj", "{00008951-7EE7-42A6-BCA4-78A676FE8668}"
 EndProject
@@ -35,9 +35,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4992B161-EF1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A396CAB4-D3E2-4DFE-8804-68C0376F9E47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNBase.External", "src\TNBase.External\TNBase.External.csproj", "{00070BE0-87B4-489C-8DF9-C91B97F8B8CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.External", "src\TNBase.External\TNBase.External.csproj", "{00070BE0-87B4-489C-8DF9-C91B97F8B8CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNBase.External.Tests", "test\TNBase.External.Tests\TNBase.External.Tests.csproj", "{096062EA-EB1F-4457-AEB0-85FF07910AA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.External.Tests", "test\TNBase.External.Tests\TNBase.External.Tests.csproj", "{096062EA-EB1F-4457-AEB0-85FF07910AA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

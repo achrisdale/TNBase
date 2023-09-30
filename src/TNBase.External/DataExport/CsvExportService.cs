@@ -5,7 +5,7 @@ using NLog;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase.External.DataExport
 {

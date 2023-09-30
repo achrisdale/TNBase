@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using TNBase.Objects;
+using TNBase.Domain;
 using Xunit;
 
 namespace TNBase.Repository.UnitTests

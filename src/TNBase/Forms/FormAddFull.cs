@@ -1,7 +1,7 @@
 using Microsoft.VisualBasic;
 using System;
 using System.Windows.Forms;
-using TNBase.Objects;
+using TNBase.Domain;
 using NLog;
 using TNBase.DataStorage;
 using System.Globalization;

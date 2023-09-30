@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TNBase.Objects;
+using TNBase.Domain;
 using System;
 using FluentAssertions;
 using TNBase.Repository;

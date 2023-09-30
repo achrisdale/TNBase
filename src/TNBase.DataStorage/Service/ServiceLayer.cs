@@ -1,4 +1,4 @@
-﻿using TNBase.Objects;
+﻿using TNBase.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace TNBase.DataStorage
 {
     public class ServiceLayer : IServiceLayer
     {
-        static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
+        static readonly NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
         private readonly ITNBaseContext context;
 
@@ -493,7 +493,7 @@ namespace TNBase.DataStorage
             return context.YearStats.SingleOrDefault(x => x.Year.Equals(year));
         }
 
-        public void DeleteOverdueDeletedListeners(int months)
+        public void PurgeOverdueDeletedListeners(int months)
         {
             List<Listener> listeners = context.Listeners.ToList().Where(x => x.Status.Equals(ListenerStates.DELETED) && x.DeletedDate < DateTime.Now.AddMonths(-months)).ToList();
 

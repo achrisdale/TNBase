@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace TNBase.Objects.Test
+namespace TNBase.Domain.Test
 {
     [TestClass]
     public class MiscTests

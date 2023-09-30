@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase.Forms.Scanning
 {

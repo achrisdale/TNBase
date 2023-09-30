@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using TNBase.DataStorage;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase.Forms
 {

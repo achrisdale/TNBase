@@ -1,5 +1,5 @@
 using System;
-using TNBase.Objects;
+using TNBase.Domain;
 using NLog;
 using TNBase.DataStorage;
 using Microsoft.Extensions.DependencyInjection;

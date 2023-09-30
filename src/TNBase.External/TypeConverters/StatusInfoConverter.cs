@@ -2,7 +2,7 @@
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 using System;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase.External.TypeConverters
 {

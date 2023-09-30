@@ -4,7 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using TNBase.DataStorage;
 using TNBase.Infrastructure;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase
 {

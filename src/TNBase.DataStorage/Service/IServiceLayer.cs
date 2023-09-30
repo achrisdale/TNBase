@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase.DataStorage
 {
@@ -15,7 +15,7 @@ namespace TNBase.DataStorage
         bool IsNewStatsWeek();
         bool UpdateListenerInOuts();
         int GetMemorySticksOnLoan();
-        void DeleteOverdueDeletedListeners(int months);
+        void PurgeOverdueDeletedListeners(int months);
 
         /// <summary>
         /// Listener Calls

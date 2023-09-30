@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace TNBase.Objects
+namespace TNBase.Domain
 {
     public class Utils
     {

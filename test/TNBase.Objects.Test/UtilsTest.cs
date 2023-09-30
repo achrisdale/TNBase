@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TNBase.Objects.Test
+namespace TNBase.Domain.Test
 {
     [TestClass]
     public class UtilsTest

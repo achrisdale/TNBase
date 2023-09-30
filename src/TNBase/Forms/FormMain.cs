@@ -8,7 +8,7 @@ using TNBase.DataStorage;
 using NLog;
 using TNBase.Forms.Printing;
 using TNBase.Forms.Scanning;
-using TNBase.Objects;
+using TNBase.Domain;
 using System.Linq;
 using TNBase.Model;
 using Microsoft.Extensions.DependencyInjection;

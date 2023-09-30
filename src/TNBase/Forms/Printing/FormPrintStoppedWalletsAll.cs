@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using TNBase.Objects;
+using TNBase.Domain;
 using TNBase.DataStorage;
 using Microsoft.Extensions.DependencyInjection;
 

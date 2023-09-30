@@ -2,7 +2,7 @@
 using System.Linq;
 using TNBase.External.DataExport;
 using TNBase.Infrastructure.Helpers;
-using TNBase.Objects;
+using TNBase.Domain;
 using TNBase.Repository;
 using Xunit;
 

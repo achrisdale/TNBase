@@ -2,6 +2,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Drawing;
 using TNBase.DataStorage;
+using TNBase.Domain;
+
 namespace TNBase
 {
     public partial class FormStats
@@ -22,7 +24,7 @@ namespace TNBase
 			lblInactiveWallets.Text = serviceLayer.GetInactiveWalletNumbers().ToString();
             lblAverageDispatched.Text = serviceLayer.GetAverageDispatchedWallets(year).ToString();
             lblWalletsDispatched.Text = serviceLayer.GetWalletsDispatchedForYear(year).ToString();
-			lblStoppedWallets.Text = serviceLayer.GetListenersByStatus(Objects.ListenerStates.PAUSED).Count.ToString();
+			lblStoppedWallets.Text = serviceLayer.GetListenersByStatus(ListenerStates.PAUSED).Count.ToString();
 			lblMemorySticksOnLoad.Text = serviceLayer.GetMemorySticksOnLoan().ToString();
             lblAverageStopped.Text = serviceLayer.GetAveragePausedWallets(year).ToString();
             lblDormant.Text = serviceLayer.Get3MonthInactiveListeners().ToString();

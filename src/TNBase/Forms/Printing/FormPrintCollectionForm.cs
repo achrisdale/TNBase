@@ -1,6 +1,6 @@
 using System;
 using System.Drawing;
-using TNBase.Objects;
+using TNBase.Domain;
 using TNBase.DataStorage;
 using Microsoft.Extensions.DependencyInjection;
 

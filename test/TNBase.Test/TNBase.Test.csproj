@@ -6,7 +6,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\TNBase.DataStorage\TNBase.DataStorage.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Infrastructure\TNBase.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\TNBase.Objects\TNBase.Objects.csproj" />
+    <ProjectReference Include="..\..\src\TNBase.Domain\TNBase.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.1" />

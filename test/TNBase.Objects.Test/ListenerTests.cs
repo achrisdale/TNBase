@@ -2,7 +2,7 @@
 using System;
 using TNBase.Infrastructure.Helpers;
 
-namespace TNBase.Objects.Test
+namespace TNBase.Domain.Test
 {
     [TestClass]
     public class ListenerTests

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TNBase.Objects
+namespace TNBase.Domain
 {
     public class DateRange
     {

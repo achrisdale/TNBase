@@ -1,4 +1,4 @@
-﻿namespace TNBase.Objects
+﻿namespace TNBase.Domain
 {
     public class InOutRecords
     {

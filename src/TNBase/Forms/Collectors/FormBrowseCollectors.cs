@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
-using TNBase.Objects;
+using TNBase.Domain;
 using TNBase.DataStorage;
 using Microsoft.Extensions.DependencyInjection;
 

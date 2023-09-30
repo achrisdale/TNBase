@@ -1,7 +1,7 @@
 using Microsoft.VisualBasic;
 using System;
 using System.Windows.Forms;
-using TNBase.Objects;
+using TNBase.Domain;
 using TNBase.DataStorage;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;

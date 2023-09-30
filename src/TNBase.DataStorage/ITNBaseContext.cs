@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using TNBase.Objects;
+using TNBase.Domain;
 
 namespace TNBase.DataStorage
 {

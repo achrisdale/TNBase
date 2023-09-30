@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TNBase.DataStorage;
-using TNBase.Objects;
+using TNBase.Domain;
 using System.Collections.Generic;
 
 namespace TNBase.Test
