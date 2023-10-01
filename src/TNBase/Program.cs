@@ -79,7 +79,7 @@ static class Program
         services.AddSingleton<DatabaseManager>();
         services.AddScoped(s => s.GetService<DatabaseManager>().Database);
 
-        services.AddScoped(s => new DataSweeperOptions { DaysBeforePurgeDeletedListeners = Properties.Settings.Default.MonthsUntilDelete * 30 });
+        services.AddScoped(s => new DataSweeperOptions { DaysBeforePurgeDeletedListeners = Properties.Settings.Default.DaysToReserveDeletedWallet });
         services.AddScoped<DataSweeper>();
 
         services.AddScoped<IServiceLayer, ServiceLayer>();

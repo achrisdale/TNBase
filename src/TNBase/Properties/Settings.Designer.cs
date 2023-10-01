@@ -12,7 +12,7 @@ namespace TNBase.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -29,15 +29,6 @@ namespace TNBase.Properties {
         public string Logo {
             get {
                 return ((string)(this["Logo"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("12")]
-        public int MonthsUntilDelete {
-            get {
-                return ((int)(this["MonthsUntilDelete"]));
             }
         }
         
@@ -119,6 +110,15 @@ namespace TNBase.Properties {
         public int DefaultNewsWalletsIssued {
             get {
                 return ((int)(this["DefaultNewsWalletsIssued"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("365")]
+        public int DaysToReserveDeletedWallet {
+            get {
+                return ((int)(this["DaysToReserveDeletedWallet"]));
             }
         }
     }
