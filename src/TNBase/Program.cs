@@ -57,7 +57,9 @@ static class Program
         var serviceLayer = ServiceProvider.GetRequiredService<IServiceLayer>();
         serviceLayer.ResumePausedListeners();
         serviceLayer.UpdateYearStatsInternal();
-        //serviceLayer.PurgeOverdueDeletedListeners(Properties.Settings.Default.MonthsUntilDelete);
+
+        var dataSweeper = ServiceProvider.GetRequiredService<DataSweeper>();
+        dataSweeper.PurgeDeletedListeners();
 
         var form = ServiceProvider.GetRequiredService<FormMain>();
         Application.Run(form);
@@ -71,9 +73,14 @@ static class Program
 
     private static void ConfigureServices(ServiceCollection services)
     {
+        services.AddScoped<ITimeProvider, TimeProvider>();
+
         services.AddSingleton(s => new DatabaseManagerOptions { DataLocation = applicationDataDirectory });
         services.AddSingleton<DatabaseManager>();
         services.AddScoped(s => s.GetService<DatabaseManager>().Database);
+
+        services.AddScoped(s => new DataSweeperOptions { DaysBeforePurgeDeletedListeners = Properties.Settings.Default.MonthsUntilDelete * 30 });
+        services.AddScoped<DataSweeper>();
 
         services.AddScoped<IServiceLayer, ServiceLayer>();
         services.AddScoped<ScanService>();

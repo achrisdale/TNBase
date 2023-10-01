@@ -20,12 +20,20 @@ public class DataSweeper
         this.timeProvider = timeProvider;
     }
 
-    public void PurgeOverdueDeletedListeners()
+    public void PurgeDeletedListeners()
     {
+        log.Info($"Purging listeners deleted over {options.DaysBeforePurgeDeletedListeners} days ago.");
+
         var listeners = context.Listeners
             .ToList() // needed to avoid reference error
             .Where(x => x.Status.Equals(ListenerStates.DELETED) && x.DeletedDate < timeProvider.UtcNow.AddDays(-options.DaysBeforePurgeDeletedListeners))
             .ToList();
+
+        if(!listeners.Any())
+        {
+            log.Info($"No listeners found to purge.");
+            return;
+        }
 
         foreach (var listener in listeners)
         {
@@ -38,5 +46,4 @@ public class DataSweeper
 
         context.SaveChanges();
     }
-
 }

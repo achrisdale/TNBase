@@ -42,12 +42,34 @@ namespace TNBase.App.Test
 
         public DataSweeperBuilder WithListenerDeletedOn(string dateTime)
         {
+            var listener = GetListener();
+            listener.Status = ListenerStates.DELETED;
+            listener.DeletedDate=DateTime.Parse(dateTime);
+
+            Context.Listeners.Add(listener);
+            Context.SaveChanges();
+
+            return this;
+        }
+
+        public DataSweeperBuilder WithListener(ListenerStates state)
+        {
+            var listener = GetListener();
+            listener.Status = state;
+
+            Context.Listeners.Add(listener);
+            Context.SaveChanges();
+
+            return this;
+        }
+
+        private Listener GetListener()
+        {
             var count = Context.Listeners.Count();
-            Context.Listeners.Add(new Listener
+            return new Listener
             {
                 Wallet = count + 1,
-                DeletedDate = DateTime.Parse(dateTime),
-                Status = ListenerStates.DELETED,
+                Status = ListenerStates.ACTIVE,
                 Title = "Mr",
                 Forename = "John",
                 Surname = "Biddle",
@@ -67,9 +89,7 @@ namespace TNBase.App.Test
                 InOutRecords = new InOutRecords(),
                 BirthdayDay = 1,
                 BirthdayMonth = 4
-            });
-            Context.SaveChanges();
-            return this;
+            };
         }
     }
 }
