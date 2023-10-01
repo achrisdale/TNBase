@@ -1,4 +1,27 @@
-.deleted-listeners{
-    list-style-type: none;
-
+.sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    height: 3rem;
+    background: #ebebeb;
+    text-align: center;
+    padding: 0.5rem;
 }
+
+.listeners-list {
+    list-style-type: none;
+    padding: 0.4rem;
+}
+
+    .listeners-list .selected {
+        background: orange;
+    }
+
+    .listeners-list .title {
+        font-weight: 600;
+        padding: 0.2rem 0;
+    }
+
+    .listeners-list .details {
+        padding-left: 1rem;
+    }

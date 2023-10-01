@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.External", "src\TNBa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.External.Tests", "test\TNBase.External.Tests\TNBase.External.Tests.csproj", "{096062EA-EB1F-4457-AEB0-85FF07910AA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNBase.Blazor", "src\TNBase.Blazor\TNBase.Blazor.csproj", "{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.Blazor", "src\TNBase.Blazor\TNBase.Blazor.csproj", "{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
