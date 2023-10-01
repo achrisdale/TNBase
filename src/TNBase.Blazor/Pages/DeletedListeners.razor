@@ -13,27 +13,20 @@
             <a href="javascript:;" class="list-group-item list-group-item-action @(selectedListener == listener ? "selected" : "")"
             @onclick="(() => SelectListener(listener))">
                 <div class="title">@listener.Wallet. @listener.GetNiceName()</div>
-                <div class="details">
-                    @if (listener.MemStickPlayer)
-                    {
-                        <div>
-                            Owns memory stick player
-                        </div>
-                    }
-
-                    @if (listener.SentNewsWallets > 0)
-                    {
-                        <div>
-                            @listener.SentNewsWallets news wallets have not been returned
-                        </div>
-                    }
-
-                    @if (listener.SentMagazineWallets > 0)
-                    {
-                        <div>
-                            @listener.SentMagazineWallets magazine wallets have not been returned
-                        </div>
-                    }
+                <div class="address">@listener.GetSingleLineAddress()</div>
+                <div class="details row">
+                    <div class="col-sm">
+                        <Icon Name="IconName.MusicPlayer" Size="IconSize.x4" Color="listener.MemStickPlayer ? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(listener.MemStickPlayer ? "text-danger" : "text-secondary")">@(listener.MemStickPlayer ? "Owns Player" : "No Player")</span>
+                    </div>
+                    <div class="col-sm">
+                        <Icon Name="IconName.Newspaper" Size="IconSize.x4" Color="listener.SentNewsWallets > 0? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(listener.SentNewsWallets > 0 ? "text-danger" : "text-secondary")">@listener.SentNewsWallets news wallet@(listener.SentNewsWallets == 1 ? "" : "s")</span>
+                    </div>
+                    <div class="col-sm">
+                        <Icon Name="IconName.Book" Size="IconSize.x4" Color="listener.SentMagazineWallets > 0? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(listener.SentMagazineWallets > 0 ? "text-danger" : "text-secondary")">@listener.SentMagazineWallets magazine wallet@(listener.SentMagazineWallets == 1 ? "" : "s")</span>
+                    </div>
                 </div>
             </a>
         }

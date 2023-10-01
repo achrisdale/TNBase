@@ -95,6 +95,28 @@ namespace TNBase.Domain
         public bool CanRestore => Status == ListenerStates.DELETED;
         public bool CanAnonymize => Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment;
 
+        public string GetSingleLineAddress()
+        {
+            var address = Addr1;
+
+            if (!string.IsNullOrWhiteSpace(Addr2))
+            {
+                address += $", {Addr2}";    
+            }
+
+            if (!string.IsNullOrWhiteSpace(Town))
+            {
+                address += $", {Town}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(Postcode))
+            {
+                address += $", {Postcode}";
+            }
+
+            return address;
+        }
+
         public string GetDebugString()
         {
             return "Wallet: " + this.Wallet + Environment.NewLine + "Name: " + GetNiceName() + Environment.NewLine + "Addr1: " + this.Addr1 + Environment.NewLine + "Addr2: " + this.Addr2 + Environment.NewLine + "Town: " + this.Town + Environment.NewLine + "County: " + this.County + Environment.NewLine + "Postcode: " + this.Postcode + Environment.NewLine + "Birthday: " + this.BirthdayDay + "/" + this.BirthdayMonth + Environment.NewLine + "Info: " + this.Info + Environment.NewLine + "Joined: " + this.Joined + Environment.NewLine + "LastIn: " + this.LastIn + Environment.NewLine + "LastOut: " + this.LastOut + Environment.NewLine + "Stock: " + this.Stock + Environment.NewLine + "DeletedDate: " + this.DeletedDate + Environment.NewLine + "Telephone: " + this.Telephone + Environment.NewLine + "StatusInfo: " + this.StatusInfo + Environment.NewLine + "Status: " + this.Status + Environment.NewLine + "MemStickPlayer: " + this.MemStickPlayer + Environment.NewLine + "Magazine: " + this.Magazine + Environment.NewLine;
