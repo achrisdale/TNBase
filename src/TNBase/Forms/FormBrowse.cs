@@ -174,9 +174,9 @@ namespace TNBase
                     log.Info("Resumed and updated listener with WalletId: " + selectedListener.Wallet);
                     UpdateListeners();
                 }
-                else if (showDeleted && selectedListener.CanPurge)
+                else if (showDeleted && selectedListener.CanAnonymize)
                 {
-                    selectedListener.Purge();
+                    selectedListener.Anonymize();
                     serviceLayer.UpdateListener(selectedListener);
                     UpdateListeners();
                 }
@@ -262,7 +262,7 @@ namespace TNBase
         private void UpdateListeners()
         {
             listeners = serviceLayer.GetListeners()
-                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED && !x.IsPurged) ||
+                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED && !x.IsAnonymized) ||
                             (!showDeleted && (x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED)))
                 .ToList();
             RefreshList();
@@ -351,7 +351,7 @@ namespace TNBase
                     btnStopSending.Text = "Cancel a stop";
                     btnStopSending.Visible = true;
                 }
-                else if (showDeleted && selectedListener.CanPurge)
+                else if (showDeleted && selectedListener.CanAnonymize)
                 {
                     btnStopSending.Text = "Purge";
                     btnStopSending.Visible = true;

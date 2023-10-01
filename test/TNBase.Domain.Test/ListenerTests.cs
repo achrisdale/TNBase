@@ -541,7 +541,7 @@ namespace TNBase.Domain.Test
 
             listener.Scan(ScanTypes.IN, WalletTypes.News);
 
-            Assert.True(listener.IsPurged);
+            Assert.True(listener.IsAnonymized);
         }
 
         [Fact]
@@ -558,7 +558,7 @@ namespace TNBase.Domain.Test
 
             listener.Scan(ScanTypes.IN, WalletTypes.Magazine);
 
-            Assert.True(listener.IsPurged);
+            Assert.True(listener.IsAnonymized);
         }
     }
 }

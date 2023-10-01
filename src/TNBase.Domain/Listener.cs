@@ -92,8 +92,8 @@ namespace TNBase.Domain
         public bool CanResume => Status == ListenerStates.PAUSED;
         public bool CanDelete => Status != ListenerStates.DELETED;
         public bool CanRestore => Status == ListenerStates.DELETED;
-        public bool CanPurge => Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment;
-        public bool IsPurged => Forename == "Deleted" && Surname == "Deleted";
+        public bool CanAnonymize => Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment;
+        public bool IsAnonymized => Forename == "Deleted" && Surname == "Deleted";
 
         public string GetDebugString()
         {
@@ -135,7 +135,7 @@ namespace TNBase.Domain
 
             if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
             {
-                Purge();
+                Anonymize();
             }
         }
 
@@ -216,15 +216,15 @@ namespace TNBase.Domain
 
             if (!OwnsWalletsOrEquipment)
             {
-                Purge();
+                Anonymize();
             }
         }
 
-        public void Purge()
+        public void Anonymize()
         {
-            if (!CanPurge)
+            if (!CanAnonymize)
             {
-                throw new ListenerStateChangeException($"Cannot purge listener {Wallet} as it's state is {Status}");
+                throw new ListenerStateChangeException($"Cannot anonymize listener {Wallet} as it's state is {Status}");
             }
 
             Title = "N/A";
