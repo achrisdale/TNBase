@@ -13,7 +13,7 @@ env:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     outputs:
       require_release: ${{ steps.release.outputs.require }}
@@ -69,7 +69,7 @@ jobs:
   release:
     needs: build
     if: needs.build.outputs.require_release == 'True'
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     steps:
       - name: Checkout
