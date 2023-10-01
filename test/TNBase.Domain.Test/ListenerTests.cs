@@ -267,6 +267,7 @@ namespace TNBase.Domain.Test
         {
             var listener = new Listener
             {
+                NewsWalletsIssued = 3,
                 Stock = 0,
             };
 
@@ -541,7 +542,7 @@ namespace TNBase.Domain.Test
 
             listener.Scan(ScanTypes.IN, WalletTypes.News);
 
-            Assert.True(listener.IsAnonymized);
+            Assert.True(listener.Status == ListenerStates.RESERVED);
         }
 
         [Fact]
@@ -558,7 +559,7 @@ namespace TNBase.Domain.Test
 
             listener.Scan(ScanTypes.IN, WalletTypes.Magazine);
 
-            Assert.True(listener.IsAnonymized);
+            Assert.True(listener.Status == ListenerStates.RESERVED);
         }
     }
 }

@@ -20,13 +20,13 @@ public class DataSweeper
         this.timeProvider = timeProvider;
     }
 
-    public void PurgeDeletedListeners()
+    public void PurgeReservedWallets()
     {
-        log.Info($"Purging listeners deleted over {options.DaysBeforePurgeDeletedListeners} days ago.");
+        log.Info($"Purging listeners deleted over {options.DaysBeforePurgeReservedWallets} days ago.");
 
         var listeners = context.Listeners
             .ToList() // needed to avoid reference error
-            .Where(x => x.Status.Equals(ListenerStates.DELETED) && x.DeletedDate < timeProvider.UtcNow.AddDays(-options.DaysBeforePurgeDeletedListeners))
+            .Where(x => x.Status.Equals(ListenerStates.RESERVED) && x.ReservedDate < timeProvider.UtcNow.AddDays(-options.DaysBeforePurgeReservedWallets))
             .ToList();
 
         if(!listeners.Any())
@@ -37,7 +37,7 @@ public class DataSweeper
 
         foreach (var listener in listeners)
         {
-            log.Info($"Purging listener with id {listener.Wallet} as they have been marked as deleted for over {options.DaysBeforePurgeDeletedListeners} days.");
+            log.Info($"Purging listener with id {listener.Wallet} as they have been marked as deleted for over {options.DaysBeforePurgeReservedWallets} days.");
 
             context.InOutRecords.Remove(listener.InOutRecords);
             context.Listeners.Remove(listener);

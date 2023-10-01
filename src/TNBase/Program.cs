@@ -59,7 +59,7 @@ static class Program
         serviceLayer.UpdateYearStatsInternal();
 
         var dataSweeper = ServiceProvider.GetRequiredService<DataSweeper>();
-        dataSweeper.PurgeDeletedListeners();
+        dataSweeper.PurgeReservedWallets();
 
         var form = ServiceProvider.GetRequiredService<FormMain>();
         Application.Run(form);
@@ -79,7 +79,7 @@ static class Program
         services.AddSingleton<DatabaseManager>();
         services.AddScoped(s => s.GetService<DatabaseManager>().Database);
 
-        services.AddScoped(s => new DataSweeperOptions { DaysBeforePurgeDeletedListeners = Properties.Settings.Default.DaysToReserveDeletedWallet });
+        services.AddScoped(s => new DataSweeperOptions { DaysBeforePurgeReservedWallets = Properties.Settings.Default.DaysToReserveDeletedWallet });
         services.AddScoped<DataSweeper>();
 
         services.AddScoped<IServiceLayer, ServiceLayer>();

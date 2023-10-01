@@ -34,17 +34,17 @@ namespace TNBase.App.Test
             return this;
         }
 
-        public DataSweeperBuilder WithDaysBeforePurgeDeletedListeners(int days)
+        public DataSweeperBuilder WithDaysBeforePurgeReservedWallets(int days)
         {
-            options.DaysBeforePurgeDeletedListeners = days;
+            options.DaysBeforePurgeReservedWallets = days;
             return this;
         }
 
-        public DataSweeperBuilder WithListenerDeletedOn(string dateTime)
+        public DataSweeperBuilder WithListenerReservedOn(string dateTime)
         {
             var listener = GetListener();
-            listener.Status = ListenerStates.DELETED;
-            listener.DeletedDate=DateTime.Parse(dateTime);
+            listener.Status = ListenerStates.RESERVED;
+            listener.ReservedDate = DateTime.Parse(dateTime);
 
             Context.Listeners.Add(listener);
             Context.SaveChanges();
@@ -52,10 +52,11 @@ namespace TNBase.App.Test
             return this;
         }
 
-        public DataSweeperBuilder WithListener(ListenerStates state)
+        public DataSweeperBuilder WithListener(ListenerStates state, string deletedOn = null)
         {
             var listener = GetListener();
             listener.Status = state;
+            listener.DeletedDate = deletedOn != null ? DateTime.Parse(deletedOn) : null;
 
             Context.Listeners.Add(listener);
             Context.SaveChanges();

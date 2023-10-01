@@ -35,6 +35,7 @@ namespace TNBase.External.DataImport
             Map(m => m.Info).Optional().Name("Information");
             Map(m => m.WarnOfAddressChange).Optional().Default(false, true);
             Map(m => m.DeletedDate).Optional();
+            Map(m => m.ReservedDate).Ignore();
             Map(m => m.LastIn).Optional();
             Map(m => m.LastOut).Optional();
             Map(m => m.InOutRecords.Wallet).Optional().Default(0, true);

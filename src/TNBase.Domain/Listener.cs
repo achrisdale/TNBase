@@ -69,12 +69,13 @@ namespace TNBase.Domain
         public string Info { get; set; }
 
         public ListenerStates Status { get; set; }
-
         public string StatusInfo { get; set; }
 
         public virtual InOutRecords InOutRecords { get; set; }
 
         public DateTime? DeletedDate { get; set; }
+        public DateTime? ReservedDate { get; set; }
+
         public int Stock { get; set; }
         public DateTime? LastIn { get; set; }
         public DateTime? LastOut { get; set; }
@@ -93,7 +94,6 @@ namespace TNBase.Domain
         public bool CanDelete => Status != ListenerStates.DELETED;
         public bool CanRestore => Status == ListenerStates.DELETED;
         public bool CanAnonymize => Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment;
-        public bool IsAnonymized => Forename == "Deleted" && Surname == "Deleted";
 
         public string GetDebugString()
         {
@@ -135,7 +135,7 @@ namespace TNBase.Domain
 
             if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
             {
-                Anonymize();
+                AnonymizeAndReserve();
             }
         }
 
@@ -216,11 +216,11 @@ namespace TNBase.Domain
 
             if (!OwnsWalletsOrEquipment)
             {
-                Anonymize();
+                AnonymizeAndReserve();
             }
         }
 
-        public void Anonymize()
+        public void AnonymizeAndReserve()
         {
             if (!CanAnonymize)
             {
@@ -240,6 +240,8 @@ namespace TNBase.Domain
             BirthdayMonth = null;
             Info = null;
             StatusInfo = null;
+            Status = ListenerStates.RESERVED;
+            ReservedDate = DateTime.UtcNow;
         }
 
         public string FormatListenerData()

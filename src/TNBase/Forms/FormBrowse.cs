@@ -176,7 +176,7 @@ namespace TNBase
                 }
                 else if (showDeleted && selectedListener.CanAnonymize)
                 {
-                    selectedListener.Anonymize();
+                    selectedListener.AnonymizeAndReserve();
                     serviceLayer.UpdateListener(selectedListener);
                     UpdateListeners();
                 }
@@ -262,7 +262,7 @@ namespace TNBase
         private void UpdateListeners()
         {
             listeners = serviceLayer.GetListeners()
-                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED && !x.IsAnonymized) ||
+                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED) ||
                             (!showDeleted && (x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED)))
                 .ToList();
             RefreshList();
