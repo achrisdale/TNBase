@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using TNBase.Domain;
 using TNBase.Repository;
@@ -30,7 +31,7 @@ namespace TNBase.App.Test
 
         public DataSweeperBuilder WithTestDate(string dateTime)
         {
-            testDateTime = DateTime.Parse(dateTime);
+            testDateTime = DateTime.ParseExact(dateTime, DateTimeExtensions.DEFAULT_FORMAT, CultureInfo.InvariantCulture);
             return this;
         }
 
@@ -44,7 +45,7 @@ namespace TNBase.App.Test
         {
             var listener = GetListener();
             listener.Status = ListenerStates.RESERVED;
-            listener.ReservedDate = DateTime.Parse(dateTime);
+            listener.ReservedDate = DateTime.ParseExact(dateTime, DateTimeExtensions.DEFAULT_FORMAT, CultureInfo.InvariantCulture);
 
             Context.Listeners.Add(listener);
             Context.SaveChanges();
@@ -56,7 +57,7 @@ namespace TNBase.App.Test
         {
             var listener = GetListener();
             listener.Status = state;
-            listener.DeletedDate = deletedOn != null ? DateTime.Parse(deletedOn) : null;
+            listener.DeletedDate = deletedOn != null ? DateTime.ParseExact(deletedOn, DateTimeExtensions.DEFAULT_FORMAT, CultureInfo.InvariantCulture) : null;
 
             Context.Listeners.Add(listener);
             Context.SaveChanges();

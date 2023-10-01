@@ -1,4 +1,7 @@
 1.7.17
+- Closes #109 - Redesigned Delete Listeners view
+
+1.7.17
 - Closes #100 - Encrypt listeners database
 
 1.7.16
