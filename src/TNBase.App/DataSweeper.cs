@@ -37,10 +37,9 @@ public class DataSweeper
 
         foreach (var listener in listeners)
         {
-            var records = context.InOutRecords.SingleOrDefault(x=>x.Wallet == listener.Wallet);
-            context.InOutRecords.Remove(records);
-
             log.Info($"Purging listener with id {listener.Wallet} as they have been marked as deleted for over {options.DaysBeforePurgeDeletedListeners} days.");
+
+            context.InOutRecords.Remove(listener.InOutRecords);
             context.Listeners.Remove(listener);
         }
 
