@@ -87,6 +87,8 @@ static class Program
         services.AddScoped<CsvImportService>();
         services.AddScoped<CsvExportService>();
 
+        services.AddWindowsFormsBlazorWebView();
+
         var resourceDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resource");
         services.AddSingleton(s => new ResourceManager(resourceDirectory));
 

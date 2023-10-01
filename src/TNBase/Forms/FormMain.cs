@@ -616,7 +616,7 @@ namespace TNBase
             var form = new FormDatabaseEncryption();
             form.ShowDialog();
         }
-        
+
         private void dataExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
@@ -645,6 +645,12 @@ namespace TNBase
                     MessageBox.Show(ex.Message, "Listener Export Error");
                 }
             }
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormBlazorWebView();
+            form.ShowDialog();
         }
     }
 }

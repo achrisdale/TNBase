@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using System;
 using System.Linq;
 using TNBase.Domain;
 

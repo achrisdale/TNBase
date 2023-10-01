@@ -1,6 +1,4 @@
-﻿using NLog.Fluent;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using TNBase.Domain;
 
 namespace TNBase.App;

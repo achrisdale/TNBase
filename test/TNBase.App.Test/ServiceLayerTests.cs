@@ -3,7 +3,6 @@ using System;
 using FluentAssertions;
 using TNBase.Repository;
 using TNBase.Infrastructure.Helpers;
-using Xunit;
 
 namespace TNBase.App.Test
 {

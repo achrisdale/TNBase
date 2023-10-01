@@ -1,0 +1,39 @@
+﻿@page "/deleted-listeners"
+@inject TNBase.App.IServiceLayer listenerService
+
+<h3>Deleted Listeners</h3>
+
+<ul class="listeners-list">
+    @foreach (var listener in listenerService.GetDeletedListeners())
+    {
+        <li>
+            <div class="title">@listener.Wallet. @listener.GetNiceName()</div>
+            <div class="details">
+                    @if (listener.MemStickPlayer)
+                    {
+                        <div>
+                            Owns memory stick player
+                        </div>
+                    }
+
+                    @if (listener.SentNewsWallets > 0)
+                    {
+                        <div>
+                            @listener.SentNewsWallets news wallets have not been returned
+                        </div>
+                    }
+
+                    @if (listener.SentMagazineWallets > 0)
+                    {
+                        <div>
+                            @listener.SentMagazineWallets magazine wallets have not been returned
+                        </div>
+                    }
+            </div>
+        </li>
+    }
+</ul>
+
+@code {
+
+}

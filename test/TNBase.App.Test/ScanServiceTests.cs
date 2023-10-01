@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TNBase.Domain;
-using Xunit;
 
 namespace TNBase.App.Test
 {

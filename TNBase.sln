@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.External", "src\TNBa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TNBase.External.Tests", "test\TNBase.External.Tests\TNBase.External.Tests.csproj", "{096062EA-EB1F-4457-AEB0-85FF07910AA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNBase.Blazor", "src\TNBase.Blazor\TNBase.Blazor.csproj", "{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,14 @@ Global
 		{096062EA-EB1F-4457-AEB0-85FF07910AA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{096062EA-EB1F-4457-AEB0-85FF07910AA3}.Release|x86.ActiveCfg = Release|Any CPU
 		{096062EA-EB1F-4457-AEB0-85FF07910AA3}.Release|x86.Build.0 = Release|Any CPU
+		{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CA334CA-84E7-4DFF-BAAB-63529AD486CA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +155,7 @@ Global
 		{53541575-8084-4F63-A93B-595493A2C115} = {A396CAB4-D3E2-4DFE-8804-68C0376F9E47}
 		{00070BE0-87B4-489C-8DF9-C91B97F8B8CA} = {4992B161-EF12-4509-9EE9-5CDAD3E7319B}
 		{096062EA-EB1F-4457-AEB0-85FF07910AA3} = {A396CAB4-D3E2-4DFE-8804-68C0376F9E47}
+		{2CA334CA-84E7-4DFF-BAAB-63529AD486CA} = {4992B161-EF12-4509-9EE9-5CDAD3E7319B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E1EB9D2E-CD1D-4DBD-8222-010A8BEF080C}

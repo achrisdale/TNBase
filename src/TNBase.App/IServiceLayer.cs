@@ -30,6 +30,7 @@ namespace TNBase.App
         List<Listener> GetInactiveListeners();
         List<Listener> GetRecentlyAddedListeners();
         List<Listener> GetRecentlyDeletedListeners();
+        List<Listener> GetDeletedListeners();
         List<Listener> GetListenersWithBirthdays();
         List<Listener> GetUnsentListeners();
         List<Listener> GetPausedListeners();
