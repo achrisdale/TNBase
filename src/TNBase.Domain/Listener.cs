@@ -101,7 +101,7 @@ namespace TNBase.Domain
 
             if (!string.IsNullOrWhiteSpace(Addr2))
             {
-                address += $", {Addr2}";    
+                address += $", {Addr2}";
             }
 
             if (!string.IsNullOrWhiteSpace(Town))
@@ -141,15 +141,56 @@ namespace TNBase.Domain
 
         public void Scan(ScanTypes scanType, WalletTypes walletType)
         {
-            var increment = scanType == ScanTypes.OUT ? -1 : 1;
+            if (scanType == ScanTypes.OUT)
+            {
+                SendWalet(walletType);
+            }
 
+            if (scanType == ScanTypes.IN)
+            {
+                ReturnWalet(walletType);
+            }
+        }
+
+        public void ReturnPlayer()
+        {
+            MemStickPlayer = false;
+
+            if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
+            {
+                AnonymizeAndReserve();
+            }
+        }
+
+        public void ReturnWalet(WalletTypes walletType)
+        {
             switch (walletType)
             {
                 case WalletTypes.News:
-                    Stock += increment;
+                    Stock++;
                     break;
                 case WalletTypes.Magazine:
-                    MagazineStock += increment;
+                    MagazineStock++;
+                    break;
+                default:
+                    break;
+            }
+
+            if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
+            {
+                AnonymizeAndReserve();
+            }
+        }
+
+        public void SendWalet(WalletTypes walletType)
+        {
+            switch (walletType)
+            {
+                case WalletTypes.News:
+                    Stock--;
+                    break;
+                case WalletTypes.Magazine:
+                    MagazineStock--;
                     break;
                 default:
                     break;

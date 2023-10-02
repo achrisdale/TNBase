@@ -1,16 +1,6 @@
-.sticky-top {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    height: 3rem;
-    background: #ebebeb;
-    text-align: center;
-    padding: 0.5rem;
-}
-
 .listeners-list {
     list-style-type: none;
-    padding: 0.4rem;
+    margin-top: 5rem;
 }
 
     .listeners-list .selected {
