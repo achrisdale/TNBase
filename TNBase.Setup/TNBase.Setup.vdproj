@@ -211,7 +211,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TNBase"
         "ProductCode" = "8:{5637FA96-6DC9-4B81-A9DB-3BF90DE2CF28}"
-        "PackageCode" = "8:{CAE34770-2848-4AC4-8CA6-9B62C108AFAF}"
+        "PackageCode" = "8:{EFBF9278-115C-43EC-B4B0-0E25C6F5AC8C}"
         "UpgradeCode" = "8:{D2FEE0CA-1E47-4F06-88E9-AAEE2CF75024}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -331,7 +331,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_381ADEB8D98E452894304E486E64AE23"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_50E44E35B5304822BA01D67752CAD18B"
             {
             "Name" = "8:TNBase"
             "Arguments" = "8:"
@@ -339,13 +339,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
+            "Target" = "8:_1C917F09BC0E4542BF1958BC51AAF1C4"
             "Folder" = "8:_377829BCC02C448AAE534D810FD1A6C5"
-            "WorkingFolder" = "8:_377829BCC02C448AAE534D810FD1A6C5"
+            "WorkingFolder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
             "Icon" = "8:_3FD1C062BB03467E949DA0ADBFA36ACB"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_EF5BF04CF01646D79D3F64750802B91D"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7E91EC2FA50348F2B3B16263C5EAF32A"
             {
             "Name" = "8:TNBase"
             "Arguments" = "8:"
@@ -353,9 +353,9 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
+            "Target" = "8:_1C917F09BC0E4542BF1958BC51AAF1C4"
             "Folder" = "8:_A59603BC94614590A8E7E551F570841C"
-            "WorkingFolder" = "8:_A59603BC94614590A8E7E551F570841C"
+            "WorkingFolder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
             "Icon" = "8:_3FD1C062BB03467E949DA0ADBFA36ACB"
             "Feature" = "8:"
             }
@@ -760,7 +760,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1C917F09BC0E4542BF1958BC51AAF1C4"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\src\\TNBase\\obj\\Release\\net7.0-windows\\win-x64\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
