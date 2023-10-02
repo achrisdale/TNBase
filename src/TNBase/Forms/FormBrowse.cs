@@ -313,11 +313,15 @@ namespace TNBase
 
         private void filterButton_Click(object sender, EventArgs e)
         {
-            showDeleted = !showDeleted;
-            filterButton.Text = showDeleted ? "Show active listeners" : "Show marked for deletion";
-            lblTitle.Text = showDeleted ? "Deleted Listeners" : "Active Listeners";
-            page = 0;
+            var form = new FormBlazorWebView();
+            form.ShowDialog();
             UpdateListeners();
+
+            //showDeleted = !showDeleted;
+            //filterButton.Text = showDeleted ? "Show active listeners" : "Show marked for deletion";
+            //lblTitle.Text = showDeleted ? "Deleted Listeners" : "Active Listeners";
+            //page = 0;
+            //UpdateListeners();
         }
 
         private void UpdateFormControls()

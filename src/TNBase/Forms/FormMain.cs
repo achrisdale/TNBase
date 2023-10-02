@@ -646,11 +646,5 @@ namespace TNBase
                 }
             }
         }
-
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = new FormBlazorWebView();
-            form.ShowDialog();
-        }
     }
 }

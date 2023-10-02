@@ -331,7 +331,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0DE5BE35ABA14684A21981A3203DF006"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_381ADEB8D98E452894304E486E64AE23"
             {
             "Name" = "8:TNBase"
             "Arguments" = "8:"
@@ -339,13 +339,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_1C917F09BC0E4542BF1958BC51AAF1C4"
+            "Target" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
             "Folder" = "8:_377829BCC02C448AAE534D810FD1A6C5"
-            "WorkingFolder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
+            "WorkingFolder" = "8:_377829BCC02C448AAE534D810FD1A6C5"
             "Icon" = "8:_3FD1C062BB03467E949DA0ADBFA36ACB"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_55E0FF6E4AB942C7B6AF6997AFC38B27"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_EF5BF04CF01646D79D3F64750802B91D"
             {
             "Name" = "8:TNBase"
             "Arguments" = "8:"
@@ -353,9 +353,9 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_1C917F09BC0E4542BF1958BC51AAF1C4"
+            "Target" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
             "Folder" = "8:_A59603BC94614590A8E7E551F570841C"
-            "WorkingFolder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"
+            "WorkingFolder" = "8:_A59603BC94614590A8E7E551F570841C"
             "Icon" = "8:_3FD1C062BB03467E949DA0ADBFA36ACB"
             "Feature" = "8:"
             }
@@ -760,7 +760,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1C917F09BC0E4542BF1958BC51AAF1C4"
             {
-            "SourcePath" = "8:..\\src\\TNBase\\obj\\Release\\net5.0-windows\\win-x64\\apphost.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2722D3E86DAD474996D20EA2FF2049FD"

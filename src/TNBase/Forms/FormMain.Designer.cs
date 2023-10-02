@@ -116,7 +116,6 @@ namespace TNBase
             btnMagScanOut = new Button();
             btnMagScanIn = new Button();
             helpProvider = new HelpProvider();
-            settingsToolStripMenuItem = new ToolStripMenuItem();
             menuTop.SuspendLayout();
             GroupBox1.SuspendLayout();
             GroupBox2.SuspendLayout();
@@ -200,7 +199,7 @@ namespace TNBase
             // 
             // MaintenenceToolStripMenuItem
             // 
-            MaintenenceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { BackupToolStripMenuItem, RestoreToolStripMenuItem, PrintAllListenerLabelsToolStripMenuItem, logViewToolStripMenuItem, openLogDirectoryToolStripMenuItem, adjustStockLevelsToolStripMenuItem, dataImportToolStripMenuItem, dataExportToolStripMenuItem, updateDatabaseEncryptionKeyToolStripMenuItem, settingsToolStripMenuItem });
+            MaintenenceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { BackupToolStripMenuItem, RestoreToolStripMenuItem, PrintAllListenerLabelsToolStripMenuItem, logViewToolStripMenuItem, openLogDirectoryToolStripMenuItem, adjustStockLevelsToolStripMenuItem, dataImportToolStripMenuItem, dataExportToolStripMenuItem, updateDatabaseEncryptionKeyToolStripMenuItem });
             MaintenenceToolStripMenuItem.Name = "MaintenenceToolStripMenuItem";
             MaintenenceToolStripMenuItem.Size = new Size(106, 24);
             MaintenenceToolStripMenuItem.Text = "&Maintenence";
@@ -762,13 +761,6 @@ namespace TNBase
             // helpProvider
             // 
             helpProvider.HelpNamespace = "Resource\\TNBase.chm";
-            // 
-            // settingsToolStripMenuItem
-            // 
-            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            settingsToolStripMenuItem.Size = new Size(231, 24);
-            settingsToolStripMenuItem.Text = "&Settings";
-            settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
             // 
             // FormMain
             // 

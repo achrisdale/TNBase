@@ -83,6 +83,7 @@
             Controls.Add(tableLayoutPanel1);
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "FormBlazorWebView";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "TNBase";
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
