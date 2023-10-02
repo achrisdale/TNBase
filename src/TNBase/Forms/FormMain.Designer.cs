@@ -887,6 +887,5 @@ namespace TNBase
         private HelpProvider helpProvider;
         private ToolStripMenuItem updateDatabaseEncryptionKeyToolStripMenuItem;
         private ToolStripMenuItem dataExportToolStripMenuItem;
-        private ToolStripMenuItem settingsToolStripMenuItem;
     }
 }

@@ -9,8 +9,7 @@ namespace TNBase
     /// </summary>
 	public partial class FormAbout
 	{
-		private Logger log = LogManager.GetCurrentClassLogger();
-		private int clickCount = 0;
+        private readonly Logger log = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Close the form if they click away
