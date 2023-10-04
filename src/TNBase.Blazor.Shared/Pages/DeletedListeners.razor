@@ -27,12 +27,12 @@
         {
             <a href="javascript:;" class="list-group-item list-group-item-action @(selectedListener == listener ? "selected" : "")"
             @onclick="(() => SelectListener(listener))">
-                <div class="title">@listener.Wallet. @listener.GetNiceName()</div>
-                <div class="address">@listener.GetSingleLineAddress()</div>
+                <div class="title">@WithSearchHighlight($"{listener.Wallet}. {listener.GetNiceName()}")</div>
+                <div class="address">@WithSearchHighlight(listener.GetSingleLineAddress())</div>
                 <div class="details row">
                     <div class="col-sm">
                         <Icon Name="IconName.MusicPlayer" Size="IconSize.x4" Color="listener.MemStickPlayer ? IconColor.Danger : IconColor.Muted" />
-                        <span class="@(listener.MemStickPlayer ? "text-danger" : "text-secondary")">@(listener.MemStickPlayer ? "Owns Player" : "No Player")</span>
+                        <span class="@(listener.MemStickPlayer ? "text-danger" : "text-secondary")">@(listener.MemStickPlayer ? "1 Player" : "0 Players")</span>
                     </div>
                     <div class="col-sm">
                         <Icon Name="IconName.Newspaper" Size="IconSize.x4" Color="listener.SentNewsWallets > 0? IconColor.Danger : IconColor.Muted" />
@@ -59,7 +59,7 @@
                 <div class="row mt-3">
                     <div class="col-8">
                         <Icon Name="IconName.MusicPlayer" Size="IconSize.x4" Color="selectedListener.MemStickPlayer ? IconColor.Danger : IconColor.Muted" />
-                        <span class="@(selectedListener.MemStickPlayer ? "text-danger" : "text-secondary")">@(selectedListener.MemStickPlayer ? "Owns Player" : "No Player")</span>
+                        <span class="@(selectedListener.MemStickPlayer ? "text-danger" : "text-secondary")">@(selectedListener.MemStickPlayer ? "1 Player" : "0 Players")</span>
                     </div>
                     <div class="col-4">
                         @if (selectedListener.MemStickPlayer)
@@ -238,4 +238,31 @@
             await listenerRemovedModal.ShowAsync();
         }
     }
+
+    private MarkupString WithSearchHighlight(string text)
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            return new MarkupString(text);
+        }
+
+        var index = text.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase);
+        if (index < 0)
+        {
+            return new MarkupString(text);
+        }
+
+        string before = text.Substring(0, index);
+        string match = text.Substring(index, SearchText.Length);
+        string after = text.Substring(index + SearchText.Length);
+
+        return new MarkupString($"{before}<span class=\"highlight\">{match}</span>{after}");
+    }
 }
+
+<style>
+    .highlight {
+        background-color: #ffd800;
+        color: #000000;
+    }
+</style>

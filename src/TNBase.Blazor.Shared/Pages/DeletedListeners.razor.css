@@ -1,6 +1,6 @@
 .listeners-list {
     list-style-type: none;
-    margin-top: 5rem;
+    padding: 6rem 0 2rem 0;
 }
 
     .listeners-list .selected {
