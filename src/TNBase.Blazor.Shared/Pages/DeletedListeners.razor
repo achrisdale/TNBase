@@ -1,0 +1,268 @@
+﻿@page "/deleted-listeners"
+@using BlazorBootstrap;
+@using TNBase.Blazor.Shared.Components.DeletedListeners;
+@using TNBase.Domain;
+@inject TNBase.App.IServiceLayer listenerService
+@inject TNBase.App.ITNBaseContext context
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div>
+            <a class="navbar-brand" href="#">Listeners pending deletion</a>
+            <div>
+                These listeners will be deleted once the property is returned
+            </div>
+        </div>
+        <form class="form-inline">
+            <input type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon"
+            @bind-value="SearchText"
+            @bind-value:event="oninput" />
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="listeners-list list-group">
+        @foreach (var listener in FilteredListeners)
+        {
+            <a href="javascript:;" class="list-group-item list-group-item-action @(selectedListener == listener ? "selected" : "")"
+            @onclick="(() => SelectListener(listener))">
+                <div class="title">@WithSearchHighlight($"{listener.Wallet}. {listener.GetNiceName()}")</div>
+                <div class="address">@WithSearchHighlight(listener.GetSingleLineAddress())</div>
+                <div class="details row">
+                    <div class="col-sm">
+                        <Icon Name="IconName.MusicPlayer" Size="IconSize.x4" Color="listener.MemStickPlayer ? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(listener.MemStickPlayer ? "text-danger" : "text-secondary")">@(listener.MemStickPlayer ? "1 Player" : "0 Players")</span>
+                    </div>
+                    <div class="col-sm">
+                        <Icon Name="IconName.Newspaper" Size="IconSize.x4" Color="listener.SentNewsWallets > 0? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(listener.SentNewsWallets > 0 ? "text-danger" : "text-secondary")">@listener.SentNewsWallets news wallet@(listener.SentNewsWallets == 1 ? "" : "s")</span>
+                    </div>
+                    <div class="col-sm">
+                        <Icon Name="IconName.Book" Size="IconSize.x4" Color="listener.SentMagazineWallets > 0? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(listener.SentMagazineWallets > 0 ? "text-danger" : "text-secondary")">@listener.SentMagazineWallets magazine wallet@(listener.SentMagazineWallets == 1 ? "" : "s")</span>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+
+</div>
+
+<Offcanvas @ref="offcanvas" title="Edit Listener" OnHiding="DeselectListener">
+    <BodyTemplate>
+        @if (selectedListener != null)
+        {
+            <h4>@selectedListener.Wallet. @selectedListener.GetNiceName()</h4>
+            <div>@selectedListener.GetSingleLineAddress()</div>
+            <div class="container">
+                <div class="row mt-3">
+                    <div class="col-8">
+                        <Icon Name="IconName.MusicPlayer" Size="IconSize.x4" Color="selectedListener.MemStickPlayer ? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(selectedListener.MemStickPlayer ? "text-danger" : "text-secondary")">@(selectedListener.MemStickPlayer ? "1 Player" : "0 Players")</span>
+                    </div>
+                    <div class="col-4">
+                        @if (selectedListener.MemStickPlayer)
+                        {
+                            <Button Color="ButtonColor.Secondary" @onclick="ReturnPlayer">Return</Button>
+                        }
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-8">
+                        <Icon Name="IconName.Newspaper" Size="IconSize.x4" Color="selectedListener.SentNewsWallets > 0? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(selectedListener.SentNewsWallets > 0 ? "text-danger" : "text-secondary")">@selectedListener.SentNewsWallets news wallet@(selectedListener.SentNewsWallets == 1 ? "" : "s")</span>
+                    </div>
+                    <div class="col-4">
+                        @if (selectedListener.SentNewsWallets > 0)
+                        {
+                            <Button Color="ButtonColor.Secondary" @onclick="ReturnNewsWallet">Return</Button>
+                        }
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-8">
+                        <Icon Name="IconName.Book" Size="IconSize.x4" Color="selectedListener.SentMagazineWallets > 0? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(selectedListener.SentMagazineWallets > 0 ? "text-danger" : "text-secondary")">@selectedListener.SentMagazineWallets magazine wallet@(selectedListener.SentMagazineWallets == 1 ? "" : "s")</span>
+                    </div>
+                    <div class="col-4">
+                        @if (selectedListener.SentMagazineWallets > 0)
+                        {
+                            <Button Color="ButtonColor.Secondary" @onclick="ReturnMagazineWallet">Return</Button>
+                        }
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-sm-6 offset-sm-6">
+                        <Button Color="ButtonColor.Warning" @onclick="RestoreListener">Restore Listener</Button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5">
+                <Button Color="ButtonColor.Primary" @onclick="DeselectListener">Close</Button>
+            </div>
+        }
+    </BodyTemplate>
+</Offcanvas>
+
+<Modal @ref="modal" Title="Confirm">
+    <BodyTemplate>
+        <p>@modalMessage</p>
+        <h4>@selectedListener?.Wallet. @selectedListener?.GetNiceName()</h4>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="HideModal">Close</Button>
+        <Button Color="ButtonColor.Primary" @onclick="(()=>ConfirmAction(modalAction))">Confirm</Button>
+    </FooterTemplate>
+</Modal>
+
+<Modal @ref="listenerRemovedModal" Title="Listener Removed">
+    <BodyTemplate>
+        <p>The listener has returned all TN property and will be permanently deleted:</p>
+        <h4>@listenerFullName</h4>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="(()=> listenerRemovedModal.HideAsync())">Close</Button>
+    </FooterTemplate>
+</Modal>
+
+@code {
+    private string SearchText = "";
+    private Offcanvas offcanvas = default!;
+    private Modal modal = default!;
+    private Modal listenerRemovedModal = default!;
+    private string modalMessage = "";
+    private string modalAction = "";
+    private string listenerFullName = "";
+    private Listener? selectedListener;
+    private List<Listener> Listeners = new List<Listener>();
+    private List<Listener> FilteredListeners => Listeners.Where(x =>
+        string.IsNullOrWhiteSpace(SearchText) ||
+        x.Wallet.ToString().ToLower().Contains(SearchText.ToLower()) ||
+        x.GetSingleLineAddress().ToLower().Contains(SearchText.ToLower()) ||
+        x.GetNiceName().ToLower().Contains(SearchText.ToLower())
+    ).ToList();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitializedAsync();
+        Listeners = listenerService.GetDeletedListeners();
+    }
+
+    private async Task SelectListener(Listener listener)
+    {
+        selectedListener = listener;
+        await offcanvas.ShowAsync();
+    }
+
+    private async Task DeselectListener()
+    {
+        selectedListener = null;
+        await offcanvas.HideAsync();
+    }
+
+    private async Task HideModal()
+    {
+        await modal.HideAsync();
+    }
+
+    private async Task ReturnPlayer()
+    {
+        modalMessage = "Please confirm that the player has been returned for:";
+        modalAction = "player";
+        await modal.ShowAsync();
+    }
+
+    private async Task ReturnNewsWallet()
+    {
+        modalMessage = "Please confirm that the NEWS wallet has been returned for:";
+        modalAction = "news";
+        await modal.ShowAsync();
+    }
+
+    private async Task ReturnMagazineWallet()
+    {
+        modalMessage = "Please confirm that the MAGAZINE wallet has been returned for:";
+        modalAction = "magazine";
+        await modal.ShowAsync();
+    }
+
+    private async Task RestoreListener()
+    {
+        modalMessage = "Are you sure you want to make this listener ACTIVE?";
+        modalAction = "restore";
+        await modal.ShowAsync();
+    }
+
+    private async Task ConfirmAction(string action)
+    {
+        await HideModal();
+        if (selectedListener == null) return;
+
+        var name = $"{selectedListener.Wallet}. {selectedListener.GetNiceName()}";
+
+        switch (action)
+        {
+            case "player":
+                selectedListener.ReturnPlayer();
+                await NotifyWhenDeleted(name);
+                break;
+            case "news":
+                selectedListener.ReturnWalet(WalletTypes.News);
+                await NotifyWhenDeleted(name);
+                break;
+            case "magazine":
+                selectedListener.ReturnWalet(WalletTypes.Magazine);
+                await NotifyWhenDeleted(name);
+                break;
+            case "restore":
+                selectedListener.Restore();
+                Listeners.Remove(selectedListener);
+                await DeselectListener();
+                break;
+            default:
+                break;
+        }
+
+        context.SaveChanges();
+
+    }
+
+    private async Task NotifyWhenDeleted(string name)
+    {
+        if (selectedListener?.Status == ListenerStates.RESERVED)
+        {
+            listenerFullName = name;
+            Listeners.Remove(selectedListener);
+            await DeselectListener();
+            await listenerRemovedModal.ShowAsync();
+        }
+    }
+
+    private MarkupString WithSearchHighlight(string text)
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            return new MarkupString(text);
+        }
+
+        var index = text.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase);
+        if (index < 0)
+        {
+            return new MarkupString(text);
+        }
+
+        string before = text.Substring(0, index);
+        string match = text.Substring(index, SearchText.Length);
+        string after = text.Substring(index + SearchText.Length);
+
+        return new MarkupString($"{before}<span class=\"highlight\">{match}</span>{after}");
+    }
+}
+
+<style>
+    .highlight {
+        background-color: #ffd800;
+        color: #000000;
+    }
+</style>

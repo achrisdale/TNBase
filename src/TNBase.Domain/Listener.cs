@@ -69,12 +69,13 @@ namespace TNBase.Domain
         public string Info { get; set; }
 
         public ListenerStates Status { get; set; }
-
         public string StatusInfo { get; set; }
 
         public virtual InOutRecords InOutRecords { get; set; }
 
         public DateTime? DeletedDate { get; set; }
+        public DateTime? ReservedDate { get; set; }
+
         public int Stock { get; set; }
         public DateTime? LastIn { get; set; }
         public DateTime? LastOut { get; set; }
@@ -92,8 +93,29 @@ namespace TNBase.Domain
         public bool CanResume => Status == ListenerStates.PAUSED;
         public bool CanDelete => Status != ListenerStates.DELETED;
         public bool CanRestore => Status == ListenerStates.DELETED;
-        public bool CanPurge => Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment;
-        public bool IsPurged => Forename == "Deleted" && Surname == "Deleted";
+        public bool CanAnonymize => Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment;
+
+        public string GetSingleLineAddress()
+        {
+            var address = Addr1;
+
+            if (!string.IsNullOrWhiteSpace(Addr2))
+            {
+                address += $", {Addr2}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(Town))
+            {
+                address += $", {Town}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(Postcode))
+            {
+                address += $", {Postcode}";
+            }
+
+            return address;
+        }
 
         public string GetDebugString()
         {
@@ -119,15 +141,36 @@ namespace TNBase.Domain
 
         public void Scan(ScanTypes scanType, WalletTypes walletType)
         {
-            var increment = scanType == ScanTypes.OUT ? -1 : 1;
+            if (scanType == ScanTypes.OUT)
+            {
+                SendWalet(walletType);
+            }
 
+            if (scanType == ScanTypes.IN)
+            {
+                ReturnWalet(walletType);
+            }
+        }
+
+        public void ReturnPlayer()
+        {
+            MemStickPlayer = false;
+
+            if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
+            {
+                AnonymizeAndReserve();
+            }
+        }
+
+        public void ReturnWalet(WalletTypes walletType)
+        {
             switch (walletType)
             {
                 case WalletTypes.News:
-                    Stock += increment;
+                    Stock++;
                     break;
                 case WalletTypes.Magazine:
-                    MagazineStock += increment;
+                    MagazineStock++;
                     break;
                 default:
                     break;
@@ -135,7 +178,27 @@ namespace TNBase.Domain
 
             if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
             {
-                Purge();
+                AnonymizeAndReserve();
+            }
+        }
+
+        public void SendWalet(WalletTypes walletType)
+        {
+            switch (walletType)
+            {
+                case WalletTypes.News:
+                    Stock--;
+                    break;
+                case WalletTypes.Magazine:
+                    MagazineStock--;
+                    break;
+                default:
+                    break;
+            }
+
+            if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
+            {
+                AnonymizeAndReserve();
             }
         }
 
@@ -216,15 +279,15 @@ namespace TNBase.Domain
 
             if (!OwnsWalletsOrEquipment)
             {
-                Purge();
+                AnonymizeAndReserve();
             }
         }
 
-        public void Purge()
+        public void AnonymizeAndReserve()
         {
-            if (!CanPurge)
+            if (!CanAnonymize)
             {
-                throw new ListenerStateChangeException($"Cannot purge listener {Wallet} as it's state is {Status}");
+                throw new ListenerStateChangeException($"Cannot anonymize listener {Wallet} as it's state is {Status}");
             }
 
             Title = "N/A";
@@ -240,6 +303,8 @@ namespace TNBase.Domain
             BirthdayMonth = null;
             Info = null;
             StatusInfo = null;
+            Status = ListenerStates.RESERVED;
+            ReservedDate = DateTime.UtcNow;
         }
 
         public string FormatListenerData()

@@ -92,7 +92,9 @@ namespace TNBase
 				My.MyProject.Forms.formAddCollectors.SetupEditMode(theCollector);
 
 				refreshList();
-			} catch (Exception ex) {
+            }
+            catch (Exception)
+            {
 				// Probably nothing selected... ignore.
 			}
 		}

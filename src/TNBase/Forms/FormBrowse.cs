@@ -174,9 +174,9 @@ namespace TNBase
                     log.Info("Resumed and updated listener with WalletId: " + selectedListener.Wallet);
                     UpdateListeners();
                 }
-                else if (showDeleted && selectedListener.CanPurge)
+                else if (showDeleted && selectedListener.CanAnonymize)
                 {
-                    selectedListener.Purge();
+                    selectedListener.AnonymizeAndReserve();
                     serviceLayer.UpdateListener(selectedListener);
                     UpdateListeners();
                 }
@@ -262,7 +262,7 @@ namespace TNBase
         private void UpdateListeners()
         {
             listeners = serviceLayer.GetListeners()
-                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED && !x.IsPurged) ||
+                .Where(x => (showDeleted && x.Status == ListenerStates.DELETED) ||
                             (!showDeleted && (x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED)))
                 .ToList();
             RefreshList();
@@ -313,11 +313,15 @@ namespace TNBase
 
         private void filterButton_Click(object sender, EventArgs e)
         {
-            showDeleted = !showDeleted;
-            filterButton.Text = showDeleted ? "Show active listeners" : "Show marked for deletion";
-            lblTitle.Text = showDeleted ? "Deleted Listeners" : "Active Listeners";
-            page = 0;
+            var form = new FormBlazorWebView();
+            form.ShowDialog();
             UpdateListeners();
+
+            //showDeleted = !showDeleted;
+            //filterButton.Text = showDeleted ? "Show active listeners" : "Show marked for deletion";
+            //lblTitle.Text = showDeleted ? "Deleted Listeners" : "Active Listeners";
+            //page = 0;
+            //UpdateListeners();
         }
 
         private void UpdateFormControls()
@@ -351,7 +355,7 @@ namespace TNBase
                     btnStopSending.Text = "Cancel a stop";
                     btnStopSending.Visible = true;
                 }
-                else if (showDeleted && selectedListener.CanPurge)
+                else if (showDeleted && selectedListener.CanAnonymize)
                 {
                     btnStopSending.Text = "Purge";
                     btnStopSending.Visible = true;

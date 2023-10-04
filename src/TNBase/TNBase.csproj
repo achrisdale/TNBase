@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Company>Talking Newspapers</Company>
     <Product>TNBase</Product>
@@ -11,14 +11,15 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\TNBase.App\TNBase.App.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Infrastructure\TNBase.Infrastructure.csproj" />
+    <ProjectReference Include="..\TNBase.Blazor.Shared\TNBase.Blazor.Shared.csproj" />
     <ProjectReference Include="..\TNBase.Domain\TNBase.Domain.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Repository\TNBase.Repository.csproj" />
     <ProjectReference Include="..\TNBase.External\TNBase.External.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BarcodeLib" Version="2.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="7.0.92" />
     <PackageReference Include="NLog" Version="4.7.14" />
-    <PackageReference Include="NLog.Config" Version="4.7.14" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
@@ -32,6 +33,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="wwwroot\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="nlog.config">

@@ -145,11 +145,16 @@ namespace TNBase.App
             return context.Listeners.ToList().Where(x => x.Status.Equals(ListenerStates.DELETED) && x.DeletedDate > fewDaysBack && x.DeletedDate <= DateTime.Now).ToList();
         }
 
+        public List<Listener> GetDeletedListeners()
+        {
+            return context.Listeners.ToList().Where(x => x.Status.Equals(ListenerStates.DELETED)).ToList();
+        }
+
         public void ResumePausedListeners()
         {
             log.Debug("Resuming paused listeners!");
 
-            var listeners = GetStoppedListeners();
+            var listeners = GetPausedListeners();
 
             foreach (var listener in listeners)
             {
@@ -161,7 +166,7 @@ namespace TNBase.App
             }
         }
 
-        public List<Listener> GetStoppedListeners()
+        public List<Listener> GetPausedListeners()
         {
             return context.Listeners.ToList().Where(x => x.Status == ListenerStates.PAUSED).ToList();
         }

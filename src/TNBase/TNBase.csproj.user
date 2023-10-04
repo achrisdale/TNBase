@@ -35,6 +35,9 @@
     <Compile Update="Forms\FormBackupDialogue.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\FormBlazorWebView.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\FormBrowse.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,0 +1,27 @@
+﻿<div class="row">
+    <div class="col-5 col-md-4 text-end">Employee Id :</div>
+    <div class="col-7 col-md-8">@listener</div>
+</div>
+<div class="row">
+    <div class="col-5 col-md-4 text-end">First Name :</div>
+    <div class="col-7 col-md-8">@listener.Forename</div>
+</div>
+<div class="row">
+    <div class="col-5 col-md-4 text-end">Last Name :</div>
+    <div class="col-7 col-md-8">@listener.Surname</div>
+</div>
+
+@code {
+    private DeletedListenerModel listener = default!;
+
+    [Parameter] public int ListenerId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // get employee with {EmployeeId} from DB
+
+        listener = new DeletedListenerModel { Forename = "", Surname = "" };
+
+        base.OnInitialized();
+    }
+}

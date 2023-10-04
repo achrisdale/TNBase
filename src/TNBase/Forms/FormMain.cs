@@ -541,7 +541,7 @@ namespace TNBase
                 .Where(x => x.Magazine && !x.OnlineOnly)
                 .Select(x => x.Wallet)
                 .ToList();
-            var stoppedListeners = serviceLayer.GetStoppedListeners().Select(x => x.Wallet);
+            var stoppedListeners = serviceLayer.GetPausedListeners().Select(x => x.Wallet);
 
             var scanForm = new MagazinesScanInForm();
             scanForm.Setup("Magazine Scan In", ScanTypes.IN, walletType, magazineWallets, stoppedListeners);
@@ -568,7 +568,7 @@ namespace TNBase
 
             var listeners = serviceLayer.GetListenersByStatus(ListenerStates.ACTIVE);
             var toScan = listeners.Where(x => x.Magazine && !x.OnlineOnly && (scanned == null || !scanned.Contains(x.Wallet))).Select(x => x.Wallet);
-            var stoppedListeners = serviceLayer.GetStoppedListeners().Select(x => x.Wallet);
+            var stoppedListeners = serviceLayer.GetPausedListeners().Select(x => x.Wallet);
 
             var scanForm = new MagazinesScanOutForm();
             scanForm.Setup("Magazine Scan Out", walletType, toScan, scanned, stoppedListeners);
@@ -616,7 +616,7 @@ namespace TNBase
             var form = new FormDatabaseEncryption();
             form.ShowDialog();
         }
-        
+
         private void dataExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();

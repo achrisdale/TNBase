@@ -1,6 +1,5 @@
 ﻿using System;
 using TNBase.Infrastructure.Helpers;
-using Xunit;
 
 namespace TNBase.App.Test
 {

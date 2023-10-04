@@ -13,7 +13,7 @@ env:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     outputs:
       require_release: ${{ steps.release.outputs.require }}
@@ -26,10 +26,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install .NET Core
+      - name: Install .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
 
       - name: Execute unit tests
         run: dotnet test -c $env:Configuration
@@ -69,7 +69,7 @@ jobs:
   release:
     needs: build
     if: needs.build.outputs.require_release == 'True'
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     steps:
       - name: Checkout

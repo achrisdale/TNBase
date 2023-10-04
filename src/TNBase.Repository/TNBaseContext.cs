@@ -71,6 +71,14 @@ namespace TNBase.Repository
                     .HasForeignKey<Listener>(e => e.Wallet)
                     .IsRequired();
 
+                entity.Property(e => e.Forename)
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Surname)
+                    .IsRequired()
+                    .HasColumnType("text");
+
                 entity.Property(e => e.Addr1).HasColumnType("text");
 
                 entity.Property(e => e.Addr2).HasColumnType("text");
@@ -82,10 +90,6 @@ namespace TNBase.Repository
                 entity.Property(e => e.County).HasColumnType("text");
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
-
-                entity.Property(e => e.Forename)
-                    .IsRequired()
-                    .HasColumnType("text");
 
                 entity.Property(e => e.Info).HasColumnType("text");
 
@@ -112,10 +116,6 @@ namespace TNBase.Repository
                 entity.Property(e => e.StatusInfo).HasColumnType("text");
 
                 entity.Property(e => e.Stock).HasColumnType("bigint");
-
-                entity.Property(e => e.Surname)
-                    .IsRequired()
-                    .HasColumnType("text");
 
                 entity.Property(e => e.Telephone).HasColumnType("text");
 

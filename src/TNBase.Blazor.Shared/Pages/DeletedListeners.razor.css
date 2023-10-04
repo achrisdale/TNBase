@@ -1,0 +1,17 @@
+.listeners-list {
+    list-style-type: none;
+    padding: 6rem 0 2rem 0;
+}
+
+    .listeners-list .selected {
+        background: orange;
+    }
+
+    .listeners-list .title {
+        font-weight: 600;
+        padding: 0.1rem 0;
+    }
+
+    .listeners-list .details {
+        padding-left: 1rem;
+    }
