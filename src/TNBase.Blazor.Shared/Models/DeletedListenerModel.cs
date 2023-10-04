@@ -1,4 +1,4 @@
-﻿namespace TNBase.Blazor.Models
+﻿namespace TNBase.Blazor.Shared.Models
 {
     public class DeletedListenerModel
     {

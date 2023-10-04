@@ -11,7 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\TNBase.App\TNBase.App.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Infrastructure\TNBase.Infrastructure.csproj" />
-    <ProjectReference Include="..\TNBase.Blazor\TNBase.Blazor.csproj" />
+    <ProjectReference Include="..\TNBase.Blazor.Shared\TNBase.Blazor.Shared.csproj" />
     <ProjectReference Include="..\TNBase.Domain\TNBase.Domain.csproj" />
     <ProjectReference Include="..\..\src\TNBase.Repository\TNBase.Repository.csproj" />
     <ProjectReference Include="..\TNBase.External\TNBase.External.csproj" />

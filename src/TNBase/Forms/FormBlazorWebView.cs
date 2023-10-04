@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using System.Windows.Forms;
-using TNBase.Blazor.Pages;
+using TNBase.Blazor.Shared.Pages;
 
 namespace TNBase.Forms
 {

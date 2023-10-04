@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace TNBase.Blazor
+namespace TNBase.Blazor.Shared
 {
     // This class provides an example of how JavaScript functionality can be wrapped
     // in a .NET class for easy consumption. The associated JavaScript module is
@@ -16,7 +16,7 @@ namespace TNBase.Blazor
         public ExampleJsInterop(IJSRuntime jsRuntime)
         {
             moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/TNBase.Blazor/exampleJsInterop.js").AsTask());
+                "import", "./_content/TNBase.Blazor.Shared/exampleJsInterop.js").AsTask());
         }
 
         public async ValueTask<string> Prompt(string message)
