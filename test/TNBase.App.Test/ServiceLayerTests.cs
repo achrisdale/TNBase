@@ -82,6 +82,10 @@ namespace TNBase.App.Test
             Listener l4 = new Listener() { Title = "Mrs", Forename = "Lazy", Surname = "Bones", Addr1 = "4 Bone Road", Addr2 = "Scel", County = "Etal", Postcode = "N19 2DD", Town = "Death", Telephone = "01435 643433", Stock = 3, Info = "", Joined = DateTime.Now.AddDays(-425), MemStickPlayer = false, Magazine = false, Status = ListenerStates.ACTIVE, StatusInfo = "", Wallet = 4, InOutRecords = new InOutRecords(), BirthdayDay = 15, BirthdayMonth = 12 };
             l4.Pause(DateTime.Now);
             serviceLayer.AddListener(l4);
+
+            // Add a paused listener
+            Listener l5 = new Listener() { Title = "Mr", Forename = "Bob", Surname = "Baker", Addr1 = "4 Bone Road", Addr2 = "Scel", County = "Etal", Postcode = "N19 2DD", Town = "Death", Telephone = "01435 643433", Stock = 3, Info = "", Joined = DateTime.Now.AddDays(-425), MemStickPlayer = false, Magazine = false, Status = ListenerStates.RESERVED, ReservedDate = DateTime.Now.AddDays(-20), StatusInfo = "", Wallet = 5, InOutRecords = new InOutRecords(), BirthdayDay = 15, BirthdayMonth = 12 };
+            serviceLayer.AddListener(l5);
         }
 
         [Fact]
@@ -201,8 +205,8 @@ namespace TNBase.App.Test
         {
             //Listener l1 = new Listener() { Title = "Mr", Forename = "John", Surname = "Biddle", Addr1 = "1 Park Avenue", Addr2 = "", County = "London", Postcode = "N7 NDF", Town = "Camden", Telephone = "01234 423 232", Stock = 3, Info = "", Joined = DateTime.Now, MemStickPlayer = false, Magazine = true, Status = ListenerStates.ACTIVE, StatusInfo = "", LastOut = DateTime.Now.AddMonths(-2), Wallet = 5, InOutRecords = new InOutRecords() };
             //serviceLayer.AddListener(l1);
-            Listener l5 = new Listener() { Title = "Miss", Forename = "Other", Surname = "Jones", Addr1 = "40 Camden Road", Addr2 = "", County = "London", Postcode = "N7 8AB", Town = "Camden", Telephone = "07843434343", Stock = 3, Info = "", Joined = DateTime.Now, MemStickPlayer = true, Magazine = true, Status = ListenerStates.ACTIVE, StatusInfo = "", LastOut = DateTime.Now.AddMonths(-4), Wallet = 5, InOutRecords = new InOutRecords() };
-            serviceLayer.AddListener(l5);
+            Listener l = new Listener() { Title = "Miss", Forename = "Other", Surname = "Jones", Addr1 = "40 Camden Road", Addr2 = "", County = "London", Postcode = "N7 8AB", Town = "Camden", Telephone = "07843434343", Stock = 3, Info = "", Joined = DateTime.Now, MemStickPlayer = true, Magazine = true, Status = ListenerStates.ACTIVE, StatusInfo = "", LastOut = DateTime.Now.AddMonths(-4), Wallet = 16, InOutRecords = new InOutRecords() };
+            serviceLayer.AddListener(l);
 
             Assert.Single(serviceLayer.GetListenersByName("John", "Biddle"));
             Assert.Empty(serviceLayer.GetListenersByName("John", "Biddle", "Master"));

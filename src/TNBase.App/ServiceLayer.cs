@@ -57,19 +57,20 @@ namespace TNBase.App
 
         public List<Listener> GetAlphabeticList()
         {
-            return context.Listeners.Where(x => !x.Status.Equals(ListenerStates.DELETED)).OrderBy(x => x.Surname).ToList();
+            return context.Listeners.Where(x => (x.Status.Equals(ListenerStates.ACTIVE) || x.Status.Equals(ListenerStates.PAUSED))).OrderBy(x => x.Surname).ToList();
         }
 
         public List<Listener> GetOnlineOnlyListenersOrderedBySurname()
         {
-            return context.Listeners.Where(x => !x.Status.Equals(ListenerStates.DELETED) && x.OnlineOnly).OrderBy(x => x.Surname).ToList();
+            return context.Listeners.Where(x => (x.Status.Equals(ListenerStates.ACTIVE) || x.Status.Equals(ListenerStates.PAUSED)) && x.OnlineOnly).OrderBy(x => x.Surname).ToList();
         }
 
         public List<Listener> GetUpcomingBirthdays(DateRange dateRange)
         {
             var list = context.Listeners.ToList().Where(x =>
                 x.HasBirthday &&
-                !x.Status.Equals(ListenerStates.DELETED))
+                (x.Status.Equals(ListenerStates.ACTIVE) ||
+                x.Status.Equals(ListenerStates.PAUSED)))
             .ToList();
 
             return list.Where(x =>
@@ -85,7 +86,7 @@ namespace TNBase.App
         }
 
         public DateRange GetUpcomingBirthdayDates(DateTime today)
-        { 
+        {
             DateRange result = new DateRange
             {
                 from = today
@@ -110,22 +111,6 @@ namespace TNBase.App
             return result;
         }
 
-        private int GetLastRecordingWeekOfYear()
-        {
-            var lastRecordingInDecember = 25; // TODO Put it in config
-            var recordingDayOfWeek = 6; // TODO Put it in config
-
-            var lastRecordingDay = new DateTime(DateTime.Now.Year, 12, lastRecordingInDecember);
-
-            var weekOffset = lastRecordingDay.DayNumberOfWeek() >= recordingDayOfWeek ? 0 : 1;
-            return lastRecordingDay.WeekOfYear() - weekOffset;
-        }
-
-        public List<Listener> GetInactiveListeners()
-        {
-            return GetListenersByStatus(ListenerStates.DELETED);
-        }
-
         public List<Listener> GetUnsentListeners()
         {
             return context.Listeners.ToList().Where(x => x.InOutRecords.Out8.Equals(0) && x.Status.Equals(ListenerStates.ACTIVE) && !x.OnlineOnly).ToList();
@@ -142,7 +127,7 @@ namespace TNBase.App
         {
             DateTime fewDaysBack = DateTime.Today.AddDays(-6);
 
-            return context.Listeners.ToList().Where(x => x.Status.Equals(ListenerStates.DELETED) && x.DeletedDate > fewDaysBack && x.DeletedDate <= DateTime.Now).ToList();
+            return context.Listeners.ToList().Where(x => (x.Status.Equals(ListenerStates.DELETED) || x.Status.Equals(ListenerStates.RESERVED)) && x.DeletedDate > fewDaysBack && x.DeletedDate <= DateTime.Now).ToList();
         }
 
         public List<Listener> GetDeletedListeners()
@@ -545,7 +530,7 @@ namespace TNBase.App
                     DeletedListeners = GetLostListenersForYear(lastYear),
                     MagazinesSent = 0, // TODO (L) Fill this MagazinesSent feld in?
                     MagazineTotal = 0, // TODO (L) Fill this MagazineTotal feld in?
-                    DeletedTotal = GetListenersByStatus(ListenerStates.DELETED).Count,
+                    DeletedTotal = GetListenersByStatus(ListenerStates.DELETED).Count + GetListenersByStatus(ListenerStates.RESERVED).Count,
                     MemStickPlayerLoanTotal = GetMemorySticksOnLoan(),
                     SentTotal = GetWalletsDispatchedForYear(lastYear),
                     PausedTotal = GetListenersByStatus(ListenerStates.PAUSED).Count,
@@ -561,6 +546,7 @@ namespace TNBase.App
         {
             return context.Listeners.Where(x =>
                 !x.Status.Equals(ListenerStates.DELETED) &&
+                !x.Status.Equals(ListenerStates.RESERVED) &&
                 !x.OnlineOnly &&
                 x.LastOut.HasValue &&
                 x.LastOut < DateTime.Now.AddMonths(-3)
@@ -596,7 +582,7 @@ namespace TNBase.App
 
         public int GetInactiveWalletNumbers()
         {
-            return context.Listeners.ToList().Where(x => x.Status.Equals(ListenerStates.DELETED) && !x.OnlineOnly).Count();
+            return context.Listeners.ToList().Where(x => (x.Status.Equals(ListenerStates.DELETED) || x.Status.Equals(ListenerStates.RESERVED)) && !x.OnlineOnly).Count();
         }
 
         public int GetNewListenersForYear(int year)
@@ -604,7 +590,7 @@ namespace TNBase.App
             DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
             DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
-            return context.Listeners.ToList().Where(x => x.Joined >= yearStart && x.Joined <= yearEnd && x.Status != ListenerStates.DELETED).Count();
+            return context.Listeners.ToList().Where(x => x.Joined >= yearStart && x.Joined <= yearEnd && (x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED)).Count();
         }
 
         public int GetLostListenersForYear(int year)
@@ -612,7 +598,7 @@ namespace TNBase.App
             DateTime yearStart = DateTime.ParseExact("01/01/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
             DateTime yearEnd = DateTime.ParseExact("31/12/" + year, DateHelpers.DEFAULT_DATE_FORMAT, null);
 
-            return context.Listeners.ToList().Where(x => x.Status == ListenerStates.DELETED && x.DeletedDate >= yearStart && x.DeletedDate <= yearEnd).Count();
+            return context.Listeners.ToList().Where(x => (x.Status == ListenerStates.DELETED || x.Status == ListenerStates.RESERVED) && x.DeletedDate >= yearStart && x.DeletedDate <= yearEnd).Count();
         }
 
         public int GetNetListenersForYear(int year)
@@ -717,7 +703,7 @@ namespace TNBase.App
 
         public int GetCurrentListenerCount()
         {
-            return context.Listeners.ToList().Where(x => !x.Status.Equals(ListenerStates.DELETED)).Count();
+            return context.Listeners.ToList().Where(x => x.Status.Equals(ListenerStates.ACTIVE) || x.Status.Equals(ListenerStates.PAUSED)).Count();
         }
 
         public WeeklyStats GetCurrentWeekStats()

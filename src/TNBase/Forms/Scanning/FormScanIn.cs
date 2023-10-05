@@ -90,7 +90,7 @@ namespace TNBase
                 {
                     ModuleSounds.PlayStopped();
                 }
-                else if (listener.Status == ListenerStates.DELETED)
+                else if (listener.Status == ListenerStates.DELETED || listener.Status == ListenerStates.RESERVED)
                 {
                     ModuleSounds.PlayNotInUse();
                     lblInfo.Text = $"Listener {walletId} has been deleted. Please remove the label and place wallet into the stock of unused wallets.";
