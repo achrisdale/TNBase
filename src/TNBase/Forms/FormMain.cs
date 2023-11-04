@@ -496,7 +496,7 @@ namespace TNBase
                 .Select(x => new StockItem
                 {
                     Wallet = x.Wallet,
-                    Stock = x.Status == ListenerStates.DELETED ? "X" : x.Stock.ToString()
+                    Stock = x.Status == ListenerStates.DELETED || x.Status == ListenerStates.RESERVED ? "X" : x.Stock.ToString()
                 })
                 .OrderBy(x => x.Wallet)
                 .ToList();
@@ -514,7 +514,7 @@ namespace TNBase
                 .Select(x => new StockItem
                 {
                     Wallet = x.Wallet,
-                    Stock = x.Status == ListenerStates.DELETED || !x.Magazine ? "X" : x.MagazineStock.ToString()
+                    Stock = x.Status == ListenerStates.DELETED || x.Status == ListenerStates.RESERVED || !x.Magazine ? "X" : x.MagazineStock.ToString()
                 })
                 .OrderBy(x => x.Wallet)
                 .ToList();

@@ -147,7 +147,7 @@ namespace TNBase.Forms
                 listeners.AddRange(serviceLayer.GetListenersByName(txtForename.Text, txtSurname.Text));
             }
 
-            return listeners.Where(x => x.Status != ListenerStates.DELETED).ToList();
+            return listeners.Where(x => x.Status == ListenerStates.ACTIVE || x.Status == ListenerStates.PAUSED).ToList();
         }
 
         private void txtWallet_KeyPress(object sender, KeyPressEventArgs e)

@@ -27,7 +27,6 @@ namespace TNBase.App
         List<Listener> GetPostListeners();
         List<Listener> GetAlphabeticList();
         List<Listener> GetOnlineOnlyListenersOrderedBySurname();
-        List<Listener> GetInactiveListeners();
         List<Listener> GetRecentlyAddedListeners();
         List<Listener> GetRecentlyDeletedListeners();
         List<Listener> GetDeletedListeners();

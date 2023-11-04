@@ -91,7 +91,7 @@ namespace TNBase.Domain
         public bool CanEdit => Status == ListenerStates.ACTIVE || Status == ListenerStates.PAUSED || Status == ListenerStates.DELETED;
         public bool CanPause => Status == ListenerStates.ACTIVE && !OnlineOnly;
         public bool CanResume => Status == ListenerStates.PAUSED;
-        public bool CanDelete => Status != ListenerStates.DELETED;
+        public bool CanDelete => Status == ListenerStates.ACTIVE || Status == ListenerStates.PAUSED;
         public bool CanRestore => Status == ListenerStates.DELETED;
         public bool CanAnonymize => Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment;
 
@@ -215,7 +215,7 @@ namespace TNBase.Domain
 
         public void Pause(DateTime startDate, DateTime? endDate = null)
         {
-            if (Status == ListenerStates.DELETED)
+            if (Status == ListenerStates.DELETED || Status == ListenerStates.RESERVED)
             {
                 throw new ListenerStateChangeException($"Cannot pause listener {Wallet} as it's state is {Status}");
             }
