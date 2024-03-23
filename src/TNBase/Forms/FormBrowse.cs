@@ -11,6 +11,7 @@ using NLog;
 using TNBase.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
+using TNBase.Blazor.Shared.Pages;
 
 namespace TNBase
 {
@@ -314,7 +315,7 @@ namespace TNBase
         private void filterButton_Click(object sender, EventArgs e)
         {
             var form = new FormBlazorWebView();
-            form.ShowDialog();
+            form.ShowPage<DeletedListenersPage>();
             UpdateListeners();
 
             //showDeleted = !showDeleted;

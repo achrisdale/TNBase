@@ -1,0 +1,282 @@
+﻿@page "/settings"
+@using BlazorBootstrap;
+@using TNBase.App;
+@using TNBase.Domain;
+@inject TNBase.App.ISettingsService settingsService
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div>
+            <a class="navbar-brand" href="#">Settings</a>
+            <div>
+                Configure applications settings
+            </div>
+        </div>
+        <form class="form-inline">
+            <input type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon"
+            @bind-value="SearchText"
+            @bind-value:event="oninput" />
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="categories">
+        @foreach (var category in categories)
+        {
+            <div class="category-title">@category</div>
+            <div class="settingDefinition-list list-group">
+                @foreach (var definition in filteredDefinitions.Where(x => x.Category == category).OrderBy(x => x.Order).ToList())
+                {
+                    <a href="javascript:;" class="list-group-item list-group-item-action @(selectedDefinition == definition ? "selected" : "")" title="@definition.Description"
+                    @onclick="(() => SelectDefinition(definition))">
+                        <div class="title">@WithSearchHighlight(definition.Name)</div>
+                        <div class="address">@settings.Where(x=>x.Key== definition.Key).FirstOrDefault()?.Value</div>
+                        @*                 <div class="details row">
+                <div class="col-sm">
+                <Icon Name="IconName.MusicPlayer" Size="IconSize.x4" Color="definition.MemStickPlayer ? IconColor.Danger : IconColor.Muted" />
+                <span class="@(definition.MemStickPlayer ? "text-danger" : "text-secondary")">@(definition.MemStickPlayer ? "1 Player" : "0 Players")</span>
+                </div>
+                <div class="col-sm">
+                <Icon Name="IconName.Newspaper" Size="IconSize.x4" Color="definition.SentNewsWallets > 0? IconColor.Danger : IconColor.Muted" />
+                <span class="@(definition.SentNewsWallets > 0 ? "text-danger" : "text-secondary")">@definition.SentNewsWallets news wallet@(definition.SentNewsWallets == 1 ? "" : "s")</span>
+                </div>
+                <div class="col-sm">
+                <Icon Name="IconName.Book" Size="IconSize.x4" Color="definition.SentMagazineWallets > 0? IconColor.Danger : IconColor.Muted" />
+                <span class="@(definition.SentMagazineWallets > 0 ? "text-danger" : "text-secondary")">@definition.SentMagazineWallets magazine wallet@(definition.SentMagazineWallets == 1 ? "" : "s")</span>
+                </div>
+                </div>
+                *@
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>
+@*
+<Offcanvas @ref="offcanvas" title="Edit Listener" OnHiding="DeselectDefinition">
+    <BodyTemplate>
+        @if (selectedDefinition != null)
+        {
+            <h4>@selectedDefinition.Name</h4>
+            <div>@selectedDefinition.Description</div>
+            <div class="container">
+                <div class="row mt-3">
+                    <div class="col-8">
+                        <Icon Name="IconName.MusicPlayer" Size="IconSize.x4" Color="selectedDefinition.MemStickPlayer ? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(selectedDefinition.MemStickPlayer ? "text-danger" : "text-secondary")">@(selectedDefinition.MemStickPlayer ? "1 Player" : "0 Players")</span>
+                    </div>
+                    <div class="col-4">
+                        @if (selectedDefinition.MemStickPlayer)
+                        {
+                            <Button Color="ButtonColor.Secondary" @onclick="ReturnPlayer">Return</Button>
+                        }
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-8">
+                        <Icon Name="IconName.Newspaper" Size="IconSize.x4" Color="selectedDefinition.SentNewsWallets > 0? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(selectedDefinition.SentNewsWallets > 0 ? "text-danger" : "text-secondary")">@selectedDefinition.SentNewsWallets news wallet@(selectedDefinition.SentNewsWallets == 1 ? "" : "s")</span>
+                    </div>
+                    <div class="col-4">
+                        @if (selectedDefinition.SentNewsWallets > 0)
+                        {
+                            <Button Color="ButtonColor.Secondary" @onclick="ReturnNewsWallet">Return</Button>
+                        }
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-8">
+                        <Icon Name="IconName.Book" Size="IconSize.x4" Color="selectedDefinition.SentMagazineWallets > 0? IconColor.Danger : IconColor.Muted" />
+                        <span class="@(selectedDefinition.SentMagazineWallets > 0 ? "text-danger" : "text-secondary")">@selectedDefinition.SentMagazineWallets magazine wallet@(selectedDefinition.SentMagazineWallets == 1 ? "" : "s")</span>
+                    </div>
+                    <div class="col-4">
+                        @if (selectedDefinition.SentMagazineWallets > 0)
+                        {
+                            <Button Color="ButtonColor.Secondary" @onclick="ReturnMagazineWallet">Return</Button>
+                        }
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-sm-6 offset-sm-6">
+                        <Button Color="ButtonColor.Warning" @onclick="RestoreListener">Restore Listener</Button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5">
+                <Button Color="ButtonColor.Primary" @onclick="DeselectDefinition">Close</Button>
+            </div>
+        }
+    </BodyTemplate>
+</Offcanvas>
+
+<Modal @ref="modal" Title="Confirm">
+    <BodyTemplate>
+        <p>@modalMessage</p>
+        <h4>@selectedDefinition?.Name</h4>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="HideModal">Close</Button>
+        <Button Color="ButtonColor.Primary" @onclick="(()=>ConfirmAction(modalAction))">Confirm</Button>
+    </FooterTemplate>
+</Modal>
+
+<Modal @ref="listenerRemovedModal" Title="Listener Removed">
+    <BodyTemplate>
+        <p>The listener has returned all TN property and will be permanently deleted:</p>
+        <h4>@listenerFullName</h4>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="(()=> listenerRemovedModal.HideAsync())">Close</Button>
+    </FooterTemplate>
+</Modal>
+ *@
+@code {
+
+    private string SearchText = "";
+    private Offcanvas offcanvas = default!;
+    private Modal modal = default!;
+    private Modal listenerRemovedModal = default!;
+    private string modalMessage = "";
+    private string modalAction = "";
+    private string listenerFullName = "";
+    private SettingDefinition? selectedDefinition;
+    private List<Setting> settings = new List<Setting>();
+    private List<SettingDefinition> settingDefinitions = new List<SettingDefinition>();
+    private List<SettingDefinition> filteredDefinitions => settingDefinitions.Where(x =>
+        string.IsNullOrWhiteSpace(SearchText) ||
+        x.Key.ToString().ToLower().Contains(SearchText.ToLower()) ||
+        x.Name.ToLower().Contains(SearchText.ToLower()) ||
+        x.Description.ToLower().Contains(SearchText.ToLower())
+    ).ToList();
+
+    private List<string> categories => filteredDefinitions
+        .Select(x => x.Category)
+        .Distinct()
+        .Order()
+        .ToList();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitializedAsync();
+        settingDefinitions = settingsService.GetSettingDefinitions();
+        settings = settingsService.GetSettings();
+    }
+
+    private async Task SelectDefinition(SettingDefinition definition)
+    {
+        selectedDefinition = definition;
+        await offcanvas.ShowAsync();
+    }
+
+    private async Task DeselectDefinition()
+    {
+        selectedDefinition = null;
+        await offcanvas.HideAsync();
+    }
+
+    private async Task HideModal()
+    {
+        await modal.HideAsync();
+    }
+
+    private async Task ReturnPlayer()
+    {
+        modalMessage = "Please confirm that the player has been returned for:";
+        modalAction = "player";
+        await modal.ShowAsync();
+    }
+
+    private async Task ReturnNewsWallet()
+    {
+        modalMessage = "Please confirm that the NEWS wallet has been returned for:";
+        modalAction = "news";
+        await modal.ShowAsync();
+    }
+
+    private async Task ReturnMagazineWallet()
+    {
+        modalMessage = "Please confirm that the MAGAZINE wallet has been returned for:";
+        modalAction = "magazine";
+        await modal.ShowAsync();
+    }
+
+    private async Task RestoreListener()
+    {
+        modalMessage = "Are you sure you want to make this listener ACTIVE?";
+        modalAction = "restore";
+        await modal.ShowAsync();
+    }
+
+    private async Task ConfirmAction(string action)
+    {
+        await HideModal();
+        if (selectedDefinition == null) return;
+
+        // var name = $"{selectedDefinition.Wallet}. {selectedDefinition.GetNiceName()}";
+
+        // switch (action)
+        // {
+        //     case "player":
+        //         selectedDefinition.ReturnPlayer();
+        //         await NotifyWhenDeleted(name);
+        //         break;
+        //     case "news":
+        //         selectedDefinition.ReturnWalet(WalletTypes.News);
+        //         await NotifyWhenDeleted(name);
+        //         break;
+        //     case "magazine":
+        //         selectedDefinition.ReturnWalet(WalletTypes.Magazine);
+        //         await NotifyWhenDeleted(name);
+        //         break;
+        //     case "restore":
+        //         selectedDefinition.Restore();
+        //         Listeners.Remove(selectedDefinition);
+        //         await DeselectListener();
+        //         break;
+        //     default:
+        //         break;
+        // }
+
+        // context.SaveChanges();
+
+    }
+
+    // private async Task NotifyWhenDeleted(string name)
+    // {
+    //     if (selectedDefinition?.Status == ListenerStates.RESERVED)
+    //     {
+    //         listenerFullName = name;
+    //         Listeners.Remove(selectedDefinition);
+    //         await DeselectListener();
+    //         await listenerRemovedModal.ShowAsync();
+    //     }
+    // }
+
+    private MarkupString WithSearchHighlight(string text)
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            return new MarkupString(text);
+        }
+
+        var index = text.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase);
+        if (index < 0)
+        {
+            return new MarkupString(text);
+        }
+
+        string before = text.Substring(0, index);
+        string match = text.Substring(index, SearchText.Length);
+        string after = text.Substring(index + SearchText.Length);
+
+        return new MarkupString($"{before}<span class=\"highlight\">{match}</span>{after}");
+    }
+}
+
+<style>
+    .highlight {
+        background-color: #ffd800;
+        color: #000000;
+    }
+</style>

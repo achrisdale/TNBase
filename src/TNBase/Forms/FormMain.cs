@@ -17,6 +17,7 @@ using TNBase.Forms;
 using System.Text;
 using TNBase.External.DataExport;
 using System.IO;
+using TNBase.Blazor.Shared.Pages;
 
 namespace TNBase
 {
@@ -54,6 +55,9 @@ namespace TNBase
         /// <param name="e"></param>
 		private void formMain_Load(object sender, EventArgs e)
         {
+            var form = new FormBlazorWebView();
+            form.ShowPage<SettingsPage>();
+
             // Load the logo
             LoadLogo();
 
@@ -645,6 +649,12 @@ namespace TNBase
                     MessageBox.Show(ex.Message, "Listener Export Error");
                 }
             }
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormBlazorWebView();
+            form.ShowPage<SettingsPage>();
         }
     }
 }

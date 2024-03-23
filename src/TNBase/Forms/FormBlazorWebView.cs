@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Components.WebView.WindowsForms;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using System.Windows.Forms;
-using TNBase.Blazor.Shared.Pages;
 
 namespace TNBase.Forms
 {
@@ -11,7 +11,13 @@ namespace TNBase.Forms
             InitializeComponent();
             blazor.HostPage = "wwwroot\\index.html";
             blazor.Services = Program.ServiceProvider;
-            blazor.RootComponents.Add<DeletedListeners>("#app");
+        }
+
+        public void ShowPage<T>() where T : IComponent
+        {
+            blazor.RootComponents.Clear();
+            blazor.RootComponents.Add<T>("#app");
+            ShowDialog();
         }
     }
 }

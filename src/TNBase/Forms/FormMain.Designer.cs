@@ -116,6 +116,7 @@ namespace TNBase
             btnMagScanOut = new Button();
             btnMagScanIn = new Button();
             helpProvider = new HelpProvider();
+            settingsToolStripMenuItem = new ToolStripMenuItem();
             menuTop.SuspendLayout();
             GroupBox1.SuspendLayout();
             GroupBox2.SuspendLayout();
@@ -158,48 +159,48 @@ namespace TNBase
             // AddToolStripMenuItem
             // 
             AddToolStripMenuItem.Name = "AddToolStripMenuItem";
-            AddToolStripMenuItem.Size = new Size(169, 24);
+            AddToolStripMenuItem.Size = new Size(180, 24);
             AddToolStripMenuItem.Text = "Add";
             AddToolStripMenuItem.Click += AddToolStripMenuItem_Click;
             // 
             // DeleteToolStripMenuItem
             // 
             DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            DeleteToolStripMenuItem.Size = new Size(169, 24);
+            DeleteToolStripMenuItem.Size = new Size(180, 24);
             DeleteToolStripMenuItem.Text = "Delete";
             DeleteToolStripMenuItem.Click += DeleteToolStripMenuItem_Click;
             // 
             // EditToolStripMenuItem
             // 
             EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            EditToolStripMenuItem.Size = new Size(169, 24);
+            EditToolStripMenuItem.Size = new Size(180, 24);
             EditToolStripMenuItem.Text = "Edit";
             EditToolStripMenuItem.Click += EditToolStripMenuItem_Click;
             // 
             // StopSendingToolStripMenuItem
             // 
             StopSendingToolStripMenuItem.Name = "StopSendingToolStripMenuItem";
-            StopSendingToolStripMenuItem.Size = new Size(169, 24);
+            StopSendingToolStripMenuItem.Size = new Size(180, 24);
             StopSendingToolStripMenuItem.Text = "Stop Sending";
             StopSendingToolStripMenuItem.Click += StopSendingToolStripMenuItem_Click;
             // 
             // CancelAStopToolStripMenuItem
             // 
             CancelAStopToolStripMenuItem.Name = "CancelAStopToolStripMenuItem";
-            CancelAStopToolStripMenuItem.Size = new Size(169, 24);
+            CancelAStopToolStripMenuItem.Size = new Size(180, 24);
             CancelAStopToolStripMenuItem.Text = "Cancel a Stop";
             CancelAStopToolStripMenuItem.Click += CancelAStopToolStripMenuItem_Click;
             // 
             // BrowseToolStripMenuItem
             // 
             BrowseToolStripMenuItem.Name = "BrowseToolStripMenuItem";
-            BrowseToolStripMenuItem.Size = new Size(169, 24);
+            BrowseToolStripMenuItem.Size = new Size(180, 24);
             BrowseToolStripMenuItem.Text = "Browse";
             BrowseToolStripMenuItem.Click += BrowseToolStripMenuItem_Click;
             // 
             // MaintenenceToolStripMenuItem
             // 
-            MaintenenceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { BackupToolStripMenuItem, RestoreToolStripMenuItem, PrintAllListenerLabelsToolStripMenuItem, logViewToolStripMenuItem, openLogDirectoryToolStripMenuItem, adjustStockLevelsToolStripMenuItem, dataImportToolStripMenuItem, dataExportToolStripMenuItem, updateDatabaseEncryptionKeyToolStripMenuItem });
+            MaintenenceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { BackupToolStripMenuItem, RestoreToolStripMenuItem, PrintAllListenerLabelsToolStripMenuItem, logViewToolStripMenuItem, openLogDirectoryToolStripMenuItem, adjustStockLevelsToolStripMenuItem, dataImportToolStripMenuItem, dataExportToolStripMenuItem, updateDatabaseEncryptionKeyToolStripMenuItem, settingsToolStripMenuItem });
             MaintenenceToolStripMenuItem.Name = "MaintenenceToolStripMenuItem";
             MaintenenceToolStripMenuItem.Size = new Size(106, 24);
             MaintenenceToolStripMenuItem.Text = "&Maintenence";
@@ -382,14 +383,14 @@ namespace TNBase
             // StatisticsToolStripMenuItem
             // 
             StatisticsToolStripMenuItem.Name = "StatisticsToolStripMenuItem";
-            StatisticsToolStripMenuItem.Size = new Size(136, 24);
+            StatisticsToolStripMenuItem.Size = new Size(180, 24);
             StatisticsToolStripMenuItem.Text = "Statistics";
             StatisticsToolStripMenuItem.Click += StatisticsToolStripMenuItem_Click;
             // 
             // HistoryToolStripMenuItem
             // 
             HistoryToolStripMenuItem.Name = "HistoryToolStripMenuItem";
-            HistoryToolStripMenuItem.Size = new Size(136, 24);
+            HistoryToolStripMenuItem.Size = new Size(180, 24);
             HistoryToolStripMenuItem.Text = "History";
             HistoryToolStripMenuItem.Click += HistoryToolStripMenuItem_Click;
             // 
@@ -762,6 +763,13 @@ namespace TNBase
             // 
             helpProvider.HelpNamespace = "Resource\\TNBase.chm";
             // 
+            // settingsToolStripMenuItem
+            // 
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Size = new Size(231, 24);
+            settingsToolStripMenuItem.Text = "&Settings";
+            settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
+            // 
             // FormMain
             // 
             AccessibleRole = AccessibleRole.None;
@@ -887,5 +895,6 @@ namespace TNBase
         private HelpProvider helpProvider;
         private ToolStripMenuItem updateDatabaseEncryptionKeyToolStripMenuItem;
         private ToolStripMenuItem dataExportToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem;
     }
 }

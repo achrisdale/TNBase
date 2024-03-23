@@ -40,6 +40,9 @@ static class Program
         ConfigureServices(services);
         ServiceProvider = services.BuildServiceProvider();
 
+        var form = ServiceProvider.GetRequiredService<FormMain>();
+        Application.Run(form);
+
         var databaseManager = ServiceProvider.GetRequiredService<DatabaseManager>();
         databaseManager.BackupDatabaseToBackupDrive();
 
@@ -61,8 +64,6 @@ static class Program
         var dataSweeper = ServiceProvider.GetRequiredService<DataSweeper>();
         dataSweeper.PurgeReservedWallets();
 
-        var form = ServiceProvider.GetRequiredService<FormMain>();
-        Application.Run(form);
     }
 
     public static void NewScope()
@@ -86,6 +87,7 @@ static class Program
         services.AddScoped<ScanService>();
         services.AddScoped<CsvImportService>();
         services.AddScoped<CsvExportService>();
+        services.AddScoped<ISettingsService, SettingsService>();
 
         services.AddWindowsFormsBlazorWebView();
         services.AddBlazorBootstrap();
