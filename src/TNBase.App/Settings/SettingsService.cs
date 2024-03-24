@@ -117,5 +117,21 @@ public class SettingsService : ISettingsService
         bindings[key].Add(valuePredicate);
         valuePredicate(GetSetting(key));
     }
+
+    /// <summary>
+    /// Upade all bound settings
+    /// </summary>
+    public void RefreshAll()
+    {
+        var settings = GetSettings();
+        foreach (var binding in bindings)
+        {
+            var setting = GetSetting(binding.Key);
+            foreach (var action in binding.Value)
+            {
+                action.Invoke(setting);
+            }
+        }
+    }
 }
 

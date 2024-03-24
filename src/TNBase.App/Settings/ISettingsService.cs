@@ -55,5 +55,10 @@ namespace TNBase.App.Settings
         /// <param name="key">Setting Key</param>
         /// <param name="valuePredicate">Action Predicate</param>
         void GetAndBind(string key, Action<string> valuePredicate);
+
+        /// <summary>
+        /// Upade all bound settings
+        /// </summary>
+        void RefreshAll();
     }
 }

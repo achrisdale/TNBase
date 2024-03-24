@@ -35,6 +35,6 @@ public record SettingDefinition(string Key, string Name, string Description, str
 /// </summary>
 public static class Settings
 {
-    public static SettingDefinition AssociationName => new(Key: "Association.Name", Name: "TNBase Title", Description: "Title shown on the main page of the application.", Category: "General", SettingType.Text, TypeOptions: "Required", Order: 0, DefaultValue: "Solihull Borough Talking Newspaper Association");
-    public static SettingDefinition AssociationLogo => new(Key: "Association.Logo", Name: "TNBase Logo", Description: "Image shown on the main page of the application.", Category: "General", SettingType.Image, Order: 1, DefaultValue: Images.DefaultLogo);
+    public static SettingDefinition AssociationName => new(Key: "Association.Name", Name: "Association Name", Description: "Title shown on the main page of the application and other forms.", Category: "General", SettingType.Text, TypeOptions: "Required", Order: 0, DefaultValue: "Solihull Borough Talking Newspaper Association");
+    public static SettingDefinition AssociationLogo => new(Key: "Association.Logo", Name: "Association Logo", Description: "Image shown on the main page of the application.", Category: "General", SettingType.Image, Order: 1, DefaultValue: Images.DefaultLogo);
 }

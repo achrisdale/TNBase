@@ -236,4 +236,34 @@ public class SettingsServiceTests
 
         Assert.Equal("ValueToExpect", valueToSet);
     }
+
+    [Fact]
+    public async Task RefreshAll_ShouldUpdateAllBoundValues()
+    {
+        var valueToSet1_1 = "OriginalValue1_1";
+        var valueToSet1_2 = "OriginalValue1_2";
+        var valueToSet2 = "OriginalValue2";
+
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text, DefaultValue: "DefaultValue1"),
+            new SettingDefinition("Key2", "Name2", "Description2", "Category2", SettingType.Text, DefaultValue: "DefaultValue2"),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
+
+        serivce.GetAndBind("Key1", value => valueToSet1_1 = value);
+        serivce.GetAndBind("Key1", value => valueToSet1_2 = value);
+        serivce.GetAndBind("Key2", value => valueToSet2 = value);
+
+        contex.Settings.Add(new Setting { Key = "Key1", Value = "UpdatedValue1" });
+        contex.Settings.Add(new Setting { Key = "Key2", Value = "UpdatedValue2" });
+        await contex.SaveChangesAsync();
+
+        serivce.RefreshAll();
+
+        Assert.Equal("UpdatedValue1", valueToSet1_1);
+        Assert.Equal("UpdatedValue1", valueToSet1_2);
+        Assert.Equal("UpdatedValue2", valueToSet2);
+    }
 }

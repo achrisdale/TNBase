@@ -9,6 +9,8 @@ using TNBase.App;
 using TNBase.Forms;
 using TNBase.Repository;
 using System.Security.Cryptography;
+using TNBase.App.Settings;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TNBase
 {
@@ -180,6 +182,8 @@ namespace TNBase
             database = context;
 
             Program.NewScope();
+
+            Program.ServiceProvider.GetRequiredService<ISettingsService>().RefreshAll();
 
             log.Info($"Database restored from '{fileName}'");
             return true;
