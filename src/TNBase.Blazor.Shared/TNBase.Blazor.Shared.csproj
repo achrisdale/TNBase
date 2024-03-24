@@ -20,8 +20,4 @@
     <ProjectReference Include="..\TNBase.App\TNBase.App.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\Settings\" />
-  </ItemGroup>
-
 </Project>
