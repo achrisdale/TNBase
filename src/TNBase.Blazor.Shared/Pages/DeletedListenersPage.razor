@@ -135,8 +135,8 @@
     private string modalAction = "";
     private string listenerFullName = "";
     private Listener? selectedListener;
-    private List<Listener> SettingDefinitions = new List<Listener>();
-    private List<Listener> FilteredListeners => SettingDefinitions.Where(x =>
+    private List<Listener> Listeners = new List<Listener>();
+    private List<Listener> FilteredListeners => Listeners.Where(x =>
         string.IsNullOrWhiteSpace(SearchText) ||
         x.Wallet.ToString().ToLower().Contains(SearchText.ToLower()) ||
         x.GetSingleLineAddress().ToLower().Contains(SearchText.ToLower()) ||
@@ -146,7 +146,7 @@
     protected override void OnInitialized()
     {
         base.OnInitializedAsync();
-        SettingDefinitions = listenerService.GetDeletedListeners();
+        Listeners = listenerService.GetDeletedListeners();
     }
 
     private async Task SelectListener(Listener listener)
@@ -217,7 +217,7 @@
                 break;
             case "restore":
                 selectedListener.Restore();
-                SettingDefinitions.Remove(selectedListener);
+                Listeners.Remove(selectedListener);
                 await DeselectListener();
                 break;
             default:
@@ -233,7 +233,7 @@
         if (selectedListener?.Status == ListenerStates.RESERVED)
         {
             listenerFullName = name;
-            SettingDefinitions.Remove(selectedListener);
+            Listeners.Remove(selectedListener);
             await DeselectListener();
             await listenerRemovedModal.ShowAsync();
         }
