@@ -1,3 +1,9 @@
+1.8.0
+- Closes #109 Deleted Listeners form redesign
+- Closes #118 Help documentation update
+- Closes #110 Settings dialog to update title and logo
+- Closes #114 Update wording in the closing dialogue
+
 1.7.17
 - Closes #100 - Encrypt listeners database
 
