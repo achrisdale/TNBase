@@ -25,15 +25,6 @@ namespace TNBase.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Resource/New_Logo.jpg")]
-        public string Logo {
-            get {
-                return ((string)(this["Logo"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool OverwritePrompt {
             get {
@@ -74,15 +65,6 @@ namespace TNBase.Properties {
         public int BackupMBSpaceWarning {
             get {
                 return ((int)(this["BackupMBSpaceWarning"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Solihull Borough Talking Newspaper Association")]
-        public string AssociationName {
-            get {
-                return ((string)(this["AssociationName"]));
             }
         }
         

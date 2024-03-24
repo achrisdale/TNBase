@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Drawing;
 using TNBase.App;
+using TNBase.App.Settings;
 using TNBase.Domain;
 
 namespace TNBase
@@ -9,8 +10,9 @@ namespace TNBase
     public partial class FormStats
 	{
 		private readonly IServiceLayer serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
+		private readonly ISettingsService settingsService = Program.ServiceProvider.GetRequiredService<ISettingsService>();
 
-		private void formStats_Load(object sender, EventArgs e)
+        private void formStats_Load(object sender, EventArgs e)
 		{
 			lblDate.Text = System.DateTime.Now.ToString(ModuleGeneric.DATE_FORMAT);
 			int year = DateTime.Now.Year;
@@ -56,7 +58,8 @@ namespace TNBase
 			Graphics g = e.Graphics;
 			int pageHeight = e.MarginBounds.Height;
 
-			g.DrawString(Properties.Settings.Default.AssociationName, reportFont, Brushes.Black, 100, 80, StringFormat.GenericTypographic);
+			var title = settingsService.GetSetting(Settings.AssociationName);
+			g.DrawString(title, reportFont, Brushes.Black, 100, 80, StringFormat.GenericTypographic);
 
 			string nowDate = null;
 			nowDate = System.DateTime.Now.ToString(ModuleGeneric.DATE_FORMAT);

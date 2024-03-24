@@ -1,6 +1,8 @@
 using System;
 using System.Windows.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using NLog;
+using TNBase.App.Settings;
 
 namespace TNBase
 {
@@ -10,6 +12,7 @@ namespace TNBase
 	public partial class FormAbout
 	{
         private readonly Logger log = LogManager.GetCurrentClassLogger();
+        private readonly ISettingsService settingsService = Program.ServiceProvider.GetRequiredService<ISettingsService>();
 
         /// <summary>
         /// Close the form if they click away
@@ -32,8 +35,8 @@ namespace TNBase
 			log.Trace("Loading form.");
 			lblVersion.Text = $"V{Application.ProductVersion}";
             lblDotNetVer.Text = ".Net " + Environment.Version;
-            Label1.Text = Properties.Settings.Default.AssociationName;
-		}
+            Label1.Text = settingsService.GetSetting(Settings.AssociationName);
+        }
 
         /// <summary>
         /// Close the form if they click away

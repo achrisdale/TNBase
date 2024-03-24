@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using TNBase.App;
+using TNBase.App.Settings;
 using TNBase.External.DataExport;
 using TNBase.External.DataImport;
 using TNBase.Repository;
@@ -86,6 +87,7 @@ static class Program
         services.AddScoped<ScanService>();
         services.AddScoped<CsvImportService>();
         services.AddScoped<CsvExportService>();
+        services.AddSingleton<ISettingDefinitionProvider, SettingDefinitionProvider>();
         services.AddScoped<ISettingsService, SettingsService>();
 
         services.AddWindowsFormsBlazorWebView();

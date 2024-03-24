@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TNBase.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Logo" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Resource/New_Logo.jpg</Value>
-    </Setting>
     <Setting Name="OverwritePrompt" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -19,9 +16,6 @@
     </Setting>
     <Setting Name="BackupMBSpaceWarning" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">100</Value>
-    </Setting>
-    <Setting Name="AssociationName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Solihull Borough Talking Newspaper Association</Value>
     </Setting>
     <Setting Name="ShowLegacyWeekNumber" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>

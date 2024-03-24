@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using TNBase.App.Settings;
+using TNBase.Domain;
 using TNBase.Repository;
 
 namespace TNBase.App.Test;
@@ -17,52 +20,220 @@ public class SettingsServiceTests
     [Fact]
     public void GetSettingDefinitions_ShouldReturnDefinitions()
     {
-        var serivce = new SettingsService(contex);
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text),
+            new SettingDefinition("Key2", "Name2", "Description2", "Category2", SettingType.Text),
+            new SettingDefinition("Key3", "Name3", "Description3", "Category3", SettingType.Text)
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
 
         var result = serivce.GetSettingDefinitions();
 
-        Assert.True(result.Count > 0);
+        Assert.Equal(3, result.Count);
     }
 
     [Fact]
     public void GetSettings_ShouldReturnDefinedSettings()
     {
-        var serivce = new SettingsService(contex);
-        var definitions = serivce.GetSettingDefinitions();
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text),
+            new SettingDefinition("Key2", "Name2", "Description2", "Category2", SettingType.Text),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
 
         var result = serivce.GetSettings();
 
-        Assert.Equal(definitions.Count, result.Count);
-        Assert.Equal(definitions.Select(x => x.Key).ToList(), result.Select(x => x.Key).ToList());
+        Assert.Equal("Key1", result.First().Key);
+        Assert.Equal("Key2", result.Last().Key);
     }
 
     [Fact]
     public void GetSettings_WhenSettingDoesNotExist_ShouldReturnSettingWithDefaultValue()
     {
-        var serivce = new SettingsService(contex);
-        var definitions = serivce.GetSettingDefinitions();
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text, DefaultValue: "DefaultValue1"),
+            new SettingDefinition("Key2", "Name2", "Description2", "Category2", SettingType.Text, DefaultValue: "DefaultValue2"),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
 
         var result = serivce.GetSettings();
 
-        foreach (var definition in definitions)
-        {
-            Assert.Equal(definition.DefaultValue, result.Single(x => x.Key == definition.Key).Value);
-        }
+        Assert.Equal("DefaultValue1", result.Single(x => x.Key == "Key1").Value);
+        Assert.Equal("DefaultValue2", result.Single(x => x.Key == "Key2").Value);
     }
 
     [Fact]
-    public async Task GetSettings_WhenSettingDoesExists_ShouldReturnSettingWithValueFromDatabase()
+    public async Task GetSettings_WhenSettingExists_ShouldReturnSettingWithValueFromDatabase()
     {
-        var serivce = new SettingsService(contex);
-        contex.Settings.Add(new Domain.Setting
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
         {
-            Key = "TNBase.Title",
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text, DefaultValue: "DefaultValue1"),
+            new SettingDefinition("Key2", "Name2", "Description2", "Category2", SettingType.Text, DefaultValue: "DefaultValue2"),
+            new SettingDefinition("Key3", "Name3", "Description3", "Category3", SettingType.Text, DefaultValue: "DefaultValue3"),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
+        contex.Settings.Add(new Setting
+        {
+            Key = "Key2",
             Value = "TestValue"
         });
         await contex.SaveChangesAsync();
 
         var result = serivce.GetSettings();
 
-        Assert.Equal("TestValue", result.Single(x => x.Key == "TNBase.Title").Value);
+        Assert.Equal("TestValue", result.Single(x => x.Key == "Key2").Value);
+
+        // Just double-check that other values not messed up
+        Assert.Equal("DefaultValue1", result.Single(x => x.Key == "Key1").Value);
+        Assert.Equal("DefaultValue3", result.Single(x => x.Key == "Key3").Value);
+    }
+
+    [Fact]
+    public async Task SetSetting_WhenDoesNotExist_ShouldAddSettingToDatabase()
+    {
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text, DefaultValue: "DefaultValue1"),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
+        var setting = new Setting
+        {
+            Key = "Key1",
+            Value = "NewValue"
+        };
+        await serivce.SetSetting(setting);
+
+        var result = contex.Settings.ToList();
+
+        Assert.Single(result);
+        Assert.Equal("NewValue", result.Single(x => x.Key == "Key1").Value);
+    }
+
+    [Fact]
+    public async Task SetSetting_WhenExists_ShouldUpdateSettingToDatabase()
+    {
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text, DefaultValue: "DefaultValue1"),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
+        contex.Settings.Add(new Setting
+        {
+            Key = "Key1",
+            Value = "ExistingValue"
+        });
+        await contex.SaveChangesAsync();
+
+        var setting = new Setting
+        {
+            Key = "Key1",
+            Value = "NewValue"
+        };
+        await serivce.SetSetting(setting);
+
+        var result = contex.Settings.ToList();
+
+        Assert.Single(result);
+        Assert.Equal("NewValue", result.Single(x => x.Key == "Key1").Value);
+    }
+
+    [Fact]
+    public async Task GetSetting_WhenExists_ShouldReturnFromDatabase()
+    {
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text, DefaultValue: "DefaultValue1"),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
+        contex.Settings.Add(new Setting
+        {
+            Key = "Key1",
+            Value = "ExistingValue"
+        });
+        await contex.SaveChangesAsync();
+
+        var result = serivce.GetSetting("Key1");
+
+        Assert.Equal("ExistingValue", result);
+    }
+
+    [Fact]
+    public void GetSetting_WhenDoesNotExist_ShouldReturnDefaultValue()
+    {
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text, DefaultValue: "DefaultValue1"),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
+
+        var result = serivce.GetSetting("Key1");
+
+        Assert.Equal("DefaultValue1", result);
+    }
+
+    [Fact]
+    public void GetSetting_WhenDoesNotExistAndNoDefaultValue_ShouldReturnEmptyString()
+    {
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
+
+        var result = serivce.GetSetting("Key1");
+
+        Assert.Equal("", result);
+    }
+
+    [Fact]
+    public void GetAndBind_WhenBound_ShouldUpdateValue()
+    {
+        var valueToSet = "OriginalValue";
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text, DefaultValue: "NewValue"),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
+
+        serivce.GetAndBind("Key1", value =>
+        {
+            valueToSet = value;
+        });
+
+        Assert.Equal("NewValue", valueToSet);
+    }
+
+    [Fact]
+    public async Task GetAndBind_WhenNewValueSet_ShouldUpdateValue()
+    {
+        var valueToSet = "OriginalValue";
+        var settingDefinitionProvider = Substitute.For<ISettingDefinitionProvider>();
+        settingDefinitionProvider.GetSettingDefinitions().Returns(new List<SettingDefinition>
+        {
+            new SettingDefinition("Key1", "Name1", "Description1", "Category1", SettingType.Text, DefaultValue: "DefaultValue1"),
+        });
+        var serivce = new SettingsService(contex, settingDefinitionProvider);
+
+        serivce.GetAndBind("Key1", value =>
+        {
+            valueToSet = value;
+        });
+
+        await serivce.SetSetting(new Setting { Key = "Key1", Value = "ValueToExpect" });
+
+        Assert.Equal("ValueToExpect", valueToSet);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace TNBase.App;
+﻿namespace TNBase.App.Settings;
 
 /// <summary>
 /// Setting Type defining how to interpret the value that is stored in the database.
@@ -33,8 +33,8 @@ public record SettingDefinition(string Key, string Name, string Description, str
 /// Defines all available settings for the application stored within the database.
 /// Please add new settings here.
 /// </summary>
-public static class SettingDefinitions
+public static class Settings
 {
-    public static SettingDefinition TNBaseTitle => new(Key: "TNBase.Title", Name: "TNBase Title", Description: "Title shown on the main page of the application.", Category: "General", SettingType.Text, TypeOptions: "Required", Order: 0, DefaultValue: "Talking Newspaper Association");
-    public static SettingDefinition TNBaseLogo => new(Key: "TNBase.Logo", Name: "TNBase Logo", Description: "Image shown on the main page of the application.", Category: "General", SettingType.Image, Order: 1);
+    public static SettingDefinition AssociationName => new(Key: "Association.Name", Name: "TNBase Title", Description: "Title shown on the main page of the application.", Category: "General", SettingType.Text, TypeOptions: "Required", Order: 0, DefaultValue: "Solihull Borough Talking Newspaper Association");
+    public static SettingDefinition AssociationLogo => new(Key: "Association.Logo", Name: "TNBase Logo", Description: "Image shown on the main page of the application.", Category: "General", SettingType.Image, Order: 1, DefaultValue: Images.DefaultLogo);
 }

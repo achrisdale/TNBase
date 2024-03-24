@@ -43,7 +43,7 @@ namespace TNBase
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            Label1 = new Label();
+            TitleLabel = new Label();
             menuTop = new MenuStrip();
             mBtnListeners = new ToolStripMenuItem();
             AddToolStripMenuItem = new ToolStripMenuItem();
@@ -62,6 +62,7 @@ namespace TNBase
             dataImportToolStripMenuItem = new ToolStripMenuItem();
             dataExportToolStripMenuItem = new ToolStripMenuItem();
             updateDatabaseEncryptionKeyToolStripMenuItem = new ToolStripMenuItem();
+            settingsToolStripMenuItem = new ToolStripMenuItem();
             PrintingToolStripMenuItem = new ToolStripMenuItem();
             UpcomingBirthdaysToolStripMenuItem = new ToolStripMenuItem();
             RecentlyAddedListenersToolStripMenuItem = new ToolStripMenuItem();
@@ -116,7 +117,6 @@ namespace TNBase
             btnMagScanOut = new Button();
             btnMagScanIn = new Button();
             helpProvider = new HelpProvider();
-            settingsToolStripMenuItem = new ToolStripMenuItem();
             menuTop.SuspendLayout();
             GroupBox1.SuspendLayout();
             GroupBox2.SuspendLayout();
@@ -125,15 +125,15 @@ namespace TNBase
             groupBox3.SuspendLayout();
             SuspendLayout();
             // 
-            // Label1
+            // TitleLabel
             // 
-            Label1.AutoSize = true;
-            Label1.Font = new Font("Microsoft Sans Serif", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
-            Label1.Location = new Point(145, 63);
-            Label1.Margin = new Padding(4, 0, 4, 0);
-            Label1.Name = "Label1";
-            Label1.Size = new Size(0, 39);
-            Label1.TabIndex = 0;
+            TitleLabel.AutoSize = true;
+            TitleLabel.Font = new Font("Microsoft Sans Serif", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
+            TitleLabel.Location = new Point(145, 63);
+            TitleLabel.Margin = new Padding(4, 0, 4, 0);
+            TitleLabel.Name = "TitleLabel";
+            TitleLabel.Size = new Size(0, 39);
+            TitleLabel.TabIndex = 0;
             // 
             // menuTop
             // 
@@ -159,42 +159,42 @@ namespace TNBase
             // AddToolStripMenuItem
             // 
             AddToolStripMenuItem.Name = "AddToolStripMenuItem";
-            AddToolStripMenuItem.Size = new Size(180, 24);
+            AddToolStripMenuItem.Size = new Size(169, 24);
             AddToolStripMenuItem.Text = "Add";
             AddToolStripMenuItem.Click += AddToolStripMenuItem_Click;
             // 
             // DeleteToolStripMenuItem
             // 
             DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            DeleteToolStripMenuItem.Size = new Size(180, 24);
+            DeleteToolStripMenuItem.Size = new Size(169, 24);
             DeleteToolStripMenuItem.Text = "Delete";
             DeleteToolStripMenuItem.Click += DeleteToolStripMenuItem_Click;
             // 
             // EditToolStripMenuItem
             // 
             EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            EditToolStripMenuItem.Size = new Size(180, 24);
+            EditToolStripMenuItem.Size = new Size(169, 24);
             EditToolStripMenuItem.Text = "Edit";
             EditToolStripMenuItem.Click += EditToolStripMenuItem_Click;
             // 
             // StopSendingToolStripMenuItem
             // 
             StopSendingToolStripMenuItem.Name = "StopSendingToolStripMenuItem";
-            StopSendingToolStripMenuItem.Size = new Size(180, 24);
+            StopSendingToolStripMenuItem.Size = new Size(169, 24);
             StopSendingToolStripMenuItem.Text = "Stop Sending";
             StopSendingToolStripMenuItem.Click += StopSendingToolStripMenuItem_Click;
             // 
             // CancelAStopToolStripMenuItem
             // 
             CancelAStopToolStripMenuItem.Name = "CancelAStopToolStripMenuItem";
-            CancelAStopToolStripMenuItem.Size = new Size(180, 24);
+            CancelAStopToolStripMenuItem.Size = new Size(169, 24);
             CancelAStopToolStripMenuItem.Text = "Cancel a Stop";
             CancelAStopToolStripMenuItem.Click += CancelAStopToolStripMenuItem_Click;
             // 
             // BrowseToolStripMenuItem
             // 
             BrowseToolStripMenuItem.Name = "BrowseToolStripMenuItem";
-            BrowseToolStripMenuItem.Size = new Size(180, 24);
+            BrowseToolStripMenuItem.Size = new Size(169, 24);
             BrowseToolStripMenuItem.Text = "Browse";
             BrowseToolStripMenuItem.Click += BrowseToolStripMenuItem_Click;
             // 
@@ -267,6 +267,13 @@ namespace TNBase
             updateDatabaseEncryptionKeyToolStripMenuItem.Size = new Size(231, 24);
             updateDatabaseEncryptionKeyToolStripMenuItem.Text = "Database Encryption";
             updateDatabaseEncryptionKeyToolStripMenuItem.Click += updateDatabaseEncryptionKeyToolStripMenuItem_Click;
+            // 
+            // settingsToolStripMenuItem
+            // 
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Size = new Size(231, 24);
+            settingsToolStripMenuItem.Text = "&Settings";
+            settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
             // 
             // PrintingToolStripMenuItem
             // 
@@ -383,14 +390,14 @@ namespace TNBase
             // StatisticsToolStripMenuItem
             // 
             StatisticsToolStripMenuItem.Name = "StatisticsToolStripMenuItem";
-            StatisticsToolStripMenuItem.Size = new Size(180, 24);
+            StatisticsToolStripMenuItem.Size = new Size(136, 24);
             StatisticsToolStripMenuItem.Text = "Statistics";
             StatisticsToolStripMenuItem.Click += StatisticsToolStripMenuItem_Click;
             // 
             // HistoryToolStripMenuItem
             // 
             HistoryToolStripMenuItem.Name = "HistoryToolStripMenuItem";
-            HistoryToolStripMenuItem.Size = new Size(180, 24);
+            HistoryToolStripMenuItem.Size = new Size(136, 24);
             HistoryToolStripMenuItem.Text = "History";
             HistoryToolStripMenuItem.Click += HistoryToolStripMenuItem_Click;
             // 
@@ -763,13 +770,6 @@ namespace TNBase
             // 
             helpProvider.HelpNamespace = "Resource\\TNBase.chm";
             // 
-            // settingsToolStripMenuItem
-            // 
-            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            settingsToolStripMenuItem.Size = new Size(231, 24);
-            settingsToolStripMenuItem.Text = "&Settings";
-            settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
-            // 
             // FormMain
             // 
             AccessibleRole = AccessibleRole.None;
@@ -787,7 +787,7 @@ namespace TNBase
             Controls.Add(GroupBox1);
             Controls.Add(lblTime);
             Controls.Add(lblDate);
-            Controls.Add(Label1);
+            Controls.Add(TitleLabel);
             Controls.Add(menuTop);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -813,7 +813,7 @@ namespace TNBase
             PerformLayout();
         }
 
-        internal Label Label1;
+        internal Label TitleLabel;
         internal MenuStrip menuTop;
         internal ToolStripMenuItem mBtnListeners;
         internal ToolStripMenuItem MaintenenceToolStripMenuItem;
@@ -874,7 +874,6 @@ namespace TNBase
             FormClosing += formMain_FormClosing;
             Load += formMain_Load;
             InitializeComponent();
-            Label1.Text = Properties.Settings.Default.AssociationName;
         }
 
         private ToolStripMenuItem logViewToolStripMenuItem;
