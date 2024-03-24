@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TNBase.Domain;
 
 namespace TNBase.App
@@ -8,5 +9,6 @@ namespace TNBase.App
         List<SettingDefinition> GetSettingDefinitions();
 
         List<Setting> GetSettings();
+        Task SetSetting(Setting setting);
     }
 }

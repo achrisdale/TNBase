@@ -35,10 +35,6 @@ public record SettingDefinition(string Key, string Name, string Description, str
 /// </summary>
 public static class SettingDefinitions
 {
-    public static SettingDefinition TNBaseTitle => new("TNBase.Title", "TNBase Title", "Title shown on the main page of the application.", "General", SettingType.Text, Order: 0);
-    public static SettingDefinition TNBaseLogo => new("TNBase.Logo", "TNBase Logo", "Image shown on the main page of the application.", "General", SettingType.Image, Order: 1);
-
-    public static SettingDefinition TNBaseTitle2 => new("TNBase.Title", "TNBase Title", "Title shown on the main page of the application.", "General2", SettingType.Text, Order: 0);
-    public static SettingDefinition TNBaseLogo2 => new("TNBase.Logo", "TNBase Logo", "Image shown on the main page of the application.", "General2", SettingType.Image, Order: 1);
-
+    public static SettingDefinition TNBaseTitle => new(Key: "TNBase.Title", Name: "TNBase Title", Description: "Title shown on the main page of the application.", Category: "General", SettingType.Text, TypeOptions: "Required", Order: 0, DefaultValue: "Talking Newspaper Association");
+    public static SettingDefinition TNBaseLogo => new(Key: "TNBase.Logo", Name: "TNBase Logo", Description: "Image shown on the main page of the application.", Category: "General", SettingType.Image, Order: 1);
 }

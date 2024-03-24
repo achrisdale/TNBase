@@ -24,3 +24,15 @@
     .settingDefinition-list .details {
         padding-left: 1rem;
     }
+
+.setting-thumbnail{
+    max-height: 5rem;
+}
+
+.input-button {
+    padding: 1rem;
+}
+
+.form-controls{
+    padding: 1rem;
+}
