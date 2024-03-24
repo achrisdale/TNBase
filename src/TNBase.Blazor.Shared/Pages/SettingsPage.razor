@@ -1,0 +1,192 @@
+﻿@page "/settings"
+@using BlazorBootstrap;
+@using Microsoft.AspNetCore.Components.Forms;
+@using TNBase.App.Settings;
+@using TNBase.Domain;
+@inject TNBase.App.Settings.ISettingsService settingsService
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div>
+            <a class="navbar-brand" href="#">Settings</a>
+            <div>
+                Configure applications settings
+            </div>
+        </div>
+        <form class="form-inline">
+            <input type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon"
+            @bind-value="SearchText"
+            @bind-value:event="oninput" />
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="categories">
+        @foreach (var category in categories)
+        {
+            <div class="category-title">@category</div>
+            <div class="settingDefinition-list list-group">
+                @foreach (var definition in filteredDefinitions.Where(x => x.Category == category).OrderBy(x => x.Order).ToList())
+                {
+                    <a href="javascript:;" class="list-group-item list-group-item-action @(selectedDefinition == definition ? "selected" : "")" title="@definition.Description"
+                    @onclick="(() => SelectDefinition(definition))">
+                        @switch (definition.Type)
+                        {
+                            case SettingType.Image:
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <div class="title">@WithSearchHighlight(definition.Name)</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <img class="img-fluid setting-thumbnail" src="data:image/png;base64,@settings.Where(x=> x.Key == definition.Key).SingleOrDefault()?.Value" />
+                                    </div>
+                                </div>
+                                break;
+                            default:
+                                <div class="title">@WithSearchHighlight(definition.Name)</div>
+                                <div class="value">@settings.Where(x => x.Key == definition.Key).SingleOrDefault()?.Value</div>
+                                break;
+                        }
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<Offcanvas @ref="offcanvas" title="Edit Setting" OnHiding="DeselectDefinition">
+    <BodyTemplate>
+        @if (selectedDefinition != null)
+        {
+            <h4>@selectedDefinition.Name</h4>
+
+            <form @onsubmit="@SaveSetting">
+                @switch (selectedDefinition.Type)
+                {
+                    case SettingType.Image:
+                        <div class="form-group">
+                            <label for="text">@selectedDefinition.Description</label>
+                            <img class="img-fluid" src="data:image/png;base64,@updatedValue" />
+                            <div class="input-button">
+                                <InputFile OnChange="@UploadImage" />
+                            </div>
+                        </div>
+                        break;
+                    default:
+                        <div class="form-group">
+                            <label for="value">@selectedDefinition.Description</label>
+                            <input type="text" class="form-control" id="value" aria-describedby="value" placeholder="Enter value" @bind-value="updatedValue" @bind-value:event="oninput">
+                        </div>
+                        break;
+                }
+
+                <div class="form-controls">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <Button Color="ButtonColor.Secondary" @onclick="DeselectDefinition">Close</Button>
+                </div>
+            </form>
+        }
+    </BodyTemplate>
+</Offcanvas>
+
+@code {
+    private string SearchText = "";
+    private Offcanvas offcanvas = default!;
+    private SettingDefinition? selectedDefinition;
+    private string updatedValue = "";
+
+    private List<Setting> settings = new List<Setting>();
+    private List<SettingDefinition> settingDefinitions = new List<SettingDefinition>();
+
+    private List<SettingDefinition> filteredDefinitions => settingDefinitions.Where(x =>
+        string.IsNullOrWhiteSpace(SearchText) ||
+        x.Key.ToString().ToLower().Contains(SearchText.ToLower()) ||
+        x.Name.ToLower().Contains(SearchText.ToLower()) ||
+        x.Description.ToLower().Contains(SearchText.ToLower())
+    ).ToList();
+
+    private List<string> categories => filteredDefinitions
+        .Select(x => x.Category)
+        .Distinct()
+        .Order()
+        .ToList();
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        settingDefinitions = settingsService.GetSettingDefinitions();
+        settings = settingsService.GetSettings();
+    }
+
+    private async Task SelectDefinition(SettingDefinition definition)
+    {
+        selectedDefinition = definition;
+        updatedValue = settings.SingleOrDefault(x => x.Key == selectedDefinition.Key)?.Value ?? selectedDefinition.DefaultValue;
+        await offcanvas.ShowAsync();
+    }
+
+    private async Task DeselectDefinition()
+    {
+        selectedDefinition = null;
+        await offcanvas.HideAsync();
+    }
+
+    private MarkupString WithSearchHighlight(string text)
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            return new MarkupString(text);
+        }
+
+        var index = text.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase);
+        if (index < 0)
+        {
+            return new MarkupString(text);
+        }
+
+        string before = text.Substring(0, index);
+        string match = text.Substring(index, SearchText.Length);
+        string after = text.Substring(index + SearchText.Length);
+
+        return new MarkupString($"{before}<span class=\"highlight\">{match}</span>{after}");
+    }
+
+    private async Task UploadImage(InputFileChangeEventArgs e)
+    {
+        var selectedFiles = e.GetMultipleFiles();
+
+        byte[] fileBytes;
+        var file = selectedFiles.First();
+        using var stream = file.OpenReadStream();
+
+        fileBytes = new byte[stream.Length];
+        await stream.ReadAsync(fileBytes, 0, (int)stream.Length);
+
+        updatedValue = Convert.ToBase64String(fileBytes);
+    }
+
+    private async Task SaveSetting()
+    {
+        if (selectedDefinition is not null)
+        {
+            var setting = settings.SingleOrDefault(x => x.Key == selectedDefinition.Key);
+
+            if (setting is not null)
+            {
+                setting.Value = updatedValue;
+                await settingsService.SetSetting(setting);
+            }
+        }
+
+        selectedDefinition = null;
+        await offcanvas.HideAsync();
+    }
+}
+
+<style>
+    .highlight {
+        background-color: #ffd800;
+        color: #000000;
+    }
+</style>

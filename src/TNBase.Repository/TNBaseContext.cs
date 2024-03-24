@@ -32,6 +32,7 @@ namespace TNBase.Repository
         public virtual DbSet<Scan> Scans { get; set; }
         public virtual DbSet<WeeklyStats> WeeklyStats { get; set; }
         public virtual DbSet<YearStats> YearStats { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
 
         public void UpdateDatabase()
         {
@@ -286,6 +287,11 @@ namespace TNBase.Repository
                 entity.Property(e => e.SentTotal).HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.StartListeners).HasDefaultValueSql("'0'");
+            });
+
+            modelBuilder.Entity<Setting>(entity =>
+            {
+                entity.HasKey(e => e.Key);
             });
 
             OnModelCreatingPartial(modelBuilder);

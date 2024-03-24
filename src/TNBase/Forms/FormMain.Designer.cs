@@ -43,7 +43,7 @@ namespace TNBase
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            Label1 = new Label();
+            TitleLabel = new Label();
             menuTop = new MenuStrip();
             mBtnListeners = new ToolStripMenuItem();
             AddToolStripMenuItem = new ToolStripMenuItem();
@@ -62,6 +62,7 @@ namespace TNBase
             dataImportToolStripMenuItem = new ToolStripMenuItem();
             dataExportToolStripMenuItem = new ToolStripMenuItem();
             updateDatabaseEncryptionKeyToolStripMenuItem = new ToolStripMenuItem();
+            settingsToolStripMenuItem = new ToolStripMenuItem();
             PrintingToolStripMenuItem = new ToolStripMenuItem();
             UpcomingBirthdaysToolStripMenuItem = new ToolStripMenuItem();
             RecentlyAddedListenersToolStripMenuItem = new ToolStripMenuItem();
@@ -124,15 +125,15 @@ namespace TNBase
             groupBox3.SuspendLayout();
             SuspendLayout();
             // 
-            // Label1
+            // TitleLabel
             // 
-            Label1.AutoSize = true;
-            Label1.Font = new Font("Microsoft Sans Serif", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
-            Label1.Location = new Point(145, 63);
-            Label1.Margin = new Padding(4, 0, 4, 0);
-            Label1.Name = "Label1";
-            Label1.Size = new Size(0, 39);
-            Label1.TabIndex = 0;
+            TitleLabel.AutoSize = true;
+            TitleLabel.Font = new Font("Microsoft Sans Serif", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
+            TitleLabel.Location = new Point(145, 63);
+            TitleLabel.Margin = new Padding(4, 0, 4, 0);
+            TitleLabel.Name = "TitleLabel";
+            TitleLabel.Size = new Size(0, 39);
+            TitleLabel.TabIndex = 0;
             // 
             // menuTop
             // 
@@ -199,7 +200,7 @@ namespace TNBase
             // 
             // MaintenenceToolStripMenuItem
             // 
-            MaintenenceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { BackupToolStripMenuItem, RestoreToolStripMenuItem, PrintAllListenerLabelsToolStripMenuItem, logViewToolStripMenuItem, openLogDirectoryToolStripMenuItem, adjustStockLevelsToolStripMenuItem, dataImportToolStripMenuItem, dataExportToolStripMenuItem, updateDatabaseEncryptionKeyToolStripMenuItem });
+            MaintenenceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { BackupToolStripMenuItem, RestoreToolStripMenuItem, PrintAllListenerLabelsToolStripMenuItem, logViewToolStripMenuItem, openLogDirectoryToolStripMenuItem, adjustStockLevelsToolStripMenuItem, dataImportToolStripMenuItem, dataExportToolStripMenuItem, updateDatabaseEncryptionKeyToolStripMenuItem, settingsToolStripMenuItem });
             MaintenenceToolStripMenuItem.Name = "MaintenenceToolStripMenuItem";
             MaintenenceToolStripMenuItem.Size = new Size(106, 24);
             MaintenenceToolStripMenuItem.Text = "&Maintenence";
@@ -266,6 +267,13 @@ namespace TNBase
             updateDatabaseEncryptionKeyToolStripMenuItem.Size = new Size(231, 24);
             updateDatabaseEncryptionKeyToolStripMenuItem.Text = "Database Encryption";
             updateDatabaseEncryptionKeyToolStripMenuItem.Click += updateDatabaseEncryptionKeyToolStripMenuItem_Click;
+            // 
+            // settingsToolStripMenuItem
+            // 
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Size = new Size(231, 24);
+            settingsToolStripMenuItem.Text = "&Settings";
+            settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
             // 
             // PrintingToolStripMenuItem
             // 
@@ -779,7 +787,7 @@ namespace TNBase
             Controls.Add(GroupBox1);
             Controls.Add(lblTime);
             Controls.Add(lblDate);
-            Controls.Add(Label1);
+            Controls.Add(TitleLabel);
             Controls.Add(menuTop);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -805,7 +813,7 @@ namespace TNBase
             PerformLayout();
         }
 
-        internal Label Label1;
+        internal Label TitleLabel;
         internal MenuStrip menuTop;
         internal ToolStripMenuItem mBtnListeners;
         internal ToolStripMenuItem MaintenenceToolStripMenuItem;
@@ -866,7 +874,6 @@ namespace TNBase
             FormClosing += formMain_FormClosing;
             Load += formMain_Load;
             InitializeComponent();
-            Label1.Text = Properties.Settings.Default.AssociationName;
         }
 
         private ToolStripMenuItem logViewToolStripMenuItem;
@@ -887,5 +894,6 @@ namespace TNBase
         private HelpProvider helpProvider;
         private ToolStripMenuItem updateDatabaseEncryptionKeyToolStripMenuItem;
         private ToolStripMenuItem dataExportToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem;
     }
 }

@@ -17,6 +17,8 @@ using TNBase.Forms;
 using System.Text;
 using TNBase.External.DataExport;
 using System.IO;
+using TNBase.Blazor.Shared.Pages;
+using TNBase.App.Settings;
 
 namespace TNBase
 {
@@ -27,26 +29,6 @@ namespace TNBase
     {
         Logger log = LogManager.GetCurrentClassLogger();
 
-        private void LoadLogo()
-        {
-            string logo = Properties.Settings.Default.Logo;
-            if (!string.IsNullOrEmpty(logo))
-            {
-                try
-                {
-                    PictureBox1.BackgroundImage = new Bitmap(logo); //Image.FromFile(logo);
-                }
-                catch (Exception e)
-                {
-                    log.Error(e, "Could not load logo: " + logo);
-                }
-            }
-            else
-            {
-                log.Debug("No logo set, using the default.");
-            }
-        }
-
         /// <summary>
         /// When the form loads.
         /// </summary>
@@ -54,8 +36,16 @@ namespace TNBase
         /// <param name="e"></param>
 		private void formMain_Load(object sender, EventArgs e)
         {
-            // Load the logo
-            LoadLogo();
+            var settingService = Program.ServiceProvider.GetRequiredService<ISettingsService>();
+            settingService.GetAndBind(Settings.AssociationLogo, value =>
+            {
+                PictureBox1.BackgroundImage = Image.FromStream(new MemoryStream(Convert.FromBase64String(value)));
+            });
+
+            settingService.GetAndBind(Settings.AssociationName, value =>
+            {
+                TitleLabel.Text = value;
+            });
 
             // Initially update the time labels.
             UpdateTimers();
@@ -645,6 +635,12 @@ namespace TNBase
                     MessageBox.Show(ex.Message, "Listener Export Error");
                 }
             }
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormBlazorWebView();
+            form.ShowPage<SettingsPage>();
         }
     }
 }

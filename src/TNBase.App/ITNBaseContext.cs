@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 using TNBase.Domain;
 
 namespace TNBase.App
@@ -15,7 +17,9 @@ namespace TNBase.App
         DbSet<WeeklyStats> WeeklyStats { get; set; }
         DbSet<YearStats> YearStats { get; set; }
         DbSet<InOutRecords> InOutRecords { get; set; }
+        DbSet<Setting> Settings { get; set; }
 
         int SaveChanges();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

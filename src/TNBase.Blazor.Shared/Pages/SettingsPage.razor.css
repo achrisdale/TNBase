@@ -1,0 +1,38 @@
+.container{
+    padding-top: 6rem;
+}
+
+.category-title{
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.settingDefinition-list {
+    list-style-type: none;
+    padding: 0rem 0 2rem 0;
+}
+
+    .settingDefinition-list .selected {
+        background: orange;
+    }
+
+    .settingDefinition-list .title {
+        font-weight: 600;
+        padding: 0.1rem 0;
+    }
+
+    .settingDefinition-list .details {
+        padding-left: 1rem;
+    }
+
+.setting-thumbnail{
+    max-height: 5rem;
+}
+
+.input-button {
+    padding: 1rem;
+}
+
+.form-controls{
+    padding: 1rem;
+}

@@ -4,12 +4,15 @@ using System.Drawing;
 using TNBase.Domain;
 using TNBase.App;
 using Microsoft.Extensions.DependencyInjection;
+using TNBase.App.Settings;
 
 namespace TNBase
 {
     public partial class FormPrintDormantListeners
     {
         private readonly IServiceLayer serviceLayer = Program.ServiceProvider.GetRequiredService<IServiceLayer>();
+        private readonly ISettingsService settingsService = Program.ServiceProvider.GetRequiredService<ISettingsService>();
+
         List<Listener> theListeners = new List<Listener>();
 
         int totalCount = 0;
@@ -25,7 +28,8 @@ namespace TNBase
             Graphics g = e.Graphics;
             int pageHeight = e.MarginBounds.Height;
 
-            g.DrawString(Properties.Settings.Default.AssociationName, reportFont, Brushes.Black, 100, 80, StringFormat.GenericTypographic);
+            var associationName = settingsService.GetSetting(Settings.AssociationName);
+            g.DrawString(associationName, reportFont, Brushes.Black, 100, 80, StringFormat.GenericTypographic);
             string nowDate = DateTime.Now.ToString(ModuleGeneric.DATE_FORMAT);
             g.DrawString("Wallets not sent/received for over 30 days.", reportFontSmall, Brushes.Black, 140, 120);
 
