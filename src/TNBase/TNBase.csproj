@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Company>Talking Newspapers</Company>
     <Product>TNBase</Product>
     <Version>1.0.0</Version>
-    <Description>TNBase is a database application used to keep the records of listeners and the postal pouches for talking newspapers.</Description>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+  <Description>TNBase is a database application used to keep the records of listeners and the postal pouches for talking newspapers.</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\TNBase.App\TNBase.App.csproj" />
