@@ -128,7 +128,7 @@ namespace TNBase
             // TitleLabel
             // 
             TitleLabel.AutoSize = true;
-            TitleLabel.Font = new Font("Microsoft Sans Serif", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
+            TitleLabel.Font = new Font("Microsoft Sans Serif", 26.25F, FontStyle.Bold);
             TitleLabel.Location = new Point(145, 63);
             TitleLabel.Margin = new Padding(4, 0, 4, 0);
             TitleLabel.Name = "TitleLabel";
@@ -137,7 +137,7 @@ namespace TNBase
             // 
             // menuTop
             // 
-            menuTop.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            menuTop.Font = new Font("Segoe UI", 11.25F);
             menuTop.ImageScalingSize = new Size(32, 32);
             menuTop.Items.AddRange(new ToolStripItem[] { mBtnListeners, MaintenenceToolStripMenuItem, PrintingToolStripMenuItem, StatisticsHistoryToolStripMenuItem, ScanningToolStripMenuItem, CollectorsToolStripMenuItem, helpToolStripMenuItem });
             menuTop.Location = new Point(0, 0);
@@ -469,7 +469,7 @@ namespace TNBase
             // lblDate
             // 
             lblDate.AutoSize = true;
-            lblDate.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblDate.Font = new Font("Microsoft Sans Serif", 14.25F);
             lblDate.Location = new Point(1007, 128);
             lblDate.Margin = new Padding(4, 0, 4, 0);
             lblDate.Name = "lblDate";
@@ -480,7 +480,7 @@ namespace TNBase
             // lblTime
             // 
             lblTime.AutoSize = true;
-            lblTime.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTime.Font = new Font("Microsoft Sans Serif", 14.25F);
             lblTime.Location = new Point(86, 128);
             lblTime.Margin = new Padding(4, 0, 4, 0);
             lblTime.Name = "lblTime";
@@ -504,7 +504,7 @@ namespace TNBase
             GroupBox1.Controls.Add(btnRemove);
             GroupBox1.Controls.Add(btnAdd);
             GroupBox1.FlatStyle = FlatStyle.Popup;
-            GroupBox1.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            GroupBox1.Font = new Font("Microsoft Sans Serif", 14.25F);
             GroupBox1.Location = new Point(62, 202);
             GroupBox1.Margin = new Padding(4, 3, 4, 3);
             GroupBox1.Name = "GroupBox1";
@@ -608,7 +608,7 @@ namespace TNBase
             // btnFinished
             // 
             btnFinished.BackColor = Color.FromArgb(255, 128, 128);
-            btnFinished.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            btnFinished.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnFinished.ImageAlign = ContentAlignment.MiddleLeft;
             btnFinished.Location = new Point(492, 591);
             btnFinished.Margin = new Padding(4, 3, 4, 3);
@@ -624,7 +624,7 @@ namespace TNBase
             GroupBox2.Controls.Add(btnScanOut);
             GroupBox2.Controls.Add(btnScanIn);
             GroupBox2.FlatStyle = FlatStyle.Popup;
-            GroupBox2.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            GroupBox2.Font = new Font("Microsoft Sans Serif", 14.25F);
             GroupBox2.Location = new Point(896, 202);
             GroupBox2.Margin = new Padding(4, 3, 4, 3);
             GroupBox2.Name = "GroupBox2";
@@ -691,11 +691,13 @@ namespace TNBase
             // PictureBox1
             // 
             PictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            PictureBox1.Image = (Image)resources.GetObject("PictureBox1.Image");
             PictureBox1.InitialImage = (Image)resources.GetObject("PictureBox1.InitialImage");
-            PictureBox1.Location = new Point(422, 202);
+            PictureBox1.Location = new Point(358, 219);
             PictureBox1.Margin = new Padding(4, 3, 4, 3);
             PictureBox1.Name = "PictureBox1";
-            PictureBox1.Size = new Size(358, 302);
+            PictureBox1.Size = new Size(505, 280);
+            PictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             PictureBox1.TabIndex = 15;
             PictureBox1.TabStop = false;
             // 
@@ -706,7 +708,7 @@ namespace TNBase
             // lblVersion
             // 
             lblVersion.AutoSize = true;
-            lblVersion.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblVersion.Font = new Font("Microsoft Sans Serif", 14.25F);
             lblVersion.Location = new Point(546, 516);
             lblVersion.Margin = new Padding(4, 0, 4, 0);
             lblVersion.Name = "lblVersion";
@@ -717,7 +719,7 @@ namespace TNBase
             // lblWeekNumber
             // 
             lblWeekNumber.AutoSize = true;
-            lblWeekNumber.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblWeekNumber.Font = new Font("Microsoft Sans Serif", 14.25F);
             lblWeekNumber.Location = new Point(530, 128);
             lblWeekNumber.Margin = new Padding(4, 0, 4, 0);
             lblWeekNumber.Name = "lblWeekNumber";
@@ -730,7 +732,7 @@ namespace TNBase
             groupBox3.Controls.Add(btnMagScanOut);
             groupBox3.Controls.Add(btnMagScanIn);
             groupBox3.FlatStyle = FlatStyle.Popup;
-            groupBox3.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            groupBox3.Font = new Font("Microsoft Sans Serif", 14.25F);
             groupBox3.Location = new Point(896, 435);
             groupBox3.Margin = new Padding(4, 3, 4, 3);
             groupBox3.Name = "groupBox3";
