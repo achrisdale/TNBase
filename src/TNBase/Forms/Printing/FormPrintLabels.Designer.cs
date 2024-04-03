@@ -31,71 +31,75 @@ namespace TNBase
 		//Required by the Windows Form Designer
 
 		private System.ComponentModel.IContainer components;
-		//NOTE: The following procedure is required by the Windows Form Designer
-		//It can be modified using the Windows Form Designer.  
-		//Do not modify it using the code editor.
-		[System.Diagnostics.DebuggerStepThrough()]
-		private void InitializeComponent()
-		{
+        //NOTE: The following procedure is required by the Windows Form Designer
+        //It can be modified using the Windows Form Designer.  
+        //Do not modify it using the code editor.
+        [System.Diagnostics.DebuggerStepThrough()]
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPrintLabels));
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.Label2 = new System.Windows.Forms.Label();
-            this.printLabelDoc = new System.Drawing.Printing.PrintDocument();
-            this.printPreview = new TNBase.PrintPreviewDialogSelectPrinter();
-            this.SuspendLayout();
+            btnCancel = new Button();
+            Label2 = new Label();
+            printLabelDoc = new System.Drawing.Printing.PrintDocument();
+            printPreview = new PrintPreviewDialogSelectPrinter();
+            SuspendLayout();
             // 
             // btnCancel
             // 
-            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(168, 61);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(109, 40);
-            this.btnCancel.TabIndex = 7;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = false;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            btnCancel.BackColor = Color.FromArgb(255, 128, 128);
+            btnCancel.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCancel.Location = new Point(196, 70);
+            btnCancel.Margin = new Padding(4, 3, 4, 3);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(127, 46);
+            btnCancel.TabIndex = 7;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = false;
+            btnCancel.Click += btnCancel_Click;
             // 
             // Label2
             // 
-            this.Label2.AutoSize = true;
-            this.Label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label2.Location = new System.Drawing.Point(31, 22);
-            this.Label2.Name = "Label2";
-            this.Label2.Size = new System.Drawing.Size(214, 24);
-            this.Label2.TabIndex = 6;
-            this.Label2.Text = "Printing address labels...\r\n";
+            Label2.AutoSize = true;
+            Label2.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Label2.Location = new Point(36, 25);
+            Label2.Margin = new Padding(4, 0, 4, 0);
+            Label2.Name = "Label2";
+            Label2.Size = new Size(214, 24);
+            Label2.TabIndex = 6;
+            Label2.Text = "Printing address labels...\r\n";
             // 
             // printLabelDoc
             // 
-            this.printLabelDoc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printLabelDoc_PrintPage);
+            printLabelDoc.PrintPage += printLabelDoc_PrintPage;
             // 
             // printPreview
             // 
-            this.printPreview.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.printPreview.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.printPreview.ClientSize = new System.Drawing.Size(400, 300);
-            this.printPreview.Enabled = true;
-            this.printPreview.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreview.Icon")));
-            this.printPreview.Name = "PrintPreviewDialogSelectPrinter1";
-            this.printPreview.Visible = false;
+            printPreview.AutoScrollMargin = new Size(0, 0);
+            printPreview.AutoScrollMinSize = new Size(0, 0);
+            printPreview.ClientSize = new Size(400, 300);
+            printPreview.Enabled = true;
+            printPreview.Icon = (Icon)resources.GetObject("printPreview.Icon");
+            printPreview.Name = "PrintPreviewDialogSelectPrinter1";
+            printPreview.Visible = false;
             // 
-            // formPrintLabels
+            // FormPrintLabels
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(435, 125);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.Label2);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "formPrintLabels";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(507, 144);
+            Controls.Add(btnCancel);
+            Controls.Add(Label2);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormPrintLabels";
+            StartPosition = FormStartPosition.CenterScreen;
+            Load += FormPrintLabels_Load;
+            ResumeLayout(false);
+            PerformLayout();
+        }
 
-		}
         private System.Windows.Forms.Button btnCancel;
 		internal System.Windows.Forms.Label Label2;
         private System.Drawing.Printing.PrintDocument printLabelDoc;

@@ -25,13 +25,14 @@ namespace TNBase
 			if (CheckBox5.Checked == true) {
 				myIndex = 4;
 			}
+/*
 			if (CheckBox7.Checked == true) {
 				myIndex = 8;
 			}
 			if (CheckBox15.Checked == true) {
 				myIndex = 12;
 			}
-
+*/
 			My.MyProject.Forms.formPrintLabels.setupForm(listener, myIndex);
 			Close();
 		}
@@ -44,10 +45,10 @@ namespace TNBase
 			CheckBox4.Checked = false;
 			CheckBox5.Checked = false;
 			CheckBox6.Checked = false;
-			CheckBox7.Checked = false;
+//			CheckBox7.Checked = false;
 			CheckBox8.Checked = false;
 			CheckBox9.Checked = false;
-			CheckBox10.Checked = false;
+/*			CheckBox10.Checked = false;
 			CheckBox11.Checked = false;
 			CheckBox12.Checked = false;
 			CheckBox13.Checked = false;
@@ -56,6 +57,7 @@ namespace TNBase
 			CheckBox16.Checked = false;
 			CheckBox17.Checked = false;
 			CheckBox18.Checked = false;
+*/
 		}
 
 		private void CheckBox1_Click(object sender, EventArgs e)
@@ -77,7 +79,7 @@ namespace TNBase
 			CheckBox9.Checked = true;
 			cmbSelection.SelectedIndex = 1;
 		}
-
+/*
 		private void CheckBox7_Click(object sender, EventArgs e)
 		{
 			UncheckAll();
@@ -97,7 +99,7 @@ namespace TNBase
 			CheckBox18.Checked = true;
 			cmbSelection.SelectedIndex = 3;
 		}
-
+*/
 		private void cmbSelection_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (cmbSelection.SelectedItem.ToString() == "1 - 4") 
@@ -116,7 +118,7 @@ namespace TNBase
 				CheckBox8.Checked = true;
 				CheckBox9.Checked = true;
 			} 
-            else if (cmbSelection.SelectedItem.ToString() == "9 - 12") 
+ /*           else if (cmbSelection.SelectedItem.ToString() == "9 - 12") 
             {
 				UncheckAll();
 				CheckBox7.Checked = true;
@@ -132,6 +134,7 @@ namespace TNBase
 				CheckBox13.Checked = true;
 				CheckBox18.Checked = true;
 			}
+ */
 		}
 		public FormChoosePrintPoint()
 		{
