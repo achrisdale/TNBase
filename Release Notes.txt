@@ -1,3 +1,8 @@
+1.8.2
+- Fixes #127 Could not find the backup drive message
+- Closes #125 Update Current number of active listeners label
+- Check for .Net 8 when performing installation
+
 1.8.1
 - Fixed version number
 - Updated to .Net 8

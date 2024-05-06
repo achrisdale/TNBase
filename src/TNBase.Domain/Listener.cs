@@ -156,7 +156,7 @@ namespace TNBase.Domain
         {
             MemStickPlayer = false;
 
-            if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
+            if (CanAnonymize)
             {
                 AnonymizeAndReserve();
             }
@@ -176,7 +176,7 @@ namespace TNBase.Domain
                     break;
             }
 
-            if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
+            if (CanAnonymize)
             {
                 AnonymizeAndReserve();
             }
@@ -196,7 +196,7 @@ namespace TNBase.Domain
                     break;
             }
 
-            if (Status == ListenerStates.DELETED && !OwnsWalletsOrEquipment)
+            if (CanAnonymize)
             {
                 AnonymizeAndReserve();
             }
