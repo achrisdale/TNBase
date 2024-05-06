@@ -31,473 +31,473 @@ namespace TNBase
 		//Required by the Windows Form Designer
 
 		private System.ComponentModel.IContainer components;
-		//NOTE: The following procedure is required by the Windows Form Designer
-		//It can be modified using the Windows Form Designer.  
-		//Do not modify it using the code editor.
-		[System.Diagnostics.DebuggerStepThrough()]
-		private void InitializeComponent()
-		{
+        //NOTE: The following procedure is required by the Windows Form Designer
+        //It can be modified using the Windows Form Designer.  
+        //Do not modify it using the code editor.
+        [System.Diagnostics.DebuggerStepThrough()]
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormStats));
-            this.Label1 = new System.Windows.Forms.Label();
-            this.Label2 = new System.Windows.Forms.Label();
-            this.lblDate = new System.Windows.Forms.Label();
-            this.Label3 = new System.Windows.Forms.Label();
-            this.Label4 = new System.Windows.Forms.Label();
-            this.Label5 = new System.Windows.Forms.Label();
-            this.Label6 = new System.Windows.Forms.Label();
-            this.Label7 = new System.Windows.Forms.Label();
-            this.Label8 = new System.Windows.Forms.Label();
-            this.Label9 = new System.Windows.Forms.Label();
-            this.Label10 = new System.Windows.Forms.Label();
-            this.Label11 = new System.Windows.Forms.Label();
-            this.Label13 = new System.Windows.Forms.Label();
-            this.Label14 = new System.Windows.Forms.Label();
-            this.Label15 = new System.Windows.Forms.Label();
-            this.Label16 = new System.Windows.Forms.Label();
-            this.btnFinished = new System.Windows.Forms.Button();
-            this.btnPrint = new System.Windows.Forms.Button();
-            this.lblWeeklyYearListeners = new System.Windows.Forms.Label();
-            this.lblListenersToday = new System.Windows.Forms.Label();
-            this.lblNewListeners = new System.Windows.Forms.Label();
-            this.lblLostListeners = new System.Windows.Forms.Label();
-            this.lblNetListeners = new System.Windows.Forms.Label();
-            this.lblAverageListeners = new System.Windows.Forms.Label();
-            this.lblInactiveWallets = new System.Windows.Forms.Label();
-            this.lblAverageDispatched = new System.Windows.Forms.Label();
-            this.lblWalletsDispatched = new System.Windows.Forms.Label();
-            this.lblMemorySticksOnLoad = new System.Windows.Forms.Label();
-            this.lblStoppedWallets = new System.Windows.Forms.Label();
-            this.lblAverageStopped = new System.Windows.Forms.Label();
-            this.lblDormant = new System.Windows.Forms.Label();
-            this.printStatsDoc = new System.Drawing.Printing.PrintDocument();
-            this.printPreview = new TNBase.PrintPreviewDialogSelectPrinter();
-            this.label12 = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            Label1 = new Label();
+            Label2 = new Label();
+            lblDate = new Label();
+            Label3 = new Label();
+            Label4 = new Label();
+            Label5 = new Label();
+            Label6 = new Label();
+            Label7 = new Label();
+            Label8 = new Label();
+            Label9 = new Label();
+            Label10 = new Label();
+            Label11 = new Label();
+            Label13 = new Label();
+            Label14 = new Label();
+            Label15 = new Label();
+            Label16 = new Label();
+            btnFinished = new Button();
+            btnPrint = new Button();
+            lblWeeklyYearListeners = new Label();
+            lblListenersToday = new Label();
+            lblNewListeners = new Label();
+            lblLostListeners = new Label();
+            lblNetListeners = new Label();
+            lblAverageListeners = new Label();
+            lblInactiveWallets = new Label();
+            lblAverageDispatched = new Label();
+            lblWalletsDispatched = new Label();
+            lblMemorySticksOnLoad = new Label();
+            lblStoppedWallets = new Label();
+            lblAverageStopped = new Label();
+            lblDormant = new Label();
+            printStatsDoc = new System.Drawing.Printing.PrintDocument();
+            printPreview = new PrintPreviewDialogSelectPrinter();
+            label12 = new Label();
+            SuspendLayout();
             // 
             // Label1
             // 
-            this.Label1.AutoSize = true;
-            this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label1.Location = new System.Drawing.Point(296, 10);
-            this.Label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(291, 37);
-            this.Label1.TabIndex = 0;
-            this.Label1.Text = "Database Statistics";
+            Label1.AutoSize = true;
+            Label1.Font = new Font("Microsoft Sans Serif", 24F);
+            Label1.Location = new Point(296, 10);
+            Label1.Margin = new Padding(4, 0, 4, 0);
+            Label1.Name = "Label1";
+            Label1.Size = new Size(291, 37);
+            Label1.TabIndex = 0;
+            Label1.Text = "Database Statistics";
             // 
             // Label2
             // 
-            this.Label2.AutoSize = true;
-            this.Label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.Label2.Location = new System.Drawing.Point(206, 46);
-            this.Label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label2.Name = "Label2";
-            this.Label2.Size = new System.Drawing.Size(381, 25);
-            this.Label2.TabIndex = 1;
-            this.Label2.Text = "This Year\'s Database Statistics Up To ";
+            Label2.AutoSize = true;
+            Label2.Font = new Font("Microsoft Sans Serif", 15.75F);
+            Label2.ForeColor = Color.FromArgb(128, 64, 0);
+            Label2.Location = new Point(206, 46);
+            Label2.Margin = new Padding(4, 0, 4, 0);
+            Label2.Name = "Label2";
+            Label2.Size = new Size(381, 25);
+            Label2.TabIndex = 1;
+            Label2.Text = "This Year's Database Statistics Up To ";
             // 
             // lblDate
             // 
-            this.lblDate.AutoSize = true;
-            this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblDate.Location = new System.Drawing.Point(643, 46);
-            this.lblDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(120, 25);
-            this.lblDate.TabIndex = 2;
-            this.lblDate.Text = "??/??/????";
+            lblDate.AutoSize = true;
+            lblDate.Font = new Font("Microsoft Sans Serif", 15.75F);
+            lblDate.ForeColor = Color.FromArgb(128, 64, 0);
+            lblDate.Location = new Point(643, 46);
+            lblDate.Margin = new Padding(4, 0, 4, 0);
+            lblDate.Name = "lblDate";
+            lblDate.Size = new Size(120, 25);
+            lblDate.TabIndex = 2;
+            lblDate.Text = "??/??/????";
             // 
             // Label3
             // 
-            this.Label3.AutoSize = true;
-            this.Label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label3.Location = new System.Drawing.Point(55, 152);
-            this.Label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label3.Name = "Label3";
-            this.Label3.Size = new System.Drawing.Size(387, 33);
-            this.Label3.TabIndex = 3;
-            this.Label3.Text = "Weekly listeners as of today:";
+            Label3.AutoSize = true;
+            Label3.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label3.Location = new Point(55, 152);
+            Label3.Margin = new Padding(4, 0, 4, 0);
+            Label3.Name = "Label3";
+            Label3.Size = new Size(462, 33);
+            Label3.TabIndex = 3;
+            Label3.Text = "Current number of active listeners:";
             // 
             // Label4
             // 
-            this.Label4.AutoSize = true;
-            this.Label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label4.Location = new System.Drawing.Point(55, 113);
-            this.Label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label4.Name = "Label4";
-            this.Label4.Size = new System.Drawing.Size(527, 33);
-            this.Label4.TabIndex = 4;
-            this.Label4.Text = "Weekly listeners at the start of the year:";
+            Label4.AutoSize = true;
+            Label4.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label4.Location = new Point(55, 113);
+            Label4.Margin = new Padding(4, 0, 4, 0);
+            Label4.Name = "Label4";
+            Label4.Size = new Size(527, 33);
+            Label4.TabIndex = 4;
+            Label4.Text = "Weekly listeners at the start of the year:";
             // 
             // Label5
             // 
-            this.Label5.AutoSize = true;
-            this.Label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label5.Location = new System.Drawing.Point(55, 190);
-            this.Label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label5.Name = "Label5";
-            this.Label5.Size = new System.Drawing.Size(457, 33);
-            this.Label5.TabIndex = 5;
-            this.Label5.Text = "Number of new listeners this year:";
+            Label5.AutoSize = true;
+            Label5.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label5.Location = new Point(55, 190);
+            Label5.Margin = new Padding(4, 0, 4, 0);
+            Label5.Name = "Label5";
+            Label5.Size = new Size(457, 33);
+            Label5.TabIndex = 5;
+            Label5.Text = "Number of new listeners this year:";
             // 
             // Label6
             // 
-            this.Label6.AutoSize = true;
-            this.Label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label6.Location = new System.Drawing.Point(55, 228);
-            this.Label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label6.Name = "Label6";
-            this.Label6.Size = new System.Drawing.Size(450, 33);
-            this.Label6.TabIndex = 6;
-            this.Label6.Text = "Number of lost listeners this year:";
+            Label6.AutoSize = true;
+            Label6.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label6.Location = new Point(55, 228);
+            Label6.Margin = new Padding(4, 0, 4, 0);
+            Label6.Name = "Label6";
+            Label6.Size = new Size(450, 33);
+            Label6.TabIndex = 6;
+            Label6.Text = "Number of lost listeners this year:";
             // 
             // Label7
             // 
-            this.Label7.AutoSize = true;
-            this.Label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label7.Location = new System.Drawing.Point(55, 266);
-            this.Label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label7.Name = "Label7";
-            this.Label7.Size = new System.Drawing.Size(476, 33);
-            this.Label7.TabIndex = 7;
-            this.Label7.Text = "Net change of listeners for the year:";
+            Label7.AutoSize = true;
+            Label7.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label7.Location = new Point(55, 266);
+            Label7.Margin = new Padding(4, 0, 4, 0);
+            Label7.Name = "Label7";
+            Label7.Size = new Size(476, 33);
+            Label7.TabIndex = 7;
+            Label7.Text = "Net change of listeners for the year:";
             // 
             // Label8
             // 
-            this.Label8.AutoSize = true;
-            this.Label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label8.Location = new System.Drawing.Point(55, 304);
-            this.Label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label8.Name = "Label8";
-            this.Label8.Size = new System.Drawing.Size(620, 33);
-            this.Label8.TabIndex = 8;
-            this.Label8.Text = "Average number of active listeners for the year";
+            Label8.AutoSize = true;
+            Label8.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label8.Location = new Point(55, 304);
+            Label8.Margin = new Padding(4, 0, 4, 0);
+            Label8.Name = "Label8";
+            Label8.Size = new Size(620, 33);
+            Label8.TabIndex = 8;
+            Label8.Text = "Average number of active listeners for the year";
             // 
             // Label9
             // 
-            this.Label9.AutoSize = true;
-            this.Label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label9.Location = new System.Drawing.Point(55, 342);
-            this.Label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label9.Name = "Label9";
-            this.Label9.Size = new System.Drawing.Size(511, 33);
-            this.Label9.TabIndex = 9;
-            this.Label9.Text = "Inactive wallets (not available for use):";
+            Label9.AutoSize = true;
+            Label9.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label9.Location = new Point(55, 342);
+            Label9.Margin = new Padding(4, 0, 4, 0);
+            Label9.Name = "Label9";
+            Label9.Size = new Size(511, 33);
+            Label9.TabIndex = 9;
+            Label9.Text = "Inactive wallets (not available for use):";
             // 
             // Label10
             // 
-            this.Label10.AutoSize = true;
-            this.Label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label10.Location = new System.Drawing.Point(55, 380);
-            this.Label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label10.Name = "Label10";
-            this.Label10.Size = new System.Drawing.Size(664, 33);
-            this.Label10.TabIndex = 10;
-            this.Label10.Text = "Average number of wallets dispatched each week:";
+            Label10.AutoSize = true;
+            Label10.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label10.Location = new Point(55, 380);
+            Label10.Margin = new Padding(4, 0, 4, 0);
+            Label10.Name = "Label10";
+            Label10.Size = new Size(664, 33);
+            Label10.TabIndex = 10;
+            Label10.Text = "Average number of wallets dispatched each week:";
             // 
             // Label11
             // 
-            this.Label11.AutoSize = true;
-            this.Label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label11.Location = new System.Drawing.Point(55, 418);
-            this.Label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label11.Name = "Label11";
-            this.Label11.Size = new System.Drawing.Size(468, 33);
-            this.Label11.TabIndex = 11;
-            this.Label11.Text = "News Wallets dispatched this year:";
+            Label11.AutoSize = true;
+            Label11.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label11.Location = new Point(55, 418);
+            Label11.Margin = new Padding(4, 0, 4, 0);
+            Label11.Name = "Label11";
+            Label11.Size = new Size(468, 33);
+            Label11.TabIndex = 11;
+            Label11.Text = "News Wallets dispatched this year:";
             // 
             // Label13
             // 
-            this.Label13.AutoSize = true;
-            this.Label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label13.Location = new System.Drawing.Point(55, 456);
-            this.Label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label13.Name = "Label13";
-            this.Label13.Size = new System.Drawing.Size(411, 33);
-            this.Label13.TabIndex = 13;
-            this.Label13.Text = "Memory stick players on loan: ";
+            Label13.AutoSize = true;
+            Label13.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label13.Location = new Point(55, 456);
+            Label13.Margin = new Padding(4, 0, 4, 0);
+            Label13.Name = "Label13";
+            Label13.Size = new Size(411, 33);
+            Label13.TabIndex = 13;
+            Label13.Text = "Memory stick players on loan: ";
             // 
             // Label14
             // 
-            this.Label14.AutoSize = true;
-            this.Label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label14.Location = new System.Drawing.Point(55, 494);
-            this.Label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label14.Name = "Label14";
-            this.Label14.Size = new System.Drawing.Size(228, 33);
-            this.Label14.TabIndex = 14;
-            this.Label14.Text = "Stopped wallets:";
+            Label14.AutoSize = true;
+            Label14.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label14.Location = new Point(55, 494);
+            Label14.Margin = new Padding(4, 0, 4, 0);
+            Label14.Name = "Label14";
+            Label14.Size = new Size(228, 33);
+            Label14.TabIndex = 14;
+            Label14.Text = "Stopped wallets:";
             // 
             // Label15
             // 
-            this.Label15.AutoSize = true;
-            this.Label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label15.Location = new System.Drawing.Point(55, 532);
-            this.Label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label15.Name = "Label15";
-            this.Label15.Size = new System.Drawing.Size(681, 33);
-            this.Label15.TabIndex = 15;
-            this.Label15.Text = "Average number of stopped wallets during the year:";
+            Label15.AutoSize = true;
+            Label15.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label15.Location = new Point(55, 532);
+            Label15.Margin = new Padding(4, 0, 4, 0);
+            Label15.Name = "Label15";
+            Label15.Size = new Size(681, 33);
+            Label15.TabIndex = 15;
+            Label15.Text = "Average number of stopped wallets during the year:";
             // 
             // Label16
             // 
-            this.Label16.AutoSize = true;
-            this.Label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label16.Location = new System.Drawing.Point(56, 573);
-            this.Label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label16.Name = "Label16";
-            this.Label16.Size = new System.Drawing.Size(492, 33);
-            this.Label16.TabIndex = 16;
-            this.Label16.Text = "Listeners dormant for over 3 months:";
+            Label16.AutoSize = true;
+            Label16.Font = new Font("Microsoft Sans Serif", 21.75F);
+            Label16.Location = new Point(56, 573);
+            Label16.Margin = new Padding(4, 0, 4, 0);
+            Label16.Name = "Label16";
+            Label16.Size = new Size(492, 33);
+            Label16.TabIndex = 16;
+            Label16.Text = "Listeners dormant for over 3 months:";
             // 
             // btnFinished
             // 
-            this.btnFinished.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnFinished.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnFinished.ForeColor = System.Drawing.Color.Black;
-            this.btnFinished.Location = new System.Drawing.Point(170, 642);
-            this.btnFinished.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnFinished.Name = "btnFinished";
-            this.btnFinished.Size = new System.Drawing.Size(224, 74);
-            this.btnFinished.TabIndex = 19;
-            this.btnFinished.Text = "Finished";
-            this.btnFinished.UseVisualStyleBackColor = false;
-            this.btnFinished.Click += new System.EventHandler(this.btnFinished_Click);
+            btnFinished.BackColor = Color.FromArgb(128, 255, 128);
+            btnFinished.Font = new Font("Microsoft Sans Serif", 21.75F);
+            btnFinished.ForeColor = Color.Black;
+            btnFinished.Location = new Point(170, 642);
+            btnFinished.Margin = new Padding(4, 3, 4, 3);
+            btnFinished.Name = "btnFinished";
+            btnFinished.Size = new Size(224, 74);
+            btnFinished.TabIndex = 19;
+            btnFinished.Text = "Finished";
+            btnFinished.UseVisualStyleBackColor = false;
+            btnFinished.Click += btnFinished_Click;
             // 
             // btnPrint
             // 
-            this.btnPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnPrint.Location = new System.Drawing.Point(625, 642);
-            this.btnPrint.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(224, 74);
-            this.btnPrint.TabIndex = 20;
-            this.btnPrint.Text = "Print";
-            this.btnPrint.UseVisualStyleBackColor = false;
-            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            btnPrint.BackColor = Color.FromArgb(255, 192, 128);
+            btnPrint.Font = new Font("Microsoft Sans Serif", 21.75F);
+            btnPrint.Location = new Point(625, 642);
+            btnPrint.Margin = new Padding(4, 3, 4, 3);
+            btnPrint.Name = "btnPrint";
+            btnPrint.Size = new Size(224, 74);
+            btnPrint.TabIndex = 20;
+            btnPrint.Text = "Print";
+            btnPrint.UseVisualStyleBackColor = false;
+            btnPrint.Click += btnPrint_Click;
             // 
             // lblWeeklyYearListeners
             // 
-            this.lblWeeklyYearListeners.AutoSize = true;
-            this.lblWeeklyYearListeners.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblWeeklyYearListeners.Location = new System.Drawing.Point(870, 113);
-            this.lblWeeklyYearListeners.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblWeeklyYearListeners.Name = "lblWeeklyYearListeners";
-            this.lblWeeklyYearListeners.Size = new System.Drawing.Size(31, 33);
-            this.lblWeeklyYearListeners.TabIndex = 21;
-            this.lblWeeklyYearListeners.Text = "?";
+            lblWeeklyYearListeners.AutoSize = true;
+            lblWeeklyYearListeners.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblWeeklyYearListeners.Location = new Point(870, 113);
+            lblWeeklyYearListeners.Margin = new Padding(4, 0, 4, 0);
+            lblWeeklyYearListeners.Name = "lblWeeklyYearListeners";
+            lblWeeklyYearListeners.Size = new Size(31, 33);
+            lblWeeklyYearListeners.TabIndex = 21;
+            lblWeeklyYearListeners.Text = "?";
             // 
             // lblListenersToday
             // 
-            this.lblListenersToday.AutoSize = true;
-            this.lblListenersToday.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblListenersToday.Location = new System.Drawing.Point(870, 152);
-            this.lblListenersToday.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblListenersToday.Name = "lblListenersToday";
-            this.lblListenersToday.Size = new System.Drawing.Size(31, 33);
-            this.lblListenersToday.TabIndex = 22;
-            this.lblListenersToday.Text = "?";
+            lblListenersToday.AutoSize = true;
+            lblListenersToday.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblListenersToday.Location = new Point(870, 152);
+            lblListenersToday.Margin = new Padding(4, 0, 4, 0);
+            lblListenersToday.Name = "lblListenersToday";
+            lblListenersToday.Size = new Size(31, 33);
+            lblListenersToday.TabIndex = 22;
+            lblListenersToday.Text = "?";
             // 
             // lblNewListeners
             // 
-            this.lblNewListeners.AutoSize = true;
-            this.lblNewListeners.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNewListeners.Location = new System.Drawing.Point(870, 190);
-            this.lblNewListeners.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblNewListeners.Name = "lblNewListeners";
-            this.lblNewListeners.Size = new System.Drawing.Size(31, 33);
-            this.lblNewListeners.TabIndex = 23;
-            this.lblNewListeners.Text = "?";
+            lblNewListeners.AutoSize = true;
+            lblNewListeners.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblNewListeners.Location = new Point(870, 190);
+            lblNewListeners.Margin = new Padding(4, 0, 4, 0);
+            lblNewListeners.Name = "lblNewListeners";
+            lblNewListeners.Size = new Size(31, 33);
+            lblNewListeners.TabIndex = 23;
+            lblNewListeners.Text = "?";
             // 
             // lblLostListeners
             // 
-            this.lblLostListeners.AutoSize = true;
-            this.lblLostListeners.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblLostListeners.Location = new System.Drawing.Point(870, 228);
-            this.lblLostListeners.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblLostListeners.Name = "lblLostListeners";
-            this.lblLostListeners.Size = new System.Drawing.Size(31, 33);
-            this.lblLostListeners.TabIndex = 24;
-            this.lblLostListeners.Text = "?";
+            lblLostListeners.AutoSize = true;
+            lblLostListeners.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblLostListeners.Location = new Point(870, 228);
+            lblLostListeners.Margin = new Padding(4, 0, 4, 0);
+            lblLostListeners.Name = "lblLostListeners";
+            lblLostListeners.Size = new Size(31, 33);
+            lblLostListeners.TabIndex = 24;
+            lblLostListeners.Text = "?";
             // 
             // lblNetListeners
             // 
-            this.lblNetListeners.AutoSize = true;
-            this.lblNetListeners.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNetListeners.Location = new System.Drawing.Point(870, 266);
-            this.lblNetListeners.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblNetListeners.Name = "lblNetListeners";
-            this.lblNetListeners.Size = new System.Drawing.Size(31, 33);
-            this.lblNetListeners.TabIndex = 25;
-            this.lblNetListeners.Text = "?";
+            lblNetListeners.AutoSize = true;
+            lblNetListeners.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblNetListeners.Location = new Point(870, 266);
+            lblNetListeners.Margin = new Padding(4, 0, 4, 0);
+            lblNetListeners.Name = "lblNetListeners";
+            lblNetListeners.Size = new Size(31, 33);
+            lblNetListeners.TabIndex = 25;
+            lblNetListeners.Text = "?";
             // 
             // lblAverageListeners
             // 
-            this.lblAverageListeners.AutoSize = true;
-            this.lblAverageListeners.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblAverageListeners.Location = new System.Drawing.Point(870, 304);
-            this.lblAverageListeners.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAverageListeners.Name = "lblAverageListeners";
-            this.lblAverageListeners.Size = new System.Drawing.Size(31, 33);
-            this.lblAverageListeners.TabIndex = 26;
-            this.lblAverageListeners.Text = "?";
+            lblAverageListeners.AutoSize = true;
+            lblAverageListeners.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblAverageListeners.Location = new Point(870, 304);
+            lblAverageListeners.Margin = new Padding(4, 0, 4, 0);
+            lblAverageListeners.Name = "lblAverageListeners";
+            lblAverageListeners.Size = new Size(31, 33);
+            lblAverageListeners.TabIndex = 26;
+            lblAverageListeners.Text = "?";
             // 
             // lblInactiveWallets
             // 
-            this.lblInactiveWallets.AutoSize = true;
-            this.lblInactiveWallets.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblInactiveWallets.Location = new System.Drawing.Point(870, 342);
-            this.lblInactiveWallets.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblInactiveWallets.Name = "lblInactiveWallets";
-            this.lblInactiveWallets.Size = new System.Drawing.Size(31, 33);
-            this.lblInactiveWallets.TabIndex = 27;
-            this.lblInactiveWallets.Text = "?";
+            lblInactiveWallets.AutoSize = true;
+            lblInactiveWallets.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblInactiveWallets.Location = new Point(870, 342);
+            lblInactiveWallets.Margin = new Padding(4, 0, 4, 0);
+            lblInactiveWallets.Name = "lblInactiveWallets";
+            lblInactiveWallets.Size = new Size(31, 33);
+            lblInactiveWallets.TabIndex = 27;
+            lblInactiveWallets.Text = "?";
             // 
             // lblAverageDispatched
             // 
-            this.lblAverageDispatched.AutoSize = true;
-            this.lblAverageDispatched.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblAverageDispatched.Location = new System.Drawing.Point(870, 380);
-            this.lblAverageDispatched.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAverageDispatched.Name = "lblAverageDispatched";
-            this.lblAverageDispatched.Size = new System.Drawing.Size(31, 33);
-            this.lblAverageDispatched.TabIndex = 28;
-            this.lblAverageDispatched.Text = "?";
+            lblAverageDispatched.AutoSize = true;
+            lblAverageDispatched.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblAverageDispatched.Location = new Point(870, 380);
+            lblAverageDispatched.Margin = new Padding(4, 0, 4, 0);
+            lblAverageDispatched.Name = "lblAverageDispatched";
+            lblAverageDispatched.Size = new Size(31, 33);
+            lblAverageDispatched.TabIndex = 28;
+            lblAverageDispatched.Text = "?";
             // 
             // lblWalletsDispatched
             // 
-            this.lblWalletsDispatched.AutoSize = true;
-            this.lblWalletsDispatched.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblWalletsDispatched.Location = new System.Drawing.Point(870, 418);
-            this.lblWalletsDispatched.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblWalletsDispatched.Name = "lblWalletsDispatched";
-            this.lblWalletsDispatched.Size = new System.Drawing.Size(31, 33);
-            this.lblWalletsDispatched.TabIndex = 29;
-            this.lblWalletsDispatched.Text = "?";
+            lblWalletsDispatched.AutoSize = true;
+            lblWalletsDispatched.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblWalletsDispatched.Location = new Point(870, 418);
+            lblWalletsDispatched.Margin = new Padding(4, 0, 4, 0);
+            lblWalletsDispatched.Name = "lblWalletsDispatched";
+            lblWalletsDispatched.Size = new Size(31, 33);
+            lblWalletsDispatched.TabIndex = 29;
+            lblWalletsDispatched.Text = "?";
             // 
             // lblMemorySticksOnLoad
             // 
-            this.lblMemorySticksOnLoad.AutoSize = true;
-            this.lblMemorySticksOnLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblMemorySticksOnLoad.Location = new System.Drawing.Point(870, 456);
-            this.lblMemorySticksOnLoad.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblMemorySticksOnLoad.Name = "lblMemorySticksOnLoad";
-            this.lblMemorySticksOnLoad.Size = new System.Drawing.Size(31, 33);
-            this.lblMemorySticksOnLoad.TabIndex = 31;
-            this.lblMemorySticksOnLoad.Text = "?";
+            lblMemorySticksOnLoad.AutoSize = true;
+            lblMemorySticksOnLoad.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblMemorySticksOnLoad.Location = new Point(870, 456);
+            lblMemorySticksOnLoad.Margin = new Padding(4, 0, 4, 0);
+            lblMemorySticksOnLoad.Name = "lblMemorySticksOnLoad";
+            lblMemorySticksOnLoad.Size = new Size(31, 33);
+            lblMemorySticksOnLoad.TabIndex = 31;
+            lblMemorySticksOnLoad.Text = "?";
             // 
             // lblStoppedWallets
             // 
-            this.lblStoppedWallets.AutoSize = true;
-            this.lblStoppedWallets.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblStoppedWallets.Location = new System.Drawing.Point(870, 494);
-            this.lblStoppedWallets.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblStoppedWallets.Name = "lblStoppedWallets";
-            this.lblStoppedWallets.Size = new System.Drawing.Size(31, 33);
-            this.lblStoppedWallets.TabIndex = 32;
-            this.lblStoppedWallets.Text = "?";
+            lblStoppedWallets.AutoSize = true;
+            lblStoppedWallets.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblStoppedWallets.Location = new Point(870, 494);
+            lblStoppedWallets.Margin = new Padding(4, 0, 4, 0);
+            lblStoppedWallets.Name = "lblStoppedWallets";
+            lblStoppedWallets.Size = new Size(31, 33);
+            lblStoppedWallets.TabIndex = 32;
+            lblStoppedWallets.Text = "?";
             // 
             // lblAverageStopped
             // 
-            this.lblAverageStopped.AutoSize = true;
-            this.lblAverageStopped.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblAverageStopped.Location = new System.Drawing.Point(870, 532);
-            this.lblAverageStopped.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAverageStopped.Name = "lblAverageStopped";
-            this.lblAverageStopped.Size = new System.Drawing.Size(31, 33);
-            this.lblAverageStopped.TabIndex = 33;
-            this.lblAverageStopped.Text = "?";
+            lblAverageStopped.AutoSize = true;
+            lblAverageStopped.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblAverageStopped.Location = new Point(870, 532);
+            lblAverageStopped.Margin = new Padding(4, 0, 4, 0);
+            lblAverageStopped.Name = "lblAverageStopped";
+            lblAverageStopped.Size = new Size(31, 33);
+            lblAverageStopped.TabIndex = 33;
+            lblAverageStopped.Text = "?";
             // 
             // lblDormant
             // 
-            this.lblDormant.AutoSize = true;
-            this.lblDormant.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblDormant.Location = new System.Drawing.Point(870, 570);
-            this.lblDormant.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDormant.Name = "lblDormant";
-            this.lblDormant.Size = new System.Drawing.Size(31, 33);
-            this.lblDormant.TabIndex = 34;
-            this.lblDormant.Text = "?";
+            lblDormant.AutoSize = true;
+            lblDormant.Font = new Font("Microsoft Sans Serif", 21.75F);
+            lblDormant.Location = new Point(870, 570);
+            lblDormant.Margin = new Padding(4, 0, 4, 0);
+            lblDormant.Name = "lblDormant";
+            lblDormant.Size = new Size(31, 33);
+            lblDormant.TabIndex = 34;
+            lblDormant.Text = "?";
             // 
             // printStatsDoc
             // 
-            this.printStatsDoc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printStatsDoc_PrintPage);
+            printStatsDoc.PrintPage += printStatsDoc_PrintPage;
             // 
             // printPreview
             // 
-            this.printPreview.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.printPreview.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.printPreview.ClientSize = new System.Drawing.Size(400, 300);
-            this.printPreview.Enabled = true;
-            this.printPreview.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreview.Icon")));
-            this.printPreview.Name = "PrintPreviewDialogSelectPrinter1";
-            this.printPreview.Visible = false;
+            printPreview.AutoScrollMargin = new Size(0, 0);
+            printPreview.AutoScrollMinSize = new Size(0, 0);
+            printPreview.ClientSize = new Size(400, 300);
+            printPreview.Enabled = true;
+            printPreview.Icon = (Icon)resources.GetObject("printPreview.Icon");
+            printPreview.Name = "PrintPreviewDialogSelectPrinter1";
+            printPreview.Visible = false;
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label12.ForeColor = System.Drawing.Color.Gray;
-            this.label12.Location = new System.Drawing.Point(296, 75);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(304, 25);
-            this.label12.TabIndex = 35;
-            this.label12.Text = "(includes online-only listeners)";
+            label12.AutoSize = true;
+            label12.Font = new Font("Microsoft Sans Serif", 15.75F);
+            label12.ForeColor = Color.Gray;
+            label12.Location = new Point(296, 75);
+            label12.Margin = new Padding(4, 0, 4, 0);
+            label12.Name = "label12";
+            label12.Size = new Size(304, 25);
+            label12.TabIndex = 35;
+            label12.Text = "(includes online-only listeners)";
             // 
             // FormStats
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(993, 734);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.lblDormant);
-            this.Controls.Add(this.lblAverageStopped);
-            this.Controls.Add(this.lblStoppedWallets);
-            this.Controls.Add(this.lblMemorySticksOnLoad);
-            this.Controls.Add(this.lblWalletsDispatched);
-            this.Controls.Add(this.lblAverageDispatched);
-            this.Controls.Add(this.lblInactiveWallets);
-            this.Controls.Add(this.lblAverageListeners);
-            this.Controls.Add(this.lblNetListeners);
-            this.Controls.Add(this.lblLostListeners);
-            this.Controls.Add(this.lblNewListeners);
-            this.Controls.Add(this.lblListenersToday);
-            this.Controls.Add(this.lblWeeklyYearListeners);
-            this.Controls.Add(this.btnPrint);
-            this.Controls.Add(this.btnFinished);
-            this.Controls.Add(this.Label16);
-            this.Controls.Add(this.Label15);
-            this.Controls.Add(this.Label14);
-            this.Controls.Add(this.Label13);
-            this.Controls.Add(this.Label11);
-            this.Controls.Add(this.Label10);
-            this.Controls.Add(this.Label9);
-            this.Controls.Add(this.Label8);
-            this.Controls.Add(this.Label7);
-            this.Controls.Add(this.Label6);
-            this.Controls.Add(this.Label5);
-            this.Controls.Add(this.Label4);
-            this.Controls.Add(this.Label3);
-            this.Controls.Add(this.lblDate);
-            this.Controls.Add(this.Label2);
-            this.Controls.Add(this.Label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormStats";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
+            ClientSize = new Size(993, 734);
+            Controls.Add(label12);
+            Controls.Add(lblDormant);
+            Controls.Add(lblAverageStopped);
+            Controls.Add(lblStoppedWallets);
+            Controls.Add(lblMemorySticksOnLoad);
+            Controls.Add(lblWalletsDispatched);
+            Controls.Add(lblAverageDispatched);
+            Controls.Add(lblInactiveWallets);
+            Controls.Add(lblAverageListeners);
+            Controls.Add(lblNetListeners);
+            Controls.Add(lblLostListeners);
+            Controls.Add(lblNewListeners);
+            Controls.Add(lblListenersToday);
+            Controls.Add(lblWeeklyYearListeners);
+            Controls.Add(btnPrint);
+            Controls.Add(btnFinished);
+            Controls.Add(Label16);
+            Controls.Add(Label15);
+            Controls.Add(Label14);
+            Controls.Add(Label13);
+            Controls.Add(Label11);
+            Controls.Add(Label10);
+            Controls.Add(Label9);
+            Controls.Add(Label8);
+            Controls.Add(Label7);
+            Controls.Add(Label6);
+            Controls.Add(Label5);
+            Controls.Add(Label4);
+            Controls.Add(Label3);
+            Controls.Add(lblDate);
+            Controls.Add(Label2);
+            Controls.Add(Label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormStats";
+            StartPosition = FormStartPosition.CenterScreen;
+            ResumeLayout(false);
+            PerformLayout();
+        }
 
-		}
-		internal System.Windows.Forms.Label Label1;
+        internal System.Windows.Forms.Label Label1;
 		internal System.Windows.Forms.Label Label2;
 		internal System.Windows.Forms.Label lblDate;
 		internal System.Windows.Forms.Label Label3;
