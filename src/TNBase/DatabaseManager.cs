@@ -80,12 +80,12 @@ namespace TNBase
                     var backupPath = Path.Combine(directory, $"{Application.ProductName}_backup_{DateTime.Now:dd-MM-yyyy}.bak");
                     if (BackupDatabase(backupPath))
                     {
-                        MessageBox.Show("Warning: Could not backup database: " + Properties.Settings.Default.BackupDrive, Application.ProductName, MessageBoxButtons.OK);
-                        log.Warn("Could not backup database: " + backupPath);
+                        log.Info("Backed up database to: " + backupPath);
                     }
                     else
                     {
-                        log.Info("Backed up database to: " + backupPath);
+                        MessageBox.Show("Warning: Could not backup database: " + Properties.Settings.Default.BackupDrive, Application.ProductName, MessageBoxButtons.OK);
+                        log.Warn("Could not backup database: " + backupPath);
                     }
                 }
                 catch (Exception ey)
