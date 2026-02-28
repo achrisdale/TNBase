@@ -61,3 +61,5 @@ The release of TNBase application is fully automated using GitHub Actions. To cr
 This will trigger the pipeline that can be observed in the Actions tab on GitHub. After a successful run, a new Release will be available at https://github.com/achrisdale/TNBase/releases
 
 The version number from the tag is automatically applied to all project assemblies via `Directory.Build.props` and to the MSI installer.
+
+> **Note:** Local builds will always show version `1.0.0` as defined in `Directory.Build.props`. The correct version is only applied during CI builds (PRs and releases). This is expected and does not affect release builds.
