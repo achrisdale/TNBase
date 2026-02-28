@@ -33,48 +33,50 @@ jobs:
       - name: Execute unit tests
         run: dotnet test -c $env:Configuration --no-build
 
-      - name: Get version from tag
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Get version from Release Notes
         id: version
         shell: pwsh
         run: |
-          $version = $env:GITHUB_REF_NAME -replace '^v',''
-          echo "version=$version" >> $env:GITHUB_OUTPUT
-
-      - name: Extract release notes
-        if: startsWith(github.ref, 'refs/tags/v')
-        id: notes
-        shell: pwsh
-        run: |
-          $version = '${{ steps.version.outputs.version }}'
+          $version = ''
           $notes = @()
-          $found = $false
           foreach ($line in Get-Content '.\Release Notes.txt') {
               if ($line -match '^\d+(\.\d+)+$') {
-                  if ($found) { break }
-                  if ($line.Trim() -eq $version) { $found = $true }
-              } elseif ($found -and $line.Trim() -ne '') {
+                  if ($version -ne '') { break }
+                  $version = $line.Trim()
+              } elseif ($version -ne '' -and $line.Trim() -ne '') {
                   $notes += $line
               }
           }
-          if (-not $found) {
-              Write-Error "No release notes found for version $version in 'Release Notes.txt'. Add a '$version' section before tagging."
+          if ($version -eq '') {
+              Write-Error "No version found in 'Release Notes.txt'."
               exit 1
           }
           if ($notes.Count -eq 0) {
               Write-Error "Release notes section for version $version is empty in 'Release Notes.txt'."
               exit 1
           }
+          echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "notes<<EOF" >> $env:GITHUB_OUTPUT
           $notes | ForEach-Object { echo $_ >> $env:GITHUB_OUTPUT }
           echo "EOF" >> $env:GITHUB_OUTPUT
+
+      - name: Validate tag matches Release Notes version
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          $tagVersion = $env:GITHUB_REF_NAME -replace '^v',''
+          $notesVersion = '${{ steps.version.outputs.version }}'
+          if ($tagVersion -ne $notesVersion) {
+              Write-Error "Tag version '$tagVersion' does not match Release Notes version '$notesVersion'."
+              exit 1
+          }
 
       - name: Setup MSBuild.exe
         if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'pull_request'
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Apply version number
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'pull_request'
         shell: pwsh
         run: |
           $version = '${{ steps.version.outputs.version }}'
@@ -110,11 +112,11 @@ jobs:
         id: file
         shell: pwsh
         run: |
+          $suffix = ''
           if ('${{ github.event_name }}' -eq 'pull_request') {
-            $name = "TNBase-prerelease-win-x64.msi"
-          } else {
-            $name = "TNBase-v${{ steps.version.outputs.version }}-win-x64.msi"
+            $suffix = '-prerelease'
           }
+          $name = "TNBase-v${{ steps.version.outputs.version }}$suffix-win-x64.msi"
           Rename-Item -Path "TNBase.Setup\Release\TNBase.Setup.msi" -NewName $name
           echo "name=$name" >> $env:GITHUB_OUTPUT
 
