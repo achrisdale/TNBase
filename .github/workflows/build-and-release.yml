@@ -1,8 +1,9 @@
-name: Build and release TNBase Application
+name: Build and Release TNBase Application
 
 on:
   push:
     branches: [master]
+    tags: ['v*']
   pull_request:
     branches: [master]
 
@@ -12,13 +13,8 @@ env:
   Configuration: Release
 
 jobs:
-  build:
+  build-and-release:
     runs-on: windows-2022
-
-    outputs:
-      require_release: ${{ steps.release.outputs.require }}
-      release_version: ${{ steps.release.outputs.version }}
-      release_notes: ${{ steps.release.outputs.notes }}
 
     steps:
       - name: Checkout
@@ -27,112 +23,115 @@ jobs:
           fetch-depth: 0
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
+
+      - name: Build
+        run: dotnet build -c $env:Configuration
 
       - name: Execute unit tests
-        run: dotnet test -c $env:Configuration
+        run: dotnet test -c $env:Configuration --no-build
 
-      - name: "Get previous version tag"
-        id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
-        with:
-          fallback: v0.0.0
+      - name: Get version from Release Notes
+        id: version
+        shell: pwsh
+        run: |
+          $version = ''
+          $notes = @()
+          foreach ($line in Get-Content '.\Release Notes.txt') {
+              if ($line -match '^\d+(\.\d+)+$') {
+                  if ($version -ne '') { break }
+                  $version = $line.Trim()
+              } elseif ($version -ne '' -and $line.Trim() -ne '') {
+                  $notes += $line
+              }
+          }
+          if ($version -eq '') {
+              Write-Error "No version found in 'Release Notes.txt'."
+              exit 1
+          }
+          if ($notes.Count -eq 0) {
+              Write-Error "Release notes section for version $version is empty in 'Release Notes.txt'."
+              exit 1
+          }
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "notes<<EOF" >> $env:GITHUB_OUTPUT
+          $notes | ForEach-Object { echo $_ >> $env:GITHUB_OUTPUT }
+          echo "EOF" >> $env:GITHUB_OUTPUT
 
-      - name: Set release version
-        id: release
-        uses: azure/powershell@v1
-        with:
-          inlineScript: |
-            $version = ''
-            $notes = ''
-            foreach ($line in Get-Content '.\Release Notes.txt')
-            {
-                if($line -match '^[\d\.]+$'){
-                    if($version -ne ''){
-                        break
-                    }
-                    $version = $line
-                }
-                elseif($line.Trim() -ne ''){
-                    $notes += "$line %0A"
-                }
-            }
-            $newVersion = "v$version" -ne '${{ steps.previoustag.outputs.tag }}'
-            Write-Output "require=$newVersion" >> $Env:GITHUB_OUTPUT
-            Write-Output "version=$version" >> $Env:GITHUB_OUTPUT
-            Write-Output "notes=$notes" >> $Env:GITHUB_OUTPUT
-          azPSVersion: "latest"
-          failOnStandardError: true
-
-  release:
-    needs: build
-    if: needs.build.outputs.require_release == 'True'
-    runs-on: windows-2022
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Validate tag matches Release Notes version
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          $tagVersion = $env:GITHUB_REF_NAME -replace '^v',''
+          $notesVersion = '${{ steps.version.outputs.version }}'
+          if ($tagVersion -ne $notesVersion) {
+              Write-Error "Tag version '$tagVersion' does not match Release Notes version '$notesVersion'."
+              exit 1
+          }
 
       - name: Setup MSBuild.exe
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'pull_request'
         uses: microsoft/setup-msbuild@v1.1
 
-      - name: Restore the application
-        run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-
       - name: Apply version number
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'pull_request'
+        shell: pwsh
         run: |
+          $version = '${{ steps.version.outputs.version }}'
+
+          # Update Directory.Build.props
+          $props = Get-Content 'Directory.Build.props' -Raw
+          $props = $props.Replace('<Version>1.0.0</Version>', "<Version>$version</Version>")
+          Set-Content 'Directory.Build.props' -Value $props
+
+          # Update setup project
           $project = Get-Content $env:Setup_Project
-          $project = $project.Replace('"ProductVersion" = "8:1.0.0"', '"ProductVersion" = "8:${{ needs.build.outputs.release_version }}"')
+          $project = $project.Replace('"ProductVersion" = "8:1.0.0"', """ProductVersion"" = ""8:$version""")
           $productCode = '"ProductCode" = "8:{' + [guid]::NewGuid().toString().ToUpper()
           $project = $project -replace '"ProductCode" = "8:{[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}', $productCode
           $packageCode = '"PackageCode" = "8:{' + [guid]::NewGuid().toString().ToUpper()
           $project = $project -replace '"PackageCode" = "8:{[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}', $packageCode
           Set-Content $env:Setup_Project -Value $project
-          Get-ChildItem .\src *.csproj -rec | ForEach-Object {
-              $project = Get-Content $_.FullName
-              $project = $project.Replace("<Version>1.0.0</Version>", "<Version>${{ needs.build.outputs.release_version }}</Version>")
-              Set-Content $_.FullName -Value $project
-          }
+
+      - name: Restore the application
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'pull_request'
+        run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
 
       - name: Setup VS Dev Environment
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'pull_request'
         uses: seanmiddleditch/gha-setup-vsdevenv@v4
 
       - name: Create installation package
-        run: devenv $env:Solution_Name /build $env:Configuration  /Project $env:Setup_Project
-
-      - name: Build file name
-        id: file
-        uses: azure/powershell@v1
-        with:
-          inlineScript: |
-            $suffix = ''
-            if('pull_request' -eq '${{ github.event_name }}') {
-              $suffix = '-prerelease'
-            }
-            Write-Output "name=TNBase-v${{ needs.build.outputs.release_version }}$suffix-win-x64.msi" >> $Env:GITHUB_OUTPUT
-          azPSVersion: "latest"
-          failOnStandardError: true
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'pull_request'
+        run: devenv $env:Solution_Name /build $env:Configuration /Project $env:Setup_Project
 
       - name: Rename setup file
-        run: Rename-Item -Path "TNBase.Setup\Release\TNBase.Setup.msi" -NewName "${{ steps.file.outputs.name }}"
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'pull_request'
+        id: file
+        shell: pwsh
+        run: |
+          $suffix = ''
+          if ('${{ github.event_name }}' -eq 'pull_request') {
+            $suffix = '-prerelease'
+          }
+          $name = "TNBase-v${{ steps.version.outputs.version }}$suffix-win-x64.msi"
+          Rename-Item -Path "TNBase.Setup\Release\TNBase.Setup.msi" -NewName $name
+          echo "name=$name" >> $env:GITHUB_OUTPUT
 
       - name: Publish prerelease artefact
-        uses: actions/upload-artifact@v3
-        if: github.ref != 'refs/heads/master'
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
         with:
-          name: "${{ steps.file.outputs.name }}"
-          path: "TNBase.Setup/Release/${{ steps.file.outputs.name }}"
+          name: ${{ steps.file.outputs.name }}
+          path: TNBase.Setup/Release/${{ steps.file.outputs.name }}
 
       - name: Release
-        uses: softprops/action-gh-release@v1
-        if: github.ref == 'refs/heads/master'
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: "v${{ needs.build.outputs.release_version }}"
-          body: "${{ needs.build.outputs.release_notes }}"
+          body: ${{ steps.notes.outputs.notes }}
           files: |
             TNBase.Setup/Release/${{ steps.file.outputs.name }}
             Release Notes.txt

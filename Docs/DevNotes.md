@@ -23,26 +23,43 @@
 
 ### Local Development
 
-TNBase application is developed using Visual Studio 2019. A free Community Edition is
+TNBase application is developed using Visual Studio 2022 or later. A free Community Edition is
 fully sufficient for development and is available to download on Microsoft website.
+The project targets .NET 8, so ensure you have the .NET 8 SDK installed.
 
-There is no need for any addition configuration to open and run the solution.
+There is no need for any additional configuration to open and run the solution.
 
-Please ensure to create a new branch when making any changes. Never ever commit any changes directly to `master` branch.
-Once required modifications are complete and fully tested, please create a Pull Reques on GitHub website.
-This will trigger an automated build pipeline to ensure that the application builds successfully and all unit tests passes.
+Please ensure to create a new branch when making any changes. Never commit any changes directly to `master` branch.
+Once required modifications are complete and fully tested, please create a Pull Request on GitHub website.
+This will trigger an automated build pipeline to ensure that the application builds successfully and all unit tests pass.
 
 ### Release
 
-The release of TNBase application is fully automated using GitHub Actions. To trigger a new release creation process,
-create a new version tag directly on the `master` branch using the following command:
+The release of TNBase application is fully automated using GitHub Actions. To create a new release:
 
-`git tag v*.*.*`
+1. **Update release notes** — Add a new version section at the top of `Release Notes.txt` with the version number on its own line, followed by the changes:
+   ```
+   1.8.3
+   - Description of first change
+   - Description of second change
+   ```
+   The pipeline will fail if release notes are missing for the tagged version.
 
-Here the value `v*.*.*` represents new version using semantic versioning pattern of `major.minor.path`, for example `v1.5.0` or `v2.0.0`.
+2. **Commit and push** the updated `Release Notes.txt` to the `master` branch.
 
-Once the tag is create it has to be pushed to the origin using the following command:
+3. **Create a version tag** on the `master` branch:
+   ```
+   git tag v1.8.3
+   ```
+   The value represents the new version using the pattern `major.minor.patch`.
 
-`git push origin --tags`
+4. **Push the tag** to trigger the release pipeline:
+   ```
+   git push origin --tags
+   ```
 
-This will trigger the pipeline that can be observed in Actions tab on GitHub. After the successful run a new Release should be available at https://github.com/achrisdale/TNBase/releases
+This will trigger the pipeline that can be observed in the Actions tab on GitHub. After a successful run, a new Release will be available at https://github.com/achrisdale/TNBase/releases
+
+The version number from the tag is automatically applied to all project assemblies via `Directory.Build.props` and to the MSI installer.
+
+> **Note:** Local builds will always show version `1.0.0` as defined in `Directory.Build.props`. The correct version is only applied during CI builds (PRs and releases). This is expected and does not affect release builds.
